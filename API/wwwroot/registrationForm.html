@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Registracijos forma</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+        rel="stylesheet">
+    <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,500" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css"
+        rel="stylesheet" />
+
+</head>
+
+<body>
+    <h1>Registration form</h1>
+    <!--List of employees-->
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        List of employees
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="container">
+                            <h1>List of employees</h1>
+                            <table class="table responsive" id="sort">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" id="NrColumn">Nr</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Surname</th>
+                                        <th scope="col">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tBody">
+                                    <tr>
+                                        <td data-table-header="Nr" id="NrColumn">1</td>
+                                        <td data-table-header="Name">Elžbieta</td>
+                                        <td data-table-header="Surname">Ščerba</td>
+                                        <td data-table-header="Email">elzbieta.scerba@mif.stud.vu.lt</td>
+                                    </tr>
+                                    <tr>
+                                        <td data-table-header="Nr" id="NrColumn">2</td>
+                                        <td data-table-header="Name">Aurimas</td>
+                                        <td data-table-header="Surname">Laureckis</td>
+                                        <td data-table-header="Email">aurimas.laureckis@mif.stud.vu.lt</td>
+                                    </tr>
+                                    <tr>
+                                        <td data-table-header="Nr" id="NrColumn" s>3</td>
+                                        <td data-table-header="Name">Tomas</td>
+                                        <td data-table-header="Surname">Kiziela</td>
+                                        <td data-table-header="Email">tomas.kiziela@mif.stud.vu.lt</td>
+                                    </tr>
+                                    <tr>
+                                        <td data-table-header="Nr" id="NrColumn" s>4</td>
+                                        <td data-table-header="Name">Rūta</td>
+                                        <td data-table-header="Surname">Jankauskaitė</td>
+                                        <td data-table-header="Email">ruta.jankauskaite@mif.stud.vu.lt</td>
+                                    </tr>
+                                    <tr>
+                                        <td data-table-header="Nr" id="NrColumn" s>5</td>
+                                        <td data-table-header="Name">Marijus</td>
+                                        <td data-table-header="Surname">Šmigelskis</td>
+                                        <td data-table-header="Email">marijus.smigelskis@mif.stud.vu.lt</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p id="rowSelected">0 row(s) selected</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Calendar-->
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Calendar
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <!--Vieta Rūtos kodui(kalendoriui)-->
+
+                </div>
+            </div>
+        </div>
+        <!----------------------------------------Accommodation----------------------------------------------------->
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" onclick="thirdCard()" data-toggle="collapse"
+                        data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Accommodation
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <h2>Accommodation</h2>
+                        <h4>Please select your destination country</h4>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" onclick="airplane() "
+                                id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Chicago, USA
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                                value="option2" onclick="rentalCar()">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Toronto, Canada
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="option3" onclick="employeeCar()">
+                            <label class="form-check-label" for="exampleRadios3">
+                                London, United Kingdom
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="option3" onclick="employeeCar()">
+                            <label class="form-check-label" for="exampleRadios3">
+                                Vilnius, Lithuania
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="option3" onclick="employeeCar()">
+                            <label class="form-check-label" for="exampleRadios3">
+                                Kaunas, Lithuania
+                            </label>
+                        </div>
+                        <br>
+
+                        <div id="listDiv">
+                            <h4>List of employee</h4>
+                            <p id="noEmployee"></p>
+                            <ul class="list-group list-group-flush" id="employeeList">
+                                <!--List is automatically made from selected employees-->
+                            </ul>
+                        </div>
+
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" id="changeRooms"
+                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Change rooms
+                        </button>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <table class="table table-striped" id="rooms_table" id="TableOfRomms">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="SmallColumn">Room</th>
+                                            <th scope="col">Employee</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!------------------------------------------Transport---------------------------->
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Transport
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="container">
+                            <h2>Transport</h2>
+                            <h4>Please select the transport</h4>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                    value="option1" onclick="airplane()">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Airplane
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                                    value="option2" onclick="rentalCar()">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Car rental
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                    value="option3" onclick="employeeCar()">
+                                <label class="form-check-label" for="exampleRadios3">
+                                    Employee car
+                                </label>
+                            </div>
+                            <br>
+
+                            <form id='employee_car' style="display:none">
+                                <h4>Please enter the information about owner of the car</h4>
+                                <div class="form-group">
+                                    <label for="name">Employee Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="surname">Employee Surname</label>
+                                    <input type="password" class="form-control" placeholder="Enter surname">
+                                </div>
+                            </form>
+
+                            <br>
+                            <br>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/stringMonthYear.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#sort').DataTable({
+                "order": [[3, "desc"]],
+            });
+
+            $('#tBody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+                $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
+            });
+        });
+
+        function thirdCard() {
+            $('#employeeList').empty();
+            $('#tableBody').empty();
+            var table = $('#sort').DataTable();
+            if (table.rows('.selected').data().length == '0') {
+                $('#noEmployee').text('Please select at least one employee.');
+                $('#changeRooms').hide();
+            }
+            else {
+                $('#noEmployee').empty();
+                $('#changeRooms').show();
+                var number = 0;
+                var employee = [];
+                var dropDownas = $("<select>");
+                $.each(table.rows('.selected').data(), function () {
+                    var li = $('<li>').text($(this).get(1) + " " + $(this).get(2)).addClass("list-group-item");                   
+                    $('#employeeList').append(li);
+                    employee[number] = $(this);
+                    var name = employee[number].get(1) + " " + employee[number].get(2);
+                    number++;
+                    dropDownas.append("<option>" + name + "</option>");
+                });
+                var a = [['1', 'Jonas', 'Jonaitis'], ['2', '', ''], ['3', 'Povilas', 'Povilaitis'], ['4', '', ''], ['5', '', ''], ['6', 'Petras', 'Petraitis']];
+                var i = 0;
+                $.each(a, function () {
+
+                    var tr = $('<tr>');
+                    var td = $('<td>').text($(this).get(0)).addClass('SmallColumn');
+                    tr.append(td);
+                    if ($(this).get(1) != '') {
+                        tr.append('<td>The room is taken</td>');
+                    }
+                    else {
+                        if (employee[i] != null) {
+                            var name = employee[i].get(1) + " " + employee[i].get(2);
+                            tr.append(dropDownas);
+                            $(`li:contains(${name})`).text(name + '    - ' + $(this).get(0) + ' room');
+                            i++;
+                        }
+                    }
+                    $('#tableBody').append(tr);
+                });
+                var booking = 0;
+                $.each(employee, function () {
+                    var name = employee[i].get(1) + " " + employee[i].get(2);
+                    $(`li:contains(${name})`).text(name + '    - no room').css({ 'color': 'red' });
+                    i++;
+                    booking++;
+                });
+                $('#listDiv').append("<p>" + booking + " rooms need to be booking in the hotel</p>");
+            }
+        }
+
+        function airplane() {
+            $('#employee_car').hide();
+        }
+        function rentalCar() {
+            $('#employee_car').hide();
+        }
+        function employeeCar() {
+            $('#employee_car').show();
+        }
+    </script>
+</body>
+
+</html>
