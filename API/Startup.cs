@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Identity;
 
 namespace API
 {
@@ -25,6 +21,27 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=BigDb;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<IdentityDbContext>
+                (options => options.UseSqlServer(connection));
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(o =>
+                    {
+                        o.DefaultAuthenticateScheme = GoogleDefaults.AuthenticationScheme;
+                        o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                    })
+                .AddGoogle(o =>
+                    {
+                        o.ClientId = "536082131203-00r94akb0omi6qdsuvs2u7rcfenhmi47.apps.googleusercontent.com";
+                        o.ClientSecret = "xfIcqv3AItFZjWMvZa4qZttS";
+                    })
+                .AddCookie();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -43,6 +60,8 @@ namespace API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }
