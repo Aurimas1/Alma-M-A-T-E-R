@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+    crossorigin="anonymous"></script>
+
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+</head>
+
+<body>
+  <!--body wrapper-->
+  <div class="d-flex toggled" id="wrapper">
+
+    <!--Sidebar-->
+    <div class="bg-light border-right p-1" id="sidebar-wrapper">
+
+      <div class="sidebar-heading">Filter by status: </div>
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <label class="checkbox-inline"><input type="checkbox" name="AwaitingConfirmation"> Trips Awaiting
+              confirmation</label>
+            <label class="checkbox-inline"><input type="checkbox" name="Confirmed">Trips Confirmed</label>
+            <label class="checkbox-inline"><input type="checkbox" name="PlannedTrips"> Fully Planned Trips</label>
+            <label class="checkbox-inline"><input type="checkbox" name="InProgress"> Trips in progress</label>
+            <label class="checkbox-inline"><input type="checkbox" name="Finished"> Finished Trips</label>
+          </div>
+        </div>
+
+        <div class="sidebar-heading">Filter by date: </div>
+        <div class="form-group col-sm-offset-2 col-sm-10">
+          <label> Date from-to : <input type="text" name="daterange" value="01/01/2019 - 01/15/2019" />
+        </div></label>
+
+        <div class="sidebar-heading">Filter by organizer: </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <label class="checkbox-inline"><input type="checkbox" name="MyOrganized">My Organized Trips</label>
+            <label class="checkbox-inline"><input type="checkbox" name="OtherOrganizer">Other Organizer Trips</label>
+          </div>
+        </div>
+
+        <div class="col-sm-offset-2 col-sm-10 text-center">
+          <button class="btn btn-secondary" type="submit">Filtruoti</button>
+        </div>
+
+      </form>
+    </div>
+
+    <!--page info wrapper-->
+    <div id="page-content-wrapper">
+
+      <!--Nav bar-->
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px">
+        <a class="navbar-brand" href="#">
+          <img src="IMG/logo.png" alt="Logo" style="width: 50px;">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Trips</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Statistics</a>
+            </li>
+          </ul>
+        </div>
+
+        <span class="navbar-text p-2"> Username /</span>
+        <ul class="nav navbar-nav">
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </nav>
+
+
+      <div class="container-fluid p-3">
+        <button class="btn btn-dark" id="menu-toggle">
+          <i class="fa fa-filter"></i>
+          <span>Filter</span>
+        </button>
+      </div>
+
+
+      <div class="container bg-light rounded-lg p-3">
+        <a class="h3" href="trip_details.html">Vilnius, Lithuania - Warsaw, Poland</a>
+        <div class="progress bg-secondary ml-auto" style="height:40px; width: 50%" data-toggle="popover" data-placement="top"
+          data-trigger="hover" title="Trip Progress" data-content="Confirmed: 2/5, Accomodation: 1/5, Plane tickets: 1/5, Rental Car: 0/5">
+          <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 20%">Planning
+            progress: 20%</div>
+        </div>
+        <h5>Departure: 2019-01-25 16:00 Arrival: 2019-02-02 12:00</h5>
+      </div>
+
+      <!--Trip creation button-->
+      <footer class="page-footer text-capitalize blue fixed-bottom">
+
+        <div class="footer-copyright flex-d text-right py-4 px-5">
+          <a class="btn rounded-circle" href="registrationForm"><i class='fas fa-plus-circle' href="#" style='font-size:36px'></i></a>
+        </div>
+
+      </footer>
+
+    </div>
+
+  </div>
+
+  <script src="js/TripsJS.js"></script>
+
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+
+    #sidebar-wrapper {
+      min-height: 100vh;
+      width: 15rem;
+      margin-left: -15rem;
+      -webkit-transition: margin .25s ease-out;
+      -moz-transition: margin .25s ease-out;
+      -o-transition: margin .25s ease-out;
+      transition: margin .25s ease-out;
+    }
+
+    #sidebar-wrapper .sidebar-heading {
+      padding: 0.875rem 1.25rem;
+      font-size: 1.2rem;
+    }
+
+    #sidebar-wrapper form {
+      width: 15rem;
+    }
+
+    #page-content-wrapper {
+      min-width: 100vw;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: 0;
+    }
+
+    @media (min-width: 768px) {
+      #sidebar-wrapper {
+        margin-left: 0;
+      }
+
+      #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+      }
+
+      #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+      }
+    }
+  </style>
+</body>
+
+</html>
