@@ -43,6 +43,7 @@
                     <div class="row">
                         <div class="container">
                             <h1>List of employees</h1>
+                            <p id="EmployeeNotification" style="color: red; visibility: hidden;">Please select at least one employee!</p>
                             <table class="table responsive" id="sort">
                                 <thead>
                                     <tr>
@@ -91,12 +92,13 @@
                 </div>
             </div>
         </div>
-        <!--Calendar-->
+
+        <!-------------------------------------Calendar---------------------------------->
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h5 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="CheckEmployees()">
                         Calendar
                     </button>
                 </h5>
@@ -108,8 +110,66 @@
                 </div>
             </div>
         </div>
-        <!----------------------------------------Accommodation----------------------------------------------------->
+        
+        <!------------------------------------------Transport---------------------------->
         <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" onclick="CheckEmployees()">
+                        Transport
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <h2>Transport</h2>
+                        <h4>Please select the transport</h4>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="exampleRadios" id="exampleRadios1"
+                                value="option1" onclick="airplane()">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Airplane
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="exampleRadios" id="exampleRadios2"
+                                value="option2" onclick="rentalCar()">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Car rental
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="exampleRadios" id="exampleRadios3"
+                                value="option3" onclick="employeeCar()">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Employee car
+                            </label>
+                        </div>
+                        <br>
+
+                        <form id='employee_car' style="display:none">
+                            <h4>Please enter the information about owner of the car</h4>
+                            <div class="form-group">
+                                <label for="name">Employee Name</label>
+                                <input type="text" class="form-control" placeholder="Enter name">
+                            </div>
+                            <div class="form-group">
+                                <label for="surname">Employee Surname</label>
+                                <input type="password" class="form-control" placeholder="Enter surname">
+                            </div>
+                        </form>
+
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!----------------------------------------Accommodation----------------------------------------------------->
+        <div class="card" style="visibility: hidden">
             <div class="card-header" id="headingThree">
                 <h5 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" onclick="thirdCard()" data-toggle="collapse"
@@ -190,64 +250,9 @@
                     </div>
                 </div>
             </div>
-            <!------------------------------------------Transport---------------------------->
-            <div class="card">
-                <div class="card-header" id="headingFour">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                            data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                            Transport
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div class="container">
-                            <h2>Transport</h2>
-                            <h4>Please select the transport</h4>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                                    value="option1" onclick="airplane()">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Airplane
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
-                                    value="option2" onclick="rentalCar()">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    Car rental
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
-                                    value="option3" onclick="employeeCar()">
-                                <label class="form-check-label" for="exampleRadios3">
-                                    Employee car
-                                </label>
-                            </div>
-                            <br>
-
-                            <form id='employee_car' style="display:none">
-                                <h4>Please enter the information about owner of the car</h4>
-                                <div class="form-group">
-                                    <label for="name">Employee Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="surname">Employee Surname</label>
-                                    <input type="password" class="form-control" placeholder="Enter surname">
-                                </div>
-                            </form>
-
-                            <br>
-                            <br>
-                            <button type="button" class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
+        
+    </div>
     </div>
     </div>
 
@@ -292,7 +297,7 @@
                 var employee = [];
                 var dropDownas = $("<select>");
                 $.each(table.rows('.selected').data(), function () {
-                    var li = $('<li>').text($(this).get(1) + " " + $(this).get(2)).addClass("list-group-item");                   
+                    var li = $('<li>').text($(this).get(1) + " " + $(this).get(2)).addClass("list-group-item");
                     $('#employeeList').append(li);
                     employee[number] = $(this);
                     var name = employee[number].get(1) + " " + employee[number].get(2);
@@ -312,7 +317,7 @@
                     else {
                         if (employee[i] != null) {
                             var name = employee[i].get(1) + " " + employee[i].get(2);
-                            tr.append(dropDownas);
+                            tr.append(dropDownas).val(name);
                             $(`li:contains(${name})`).text(name + '    - ' + $(this).get(0) + ' room');
                             i++;
                         }
@@ -331,13 +336,19 @@
         }
 
         function airplane() {
-            $('#employee_car').hide();
         }
         function rentalCar() {
-            $('#employee_car').hide();
         }
         function employeeCar() {
-            $('#employee_car').show();
+        }
+
+        function CheckEmployees() {
+            var table = $('#sort').DataTable;
+            if(table.rows('.selected').data().length == '0'){
+                $("#EmployeeNotification").css("{visibility: visible}");
+                $("#collapseOne").show();
+            }
+
         }
     </script>
 </body>
