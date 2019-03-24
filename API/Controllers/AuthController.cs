@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace API.Controllers
 {
-	public class AuthController : Controller
+    [Authorize]
+    public class AuthController : Controller
     {
-		[Authorize]
-		[Route("secret")]
-		public IActionResult Secret()
+		[Route("login")]
+		public IActionResult Login()
 		{
-			return View(new User(this.User));
+            return Redirect("/index.html");
 		}
 
-		[Route("home")]
-		public IActionResult Home()
+		[Route("logout")]
+		public async Task<IActionResult> Logout()
 		{
-			return View(this.User.Identities.Any(v=>v.IsAuthenticated));
+            await HttpContext.SignOutAsync();
+            foreach (var cookie in HttpContext.Request.Cookies) //nice thing to do, but SignOutAsync it is all you need
+                HttpContext.Response.Cookies.Delete(cookie.Key);
+			return Redirect("/login");
 		}
 	}
 }
