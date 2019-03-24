@@ -3,36 +3,56 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Registracijos forma</title>
+    <title>Primary registration form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="style.css">
-    <link
-        href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
-        rel="stylesheet">
+    <link rel="stylesheet" href="PrimaryRegistrationStyle.css">
+    <link href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,500" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css"
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"
         rel="stylesheet" />
 
 </head>
 
 <body>
-    <h1>Registration form</h1>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px">
+            <a class="navbar-brand" href="Trips.html">
+                <img src="IMG/logo.png" alt="Logo" style="width: 50px">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Trips</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+
+            <span class="navbar-text p-2"> Username /</span>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1 id="TopH1">Registration form</h1>
+    
     <!--List of employees-->
     <div class="accordion" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
+                        aria-expanded="true" aria-controls="collapseOne" id="oneButton">
                         List of employees
                     </button>
                 </h5>
@@ -42,7 +62,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="container">
-                            <h1>List of employees</h1>
+                            <h2>List of employees</h2>
+                            <p id="EmployeeNotification" style="font-size: 18px">Please select the employees.</p>
                             <table class="table responsive" id="sort">
                                 <thead>
                                     <tr>
@@ -91,255 +112,128 @@
                 </div>
             </div>
         </div>
-        <!--Calendar-->
+
+        <!-------------------------------------Calendar---------------------------------->
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <button class="btn btn-link collapsed" type="button" data-target="#collapseTwo"
+                        aria-expanded="false" aria-controls="collapseTwo" onclick="CheckEmployees()" id="Card2">
                         Calendar
                     </button>
                 </h5>
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
+                    <h2>Calendar</h2>
                     <!--Vieta Rūtos kodui(kalendoriui)-->
 
                 </div>
             </div>
         </div>
-        <!----------------------------------------Accommodation----------------------------------------------------->
+
+        <!------------------------------------------Transport---------------------------->
         <div class="card">
-            <div class="card-header" id="headingThree">
+            <div class="card-header" id="headingFour">
                 <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" onclick="thirdCard()" data-toggle="collapse"
-                        data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Accommodation
+                    <button class="btn btn-link collapsed" type="button" id="Card3" data-target="#collapseFour"
+                        aria-expanded="false" aria-controls="collapseFour" onclick="CheckEmployees()">
+                        Transport(optionally)
                     </button>
                 </h5>
             </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="container">
-                        <h2>Accommodation</h2>
-                        <h4>Please select your destination country</h4>
+                        <h2>Transport</h2>
+                        <h5>Please select the transport(You can do it later).</h5>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" onclick="airplane() "
-                                id="exampleRadios1" value="option1" checked>
-                            <label class="form-check-label" for="exampleRadios1">
-                                Chicago, USA
+                            <input class="form-check-input" type="checkbox" name="exampleRadios" id="exampleRadios1"
+                                value="option1" onclick="airplane()">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Airplane
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                            <input class="form-check-input" type="checkbox" name="exampleRadios" id="exampleRadios2"
                                 value="option2" onclick="rentalCar()">
-                            <label class="form-check-label" for="exampleRadios2">
-                                Toronto, Canada
+                            <label class="form-check-label" for="defaultCheck1">
+                                Car rental
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                            <input class="form-check-input" type="checkbox" name="exampleRadios" id="exampleRadios3"
                                 value="option3" onclick="employeeCar()">
-                            <label class="form-check-label" for="exampleRadios3">
-                                London, United Kingdom
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
-                                value="option3" onclick="employeeCar()">
-                            <label class="form-check-label" for="exampleRadios3">
-                                Vilnius, Lithuania
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
-                                value="option3" onclick="employeeCar()">
-                            <label class="form-check-label" for="exampleRadios3">
-                                Kaunas, Lithuania
+                            <label class="form-check-label" for="defaultCheck1">
+                                Employee car
                             </label>
                         </div>
                         <br>
 
-                        <div id="listDiv">
-                            <h4>List of employee</h4>
-                            <p id="noEmployee"></p>
-                            <ul class="list-group list-group-flush" id="employeeList">
-                                <!--List is automatically made from selected employees-->
-                            </ul>
-                        </div>
-
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" id="changeRooms"
-                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Change rooms
-                        </button>
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                <table class="table table-striped" id="rooms_table" id="TableOfRomms">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" class="SmallColumn">Room</th>
-                                            <th scope="col">Employee</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBody">
-
-                                    </tbody>
-                                </table>
+                        <form id='employee_car' style="display:none">
+                            <h4>Please enter the information about owner of the car</h4>
+                            <div class="form-group">
+                                <label for="name">Employee Name</label>
+                                <input type="text" class="form-control" placeholder="Enter name">
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!------------------------------------------Transport---------------------------->
-            <div class="card">
-                <div class="card-header" id="headingFour">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                            data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                            Transport
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div class="container">
-                            <h2>Transport</h2>
-                            <h4>Please select the transport</h4>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                                    value="option1" onclick="airplane()">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Airplane
-                                </label>
+                            <div class="form-group">
+                                <label for="surname">Employee Surname</label>
+                                <input type="password" class="form-control" placeholder="Enter surname">
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
-                                    value="option2" onclick="rentalCar()">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    Car rental
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
-                                    value="option3" onclick="employeeCar()">
-                                <label class="form-check-label" for="exampleRadios3">
-                                    Employee car
-                                </label>
-                            </div>
-                            <br>
-
-                            <form id='employee_car' style="display:none">
-                                <h4>Please enter the information about owner of the car</h4>
-                                <div class="form-group">
-                                    <label for="name">Employee Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="surname">Employee Surname</label>
-                                    <input type="password" class="form-control" placeholder="Enter surname">
-                                </div>
-                            </form>
-
-                            <br>
-                            <br>
-                            <button type="button" class="btn btn-primary">Save</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="text-right">
+            <button type="button" class="btn btn-primary" id="savingButton" onclick="saveTrip()">Add Trip</button>
+        </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/stringMonthYear.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
     <script>
         $(document).ready(function () {
-            var table = $('#sort').DataTable({
-                "order": [[3, "desc"]],
-            });
+            var table = $('#sort').DataTable();
 
             $('#tBody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
                 $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
+                $('#EmployeeNotification').css({ 'visibility': 'hidden' });
             });
         });
 
-        function thirdCard() {
-            $('#employeeList').empty();
-            $('#tableBody').empty();
-            var table = $('#sort').DataTable();
+        function CheckEmployees() {
+            const table = $('#sort').DataTable();
             if (table.rows('.selected').data().length == '0') {
-                $('#noEmployee').text('Please select at least one employee.');
-                $('#changeRooms').hide();
+                if($('#oneButton').attr("aria-expanded") == "true"){
+                    $('#EmployeeNotification').text("Please select at least one employee!").css({"color": "red", "visibility": "visible"});
+                }
+                else{
+                    alert('Please select at least one employee!');
+                    $('#EmployeeNotification').text("Please select the employees.").css({"color": "black", "visibility": "visible"});
+                }
+                
+                $('#Card2').removeAttr("data-toggle", "collapse");
+                $('#Card3').removeAttr("data-toggle", "collapse");
             }
             else {
-                $('#noEmployee').empty();
-                $('#changeRooms').show();
-                var number = 0;
-                var employee = [];
-                var dropDownas = $("<select>");
-                $.each(table.rows('.selected').data(), function () {
-                    var li = $('<li>').text($(this).get(1) + " " + $(this).get(2)).addClass("list-group-item");                   
-                    $('#employeeList').append(li);
-                    employee[number] = $(this);
-                    var name = employee[number].get(1) + " " + employee[number].get(2);
-                    number++;
-                    dropDownas.append("<option>" + name + "</option>");
-                });
-                var a = [['1', 'Jonas', 'Jonaitis'], ['2', '', ''], ['3', 'Povilas', 'Povilaitis'], ['4', '', ''], ['5', '', ''], ['6', 'Petras', 'Petraitis']];
-                var i = 0;
-                $.each(a, function () {
-
-                    var tr = $('<tr>');
-                    var td = $('<td>').text($(this).get(0)).addClass('SmallColumn');
-                    tr.append(td);
-                    if ($(this).get(1) != '') {
-                        tr.append('<td>The room is taken</td>');
-                    }
-                    else {
-                        if (employee[i] != null) {
-                            var name = employee[i].get(1) + " " + employee[i].get(2);
-                            tr.append(dropDownas);
-                            $(`li:contains(${name})`).text(name + '    - ' + $(this).get(0) + ' room');
-                            i++;
-                        }
-                    }
-                    $('#tableBody').append(tr);
-                });
-                var booking = 0;
-                $.each(employee, function () {
-                    var name = employee[i].get(1) + " " + employee[i].get(2);
-                    $(`li:contains(${name})`).text(name + '    - no room').css({ 'color': 'red' });
-                    i++;
-                    booking++;
-                });
-                $('#listDiv').append("<p>" + booking + " rooms need to be booking in the hotel</p>");
+                $('#EmployeeNotification').css({ 'visibility': 'hidden' });
+                $('#Card2').attr("data-toggle", "collapse");
+                $('#Card3').attr("data-toggle", "collapse");
             }
         }
 
-        function airplane() {
-            $('#employee_car').hide();
-        }
-        function rentalCar() {
-            $('#employee_car').hide();
-        }
-        function employeeCar() {
-            $('#employee_car').show();
+        function saveTrip(){
+            const table = $('#sort').DataTable();
+            if(table.rows('.selected').data().length == '0'){
+                alert("You didn't choose any employee!");
+            }
+            //prideti dar kalendoriaus patikrinimą ir išsaugoti tada kelionę
         }
     </script>
 </body>
-
 </html>
