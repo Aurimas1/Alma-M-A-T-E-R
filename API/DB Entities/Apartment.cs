@@ -21,5 +21,8 @@ namespace API
 
         public int TripID { get; set; }
         public virtual Trip Trip { get; set; }
+
+        public int OfficeID { get; set; }
+        public virtual Office Office { get; set; }
     }
 }
