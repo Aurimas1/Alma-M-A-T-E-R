@@ -9,15 +9,15 @@ namespace API
     {
         public int TripID { get; set; }
         public DateTime Departure_date { get; set; }
-        public DateTime Arrival_date { get; set; }
+        public DateTime Return_date { get; set; }
 
-        public List<int> Plane_tickets { get; set; }
+        public List<int> Plane_ticketsID { get; set; }
         public virtual List<Plane_ticket> Plane_Tickets { get; set; }
 
         public List<int> Car_rentalsID { get; set; }
         public virtual List<Car_rental> Car_rentals { get; set; }
 
-        public List<int> Gas_compensationID { get; set; }
+        public List<int> Gas_compensationsID { get; set; }
         public virtual List<Gas_compensation> Gas_compensations { get; set; }
 
         public List<int> ApartmentsID { get; set; }
