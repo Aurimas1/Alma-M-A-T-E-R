@@ -15,348 +15,491 @@
 
     <!-- Compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <title></title>
 </head>
 <body>
+    <header style="margin-bottom: 75px">
+        <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px">
+            <a class="navbar-brand" href="Trips.html">
+                <img src="IMG/logo.png" alt="Logo" style="width: 50px">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="Trips.html">Trips</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+
+            <span class="navbar-text p-2"> Username /</span>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <article>
         <div class="container page-Header">
-            <h1>Trip details</h1>
+            <h1 class="d-inline">Trip details</h1>
+            <a id="editBtn" class="btn btn-default ml-2" href="registrationForm.html">Edit</a>
         </div>
-        <div class="container mb-5 mt-5">
+
+        <div class="container mb-5 mt-3">
             <ul class="list-group">
                 <li class="list-group-item"><h4>Travelling from: </h4><p class="d-inline ">Vilnius, Lithuania</p></li>
                 <li class="list-group-item"><h4>Travelling to: </h4><p class="d-inline">London, England</p></li>
                 <li class="list-group-item"><h4>Trip starts: </h4><p class="d-inline">2019 06 20</p></li>
                 <li class="list-group-item"><h4>Trip ends: </h4><p class="d-inline">2019 06 26</p></li>
                 <li class="list-group-item"><h4>Trip status: </h4><p class="d-inline badge-pill badge-success">Confirmed</p></li>
-                <li class="list-group-item"><h4>Employees:</h4>
-                    <div class="d-inline-block">
-                        <ul class="list-group">
-                            <li class="list-group-item">Tomas Kiziela</li>
-                            <li class="list-group-item">Marijus Šmigelskis</li>
-                            <li class="list-group-item">Rūta Jankauskaitė</li>
-                            <li class="list-group-item">Aurimas Laureckis</li>
-                            <li class="list-group-item">Elžbieta Ščerba</li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="list-group-item"><h4>Plane tickets</h4>
-                    <div class="row">
-                        <div class="col">
-                            <p class="font-weight-bold">Employee</p>
+                <li class="list-group-item">
+                    <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseE"
+                    aria-expanded="false" aria-controls="collapseE">Employees</button>
+                    <div class="collapse show" id="collapseE">
+                        <div class="row">
+                            <div class="col-1">
+                                <p class="font-weight-bold">Nr</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Name</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Surname</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Email</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Flight company</p>
+                        <div class="row">
+                            <div class="col-1">
+                                <p>1</p>
+                            </div>
+                            <div class="col">
+                                <p>Tomas</p>
+                            </div>
+                            <div class="col">
+                                <p>Kiziela</p>
+                            </div>
+                            <div class="col">
+                                <p>tomas.kiziela@mif.stud.vu.lt</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Airports</p>
+                        <div class="row">
+                            <div class="col-1">
+                                <p>2</p>
+                            </div>
+                            <div class="col">
+                                <p>Marijus</p>
+                            </div>
+                            <div class="col">
+                                <p>Šmigelskis</p>
+                            </div>
+                            <div class="col">
+                                <p>marijus.smigelskis@mif.stud.vu.lt</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Forward flight</p>
+                        <div class="row">
+                            <div class="col-1">
+                                <p>3</p>
+                            </div>
+                            <div class="col">
+                                <p>Rūta</p>
+                            </div>
+                            <div class="col">
+                                <p>Jankauskaitė</p>
+                            </div>
+                            <div class="col">
+                                <p>ruta.jankauskaite@mif.stud.vu.lt</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Return flight</p>
+                        <div class="row">
+                            <div class="col-1">
+                                <p>4</p>
+                            </div>
+                            <div class="col">
+                                <p>Aurimas</p>
+                            </div>
+                            <div class="col">
+                                <p>Laureckis</p>
+                            </div>
+                            <div class="col">
+                                <p>aurimas.laureckis@mif.stud.vu.lt</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Ticket file</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Tomas Kiziela</p>
-                        </div>
-                        <div class="col">
-                            <p>Ryanair</p>
-                        </div>
-                        <div class="col">
-                            <p>VNO-LHR</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Marijus Šmigelskis</p>
-                        </div>
-                        <div class="col">
-                            <p>Ryanair</p>
-                        </div>
-                        <div class="col">
-                            <p>VNO-LHR</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Rūta Jankauskaitė</p>
-                        </div>
-                        <div class="col">
-                            <p>Ryanair</p>
-                        </div>
-                        <div class="col">
-                            <p>VNO-LHR</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Aurimas Laureckis</p>
-                        </div>
-                        <div class="col">
-                            <p>Ryanair</p>
-                        </div>
-                        <div class="col">
-                            <p>VNO-LHR</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Elžbieta Ščerba</p>
-                        </div>
-                        <div class="col">
-                            <p>Ryanair</p>
-                        </div>
-                        <div class="col">
-                            <p>VNO-LHR</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
+                        <div class="row">
+                            <div class="col-1">
+                                <p>5</p>
+                            </div>
+                            <div class="col">
+                                <p>Elžbieta</p>
+                            </div>
+                            <div class="col">
+                                <p>Ščerba</p>
+                            </div>
+                            <div class="col">
+                                <p>elzbieta.scerba@mif.stud.vu.lt</p>
+                            </div>
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item"><h4>Accommodation</h4>
-                    <div class="row">
-                        <div class="col">
-                            <p class="font-weight-bold">Hotel name</p>
+                <li class="list-group-item">
+                    <button class="btn btn-primary" data-toggle="collapse" data-target="#collapsePT"
+                    aria-expanded="false" aria-controls="collapsePT">Plane tickets</button>
+                    <div class="collapse show" id="collapsePT">
+                        <div class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">Employee</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Flight company</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Airports</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Forward flight</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Return flight</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Ticket file</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Address</p>
+                        <div class="row">
+                            <div class="col">
+                                <p>Tomas Kiziela</p>
+                            </div>
+                            <div class="col">
+                                <p>Ryanair</p>
+                            </div>
+                            <div class="col">
+                                <p>VNO-LHR</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Room number</p>
+                        <div class="row">
+                            <div class="col">
+                                <p>Marijus Šmigelskis</p>
+                            </div>
+                            <div class="col">
+                                <p>Ryanair</p>
+                            </div>
+                            <div class="col">
+                                <p>VNO-LHR</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Check in</p>
+                        <div class="row">
+                            <div class="col">
+                                <p>Rūta Jankauskaitė</p>
+                            </div>
+                            <div class="col">
+                                <p>Ryanair</p>
+                            </div>
+                            <div class="col">
+                                <p>VNO-LHR</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Check out</p>
+                        <div class="row">
+                            <div class="col">
+                                <p>Aurimas Laureckis</p>
+                            </div>
+                            <div class="col">
+                                <p>Ryanair</p>
+                            </div>
+                            <div class="col">
+                                <p>VNO-LHR</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Reservation file</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Devbridge</p>
-                        </div>
-                        <div class="col">
-                            <p>Flower 5</p>
-                        </div>
-                        <div class="col">
-                            <p>1</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Devbridge</p>
-                        </div>
-                        <div class="col">
-                            <p>Flower 5</p>
-                        </div>
-                        <div class="col">
-                            <p>3</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Devbridge</p>
-                        </div>
-                        <div class="col">
-                            <p>Flower 5</p>
-                        </div>
-                        <div class="col">
-                            <p>4</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Devbridge</p>
-                        </div>
-                        <div class="col">
-                            <p>Flower 5</p>
-                        </div>
-                        <div class="col">
-                            <p>6</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Magnus Hotel</p>
-                        </div>
-                        <div class="col">
-                            <p>Sesame 30</p>
-                        </div>
-                        <div class="col">
-                            <p>21</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 20</p>
-                        </div>
-                        <div class="col">
-                            <p>2019 06 26</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item"><h4>Car rental</h4>
-                    <div class="row">
-                        <div class="col">
-                            <p class="font-weight-bold">Rental company</p>
-                        </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Car pickup address</p>
-                        </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Model</p>
-                        </div>
-                        <div class="col">
-                            <p class="font-weight-bold">License plate</p>
-                        </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Rental file</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>SpeedFast</p>
-                        </div>
-                        <div class="col">
-                            <p>Elmo 86</p>
-                        </div>
-                        <div class="col">
-                            <p>Tesla Model X</p>
-                        </div>
-                        <div class="col">
-                            <p>ABC123</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>SpeedFast</p>
-                        </div>
-                        <div class="col">
-                            <p>Elmo 86</p>
-                        </div>
-                        <div class="col">
-                            <p>Renault Escape</p>
-                        </div>
-                        <div class="col">
-                            <p>ABC124</p>
-                        </div>
-                        <div class="col">
-                            <a href="#" class="badge badge-info">Link</a>
+                        <div class="row">
+                            <div class="col">
+                                <p>Elžbieta Ščerba</p>
+                            </div>
+                            <div class="col">
+                                <p>Ryanair</p>
+                            </div>
+                            <div class="col">
+                                <p>VNO-LHR</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item"><h4>Gas compensation</h4>
-                    <div class="row">
-                        <div class="col">
-                            <p class="font-weight-bold">Employee</p>
+                <li class="list-group-item">
+                    <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
+                    aria-expanded="false" aria-controls="collapseAC">Accomodation</button>
+                    <div class="collapse show" id="collapseAC">
+                        <div class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">Hotel name</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Address</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Room number</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Check in</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Check out</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Reservation file</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="font-weight-bold">Amount</p>
+                        <div class="row">
+                            <div class="col">
+                                <p>Devbridge</p>
+                            </div>
+                            <div class="col">
+                                <p>Flower 5</p>
+                            </div>
+                            <div class="col">
+                                <p>1</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>Devbridge</p>
+                            </div>
+                            <div class="col">
+                                <p>Flower 5</p>
+                            </div>
+                            <div class="col">
+                                <p>3</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>Devbridge</p>
+                            </div>
+                            <div class="col">
+                                <p>Flower 5</p>
+                            </div>
+                            <div class="col">
+                                <p>4</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>Devbridge</p>
+                            </div>
+                            <div class="col">
+                                <p>Flower 5</p>
+                            </div>
+                            <div class="col">
+                                <p>6</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>Magnus Hotel</p>
+                            </div>
+                            <div class="col">
+                                <p>Sesame 30</p>
+                            </div>
+                            <div class="col">
+                                <p>21</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 20</p>
+                            </div>
+                            <div class="col">
+                                <p>2019 06 26</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Aurimas Laureckis</p>
+                </li>
+                <li class="list-group-item">
+                    <button class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
+                    aria-expanded="false" aria-controls="collapseCR">Car rental</button>
+                    <div class="collapse show" id="collapseCR">
+                        <div class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">Rental company</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Car pickup address</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Model</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">License plate</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Rental file</p>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p>40 €</p>
+                        <div class="row">
+                            <div class="col">
+                                <p>SpeedFast</p>
+                            </div>
+                            <div class="col">
+                                <p>Elmo 86</p>
+                            </div>
+                            <div class="col">
+                                <p>Tesla Model X</p>
+                            </div>
+                            <div class="col">
+                                <p>ABC123</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>SpeedFast</p>
+                            </div>
+                            <div class="col">
+                                <p>Elmo 86</p>
+                            </div>
+                            <div class="col">
+                                <p>Renault Escape</p>
+                            </div>
+                            <div class="col">
+                                <p>ABC124</p>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="badge badge-info">Link</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <button class="btn btn-primary rounded-2" data-toggle="collapse" data-target="#collapseGC"
+                    aria-expanded="false" aria-controls="collapseGC">Gas compensation</button>
+                    <div class="collapse show" id="collapseGC">
+                        <div class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">Employee</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Amount</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>Aurimas Laureckis</p>
+                            </div>
+                            <div class="col">
+                                <p>40 €</p>
+                            </div>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
     </article>
+<style>
+button {
+    background-color: white !important;
+    border-color: black !important;
+    color: black !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    border-radius: 40px !important;
+}
+#editBtn {
+    background-color: #4286f4 !important;
+    border: none !important;
+    color: white !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    border-radius: 40px !important;
+    vertical-align: baseline;
+}
+</style>
 </body>
 </html>
