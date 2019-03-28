@@ -15,5 +15,11 @@ namespace API
 
         public List<int> TripsID { get; set; }
         public virtual List<Trip> Trips { get; set; }
+
+        public virtual Apartment Apartment { get; set; }
+
+        public virtual Gas_compensation Gas_compensation { get; set; }
+
+        public virtual Plane_ticket Plane_ticket { get; set; }
     }
 }
