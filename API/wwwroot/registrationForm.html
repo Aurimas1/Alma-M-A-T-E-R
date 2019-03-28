@@ -5,13 +5,14 @@
     <meta charset="utf-8" />
     <title>Primary registration form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="PrimaryRegistrationStyle.css">
-    <link href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/PrimaryRegistrationStyle.css">
+    <link
+        href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+        rel="stylesheet">
     <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"
-        rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
 </head>
 
@@ -45,7 +46,7 @@
     </header>
 
     <h1 id="TopH1">Registration form</h1>
-    
+
     <!--List of employees-->
     <div class="accordion" id="accordionExample">
         <div class="card">
@@ -134,15 +135,15 @@
 
         <!------------------------------------------Transport---------------------------->
         <div class="card">
-            <div class="card-header" id="headingFour">
+            <div class="card-header" id="headingThree">
                 <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" id="Card3" data-target="#collapseFour"
-                        aria-expanded="false" aria-controls="collapseFour" onclick="CheckEmployees()">
+                    <button class="btn btn-link collapsed" type="button" id="Card3" data-target="#collapseThree"
+                        aria-expanded="false" aria-controls="collapseThree" onclick="CheckEmployees()">
                         Transport(optionally)
                     </button>
                 </h5>
             </div>
-            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div class="card-body">
                     <div class="container">
                         <h2>Transport</h2>
@@ -189,51 +190,12 @@
             <button type="button" class="btn btn-primary" id="savingButton" onclick="saveTrip()">Add Trip</button>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            var table = $('#sort').DataTable();
-
-            $('#tBody').on('click', 'tr', function () {
-                $(this).toggleClass('selected');
-                $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
-                $('#EmployeeNotification').css({ 'visibility': 'hidden' });
-            });
-        });
-
-        function CheckEmployees() {
-            const table = $('#sort').DataTable();
-            if (table.rows('.selected').data().length == '0') {
-                if($('#oneButton').attr("aria-expanded") == "true"){
-                    $('#EmployeeNotification').text("Please select at least one employee!").css({"color": "red", "visibility": "visible"});
-                }
-                else{
-                    alert('Please select at least one employee!');
-                    $('#EmployeeNotification').text("Please select the employees.").css({"color": "black", "visibility": "visible"});
-                }
-                
-                $('#Card2').removeAttr("data-toggle", "collapse");
-                $('#Card3').removeAttr("data-toggle", "collapse");
-            }
-            else {
-                $('#EmployeeNotification').css({ 'visibility': 'hidden' });
-                $('#Card2').attr("data-toggle", "collapse");
-                $('#Card3').attr("data-toggle", "collapse");
-            }
-        }
-
-        function saveTrip(){
-            const table = $('#sort').DataTable();
-            if(table.rows('.selected').data().length == '0'){
-                alert("You didn't choose any employee!");
-            }
-            //prideti dar kalendoriaus patikrinimą ir išsaugoti tada kelionę
-        }
-    </script>
+    <script src="js/registrationFormJS.js"></script>
 </body>
+
 </html>
