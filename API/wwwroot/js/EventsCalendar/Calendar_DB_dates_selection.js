@@ -33,7 +33,7 @@ $(".col.cal, .col.cal-w").click(function(){
 });
 
 //Mouse clicked outside of the calendar
-$("body > *:not(.calendar.month, .calendar.week, .nav_heading)").click(function(){
+$(".events_calendar > *:not(.calendar.month, .calendar.week, .nav_heading)").click(function(){
     if (selection_started && !selection_ended){
         selection_started = false;
         cleanSelection();
