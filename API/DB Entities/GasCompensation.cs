@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace API
 {
-    public class Gas_compensation
+    public class GasCompensation
     {
-        public int Gas_compensationID { get; set; }
-        public string Price { get; set; }
+        public int GasCompensationID { get; set; }
+        public int Price { get; set; }
 
         public int EmployeeID { get; set; }
         public virtual Employee Employee { get; set; }

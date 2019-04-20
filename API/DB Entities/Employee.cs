@@ -13,13 +13,15 @@ namespace API
         public string Phone_number { get; set; }
         public string Email_address { get; set; }
 
-        public List<int> TripsID { get; set; }
-        public virtual List<Trip> Trips { get; set; }
-
-        public virtual Apartment Apartment { get; set; }
-
-        public virtual Gas_compensation Gas_compensation { get; set; }
-
-        public virtual Plane_ticket Plane_ticket { get; set; }
+        public virtual List<Reservation> Reservations { get; set; }
+  
+        public virtual List<GasCompensation> GasCompensations { get; set; }
+  
+        public virtual List<PlaneTicket> PlaneTickets { get; set; }
+        
+        public virtual List<Event> Events { get; set; }
+        
+        public virtual List<EmployeeToTrip> EmployeeToTrip { get; set; }
+         
     }
 }
