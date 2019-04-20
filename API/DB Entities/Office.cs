@@ -12,6 +12,6 @@ namespace API
         public string City { get; set; }
         public string Address { get; set; }
 
-        public virtual List<Apartment> Apartments { get; set; }
+        public virtual List<Apartment> Apartaments { get; set; }
     }
 }

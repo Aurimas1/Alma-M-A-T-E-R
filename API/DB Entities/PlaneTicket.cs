@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace API
 {
-    public class Plane_ticket
+    public class PlaneTicket
     {
-        public int Plane_ticketID { get; set; }
-        public string Flight_company { get; set; }
+        public int PlaneTicketID { get; set; }
+        public string FlightCompany { get; set; }
         public string Airport { get; set; }
-        public DateTime Forward_flight_date { get; set; }
-        public DateTime Return_flight_date { get; set; }
-        public string Price { get; set; }
-        public string Plane_ticket_url { get; set; }
+        public DateTime ForwardFlightFate { get; set; }
+        public DateTime ReturnFlightFate { get; set; }
+        public int Price { get; set; }
+        public string PlaneTicketUrl { get; set; }
 
         public int EmployeeID { get; set; }
         public virtual Employee Employee { get; set; }
