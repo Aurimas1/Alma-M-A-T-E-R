@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using API.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +12,19 @@ namespace API.Controllers
     [Authorize]
     public class ValuesController : ControllerBase
     {
+        private readonly Gaa service;
+
+        public ValuesController(Gaa service)
+        {
+            this.service = service;
+        }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> Get()
         {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var response = await service.GetEvents(accessToken);
             return new string[] { "value1", "value2" };
         }
 
