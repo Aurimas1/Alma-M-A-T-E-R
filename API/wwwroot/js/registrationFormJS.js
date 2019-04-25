@@ -1,6 +1,9 @@
 $(document).ready(function () {
     var table = $('#sort').DataTable();
 
+    //load EventsCalendar
+    $("div.events_calendar").load("../Calendar_DB.html");
+    
     /*$.ajax({
         url: "",
         type: "GET",

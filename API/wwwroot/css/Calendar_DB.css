@@ -1,0 +1,145 @@
+/* Nav Header*/
+
+p.nav_month_header {
+    color: #FE014E;
+    font-size: 18pt;
+    display: inline-block;
+    width: 100px;
+    margin-bottom: 0;
+}
+
+p.nav_year_header {
+    color: black;
+    font-size: 11pt;
+}
+
+.nav-buttons {
+    margin-top: 7px;
+}
+
+
+/* Heading for week dates */
+
+div.row.heading {
+    background-color: #FE014E;
+    margin-bottom: 25px;
+    max-height: 25px;
+    color: white; 
+}
+
+            /* rounded corners for the heading */
+
+            div.heading_border_left, div.heading_border_right{
+                border-radius: 50%;
+                background-color: #FE014E;
+                width: 25px;
+                height: 25px;
+                position:relative;
+            }
+
+            div.heading_border_left{
+                left: -10px;
+                margin-right: -25px;
+            }
+
+            div.heading_border_right{
+                right: -10px;
+                margin-left: -25px;
+            }
+
+
+/* Calendar MONTH Borders */
+
+div[class^='row week'] > div.col.cal{
+    border: 1px solid darkgrey;
+    height: 60px;
+    min-width: 15px;
+    border-radius: 3px;
+
+}
+
+div.col.cal:hover, div.col.cal-w:hover{
+    background-color: #ffdbe6 !important;
+}
+
+div:not(.week1) > .col.cal {
+    border-top: none !important;
+}
+
+div.col.cal:not(.Pr){
+    border-left: none !important;
+}
+
+
+/* Calendar MONTH - weekend color */
+
+div.col.St, div.col.Sk {
+    background-color: #f4f4f4;
+}
+
+
+/* Calendar WEEK Borders */
+
+div.col.cal-w{
+    border-left: 1px solid #D4D3D3;
+    border-top: 1px solid #FBFBFB;
+    padding: 7px;
+}
+
+div.row#h24 {
+    border-bottom: 1px solid #FBFBFB;
+}
+
+div.col.cal-w.Sk {
+    border-right: 1px solid #D4D3D3;
+}
+
+/* Calendar WEEK hours */
+
+div.container.calendar.week div.col.hour_util{
+    max-height: 16px;
+    max-width: 65px;
+    top: 5px;
+    color: grey;
+    background-color: white;
+    font-size: 11pt;
+}
+
+div.row.day-header > .col.hour_util{
+    top: 14px !important;
+}
+
+div.row.heading .col.hour_util{
+    max-height: 16px;
+    max-width: 65px;
+}
+
+/* container size */
+
+div.container.calendar.month, div.container.nav_heading, div.container.weekdays-heading, div.container.calendar.week{
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* trip length selection */
+.highlighted {
+    background-color: palegreen !important;
+    border-radius: 5px;
+}
+
+.highlighted_event {
+    border-top: 5px solid #fa5050 !important;
+}
+
+.highlighted_event_week {
+    border-top: 2px solid #fa5050 !important;
+}
+
+.active.start-date, .active.end-date{
+    background-color: #fa5050 !important;
+}
+
+td.in-range {
+    background-color: #ffe5e5 !important;
+}
