@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/Calendar_DB.css"> 
+  </head>
+  <body>
+      
+    <div class="date_picker">
+        <div class="container">
+            <form>
+                <label>From:</label>
+                <div class="form-row">
+                    <div class="col-3">
+                        <input class="form-control form-control-sm" type="text" name="date_from" readonly>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control form-control-sm" name="hour_from">
+                            <option selected>00:00</option>
+                            <option>01:00</option>
+                            <option>02:00</option>
+                            <option>03:00</option>
+                            <option>04:00</option>
+                            <option>05:00</option>
+                            <option>06:00</option>
+                            <option>07:00</option>
+                            <option>08:00</option>
+                            <option>09:00</option>
+                            <option>10:00</option>
+                            <option>11:00</option>
+                            <option>12:00</option>
+                            <option>13:00</option>
+                            <option>14:00</option>
+                            <option>15:00</option>
+                            <option>16:00</option>
+                            <option>17:00</option>
+                            <option>18:00</option>
+                            <option>19:00</option>
+                            <option>20:00</option>
+                            <option>21:00</option>
+                            <option>22:00</option>
+                            <option>23:00</option>
+                            <option>24:00</option>
+                        </select>
+                    </div>
+                </div>
+                <label>To:</label>
+                <div class="form-row">
+                    <div class="col-3">
+                        <input class="form-control form-control-sm" type="text" name="date_to" readonly>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control form-control-sm" name="hour_to">
+                            <option>00:00</option>
+                            <option>01:00</option>
+                            <option>02:00</option>
+                            <option>03:00</option>
+                            <option>04:00</option>
+                            <option>05:00</option>
+                            <option>06:00</option>
+                            <option>07:00</option>
+                            <option>08:00</option>
+                            <option>09:00</option>
+                            <option>10:00</option>
+                            <option>11:00</option>
+                            <option>12:00</option>
+                            <option>13:00</option>
+                            <option>14:00</option>
+                            <option>15:00</option>
+                            <option>16:00</option>
+                            <option>17:00</option>
+                            <option>18:00</option>
+                            <option>19:00</option>
+                            <option>20:00</option>
+                            <option>21:00</option>
+                            <option>22:00</option>
+                            <option>23:00</option>
+                            <option selected>24:00</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div> 
+    </div>
+      
+    <!-- Nav heading -->
+    <div class="container nav_heading text-center">
+          
+           <div class="row">
+                <div class="col-2"></div>
+                   <!-- Navigation -->
+                <div class="col-8">
+                    <button type="button" class="btn btn-default align-top previous" onclick="previousMonth()">&lt;</button>
+                    <p class="nav_month_header text-center">Month</p>
+                    <button type="button" class="btn btn-default align-top next" onclick="nextMonth()">&gt;</button>
+                </div>
+                   <!-- Month/Week selection -->
+                <div class="col-2">
+                    <div class="btn-group btn-group-toggle nav-buttons float-right" data-toggle="buttons">
+                        <label class="btn btn-light btn-sm active month-button" onClick="monthButtonClicked()" >
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked >Month
+                        </label>
+                        <label class="btn btn-light btn-sm week-button" onClick="weekButtonClicked()">
+                            <input type="radio" name="options" id="option2" autocomplete="off" > Week
+                        </label>
+                    </div>
+                </div>              
+      </div>
+          <p class="nav_year_header">year</p> 
+      </div>
+      
+    <!-- Calendar weekdays header -->
+    <div class="container weekdays-heading">
+        <div class="row heading">
+            <div class="heading_border_left"></div>
+            <div class="col hour_util d-none">
+              <p></p>
+            </div>
+            <div class="col h_Pr">
+              <p>Mon</p>
+            </div>
+            <div class="col h_An">
+              <p>Tue</p>
+            </div>
+            <div class="col h_Tr">
+              <p>Wed</p>
+            </div>
+            <div class="col h_Kt">
+              <p>Thu</p>
+            </div>
+            <div class="col h_Pn">
+              <p>Fri</p>
+            </div>
+            <div class="col h_St">
+              <p>Sat</p>
+            </div>
+            <div class="col h_Sk">
+              <p>Sun</p>
+            </div>
+            <div class="heading_border_right"></div>
+        </div>
+      </div>   
+      
+    <!-- Calendar Month -->  
+    <div class="container calendar month">
+      
+      <!-- Week 1' -->
+
+  <div class="row week1">
+    <div class="col cal Pr">
+      <p class="day">1</p>
+    </div>
+    <div class="col cal An">
+      <p class="day">2</p>
+    </div>
+    <div class="col cal Tr">
+      <p class="day">3</p>
+    </div>
+    <div class="col cal Kt">
+      <p class="day">4</p>
+    </div>
+    <div class="col cal Pn">
+      <p class="day">5</p>
+    </div>
+    <div class="col cal St">
+      <p class="day">6</p>
+    </div>
+    <div class="col cal Sk">
+      <p class="day">7</p>
+    </div>
+  </div>
+      
+            <!-- Week 2 -->
+  <div class="row week2">
+    <div class="col cal Pr">
+      <p class="day">1</p>
+    </div>
+    <div class="col cal An">
+      <p class="day">2</p>
+    </div>
+    <div class="col cal Tr">
+      <p class="day">3</p>
+    </div>
+    <div class="col cal Kt">
+      <p class="day">4</p>
+    </div>
+    <div class="col cal Pn">
+      <p class="day">5</p>
+    </div>
+    <div class="col cal St">
+      <p class="day">6</p>
+    </div>
+    <div class="col cal Sk">
+      <p class="day">7</p>
+    </div>
+  </div>
+      
+            <!-- Week 3 -->
+  <div class="row week3">
+    <div class="col cal Pr">
+      <p class="day">1</p>
+    </div>
+    <div class="col cal An">
+      <p class="day">2</p>
+    </div>
+    <div class="col cal Tr">
+      <p class="day">3</p>
+    </div>
+    <div class="col cal Kt">
+      <p class="day">4</p>
+    </div>
+    <div class="col cal Pn">
+      <p class="day">5</p>
+    </div>
+    <div class="col cal St">
+      <p class="day">6</p>
+    </div>
+    <div class="col cal Sk">
+      <p class="day">7</p>
+    </div>
+  </div>
+      
+            <!-- Week 4 -->
+  <div class="row week4">
+    <div class="col cal Pr">
+      <p class="day">1</p>
+    </div>
+    <div class="col cal An">
+      <p class="day">2</p>
+    </div>
+    <div class="col cal Tr">
+      <p class="day">3</p>
+    </div>
+    <div class="col cal Kt">
+      <p class="day">4</p>
+    </div>
+    <div class="col cal Pn">
+      <p class="day">5</p>
+    </div>
+    <div class="col cal St">
+      <p class="day">6</p>
+    </div>
+    <div class="col cal Sk">
+      <p class="day">7</p>
+    </div>
+  </div>
+      
+            <!-- Week 5 -->
+  <div class="row week5">
+    <div class="col cal Pr">
+      <p class="day">1</p>
+    </div>
+    <div class="col cal An">
+      <p class="day">2</p>
+    </div>
+    <div class="col cal Tr">
+      <p class="day">3</p>
+    </div>
+    <div class="col cal Kt">
+      <p class="day">4</p>
+    </div>
+    <div class="col cal Pn">
+      <p class="day">5</p>
+    </div>
+    <div class="col cal St">
+      <p class="day">6</p>
+    </div>
+    <div class="col cal Sk">
+      <p class="day">7</p>
+    </div>
+  </div>
+      
+            <!-- Week 6 -->
+  <div class="row week6">
+    <div class="col cal Pr">
+      <p class="day">1</p>
+    </div>
+    <div class="col cal An">
+      <p class="day">2</p>
+    </div>
+    <div class="col cal Tr">
+      <p class="day">3</p>
+    </div>
+    <div class="col cal Kt">
+      <p class="day">4</p>
+    </div>
+    <div class="col cal Pn">
+      <p class="day">5</p>
+    </div>
+    <div class="col cal St">
+      <p class="day">6</p>
+    </div>
+    <div class="col cal Sk">
+      <p class="day">7</p>
+    </div>
+  </div>    
+</div>
+
+    <!-- Calendar Week -->   
+      
+    <div class="container calendar week d-none">
+      <div class="row day-header">
+            <div class="col hour_util">00:00
+            </div>
+            <div class="col d-Pr">1
+            </div>
+            <div class="col d-An">2
+            </div>
+            <div class="col d-Tr">3
+            </div>
+            <div class="col d-Kt">4
+            </div>
+            <div class="col d-Pn">5
+            </div>
+            <div class="col d-St">6
+            </div>
+            <div class="col d-Sk">7
+            </div>
+      </div>
+      <div class="row" id="01">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="02">
+            <div class="col hour_util"><p>02:00</p>
+            </div>          
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="03">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="04">
+            <div class="col hour_util"><p>04:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="05">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="06">
+            <div class="col hour_util"><p>06:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="07">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="08">
+            <div class="col hour_util"><p>08:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="09">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="10">
+            <div class="col hour_util"><p>10:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="11">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="12">
+            <div class="col hour_util"><p>12:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="13">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="14">
+            <div class="col hour_util"><p>14:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="15">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>   
+      <div class="row" id="16">
+            <div class="col hour_util"><p>16:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="17">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="18">
+            <div class="col hour_util"><p>18:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="19">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="20">
+            <div class="col hour_util"><p>20:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="21">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="22">
+            <div class="col hour_util"><p>22:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="23">
+            <div class="col hour_util"><p></p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      <div class="row" id="24">
+            <div class="col hour_util"><p>24:00</p>
+            </div>
+            <div class="col cal-w Pr">
+            </div>
+            <div class="col cal-w An">
+            </div>
+            <div class="col cal-w Tr">
+            </div>
+            <div class="col cal-w Kt">
+            </div>
+            <div class="col cal-w Pn">
+            </div>
+            <div class="col cal-w St">
+            </div>
+            <div class="col cal-w Sk">
+            </div>
+      </div>
+      
+      
+    </div>
+      
+      
+      
+      
+    <!-- Dependencies JS-->
+    <!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="js/EventsCalendar/Calendar_DB_utils.js"></script>
+      <script src="js/EventsCalendar/Calendar_DB_events.js"></script>
+      <script src="js/EventsCalendar/Calendar_DB_dates_selection.js"></script>
+      <script src="js/EventsCalendar/Calendar_DB.js"></script>
+      <script src="js/EventsCalendar/Calendar_DB_dates_picker.js"></script>
+      
+  
+    </body>
+  </html>

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace API
 {
@@ -12,6 +11,9 @@ namespace API
         public string City { get; set; }
         public string Address { get; set; }
 
-        public virtual List<Apartment> Apartments { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+        
+        public virtual List<Apartment> Apartaments { get; set; }
     }
 }

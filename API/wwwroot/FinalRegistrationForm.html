@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Registration form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/PrimaryRegistrationStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/FinalRegistrationFormStyle.css">
+    <link
+        href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+        rel="stylesheet">
+    <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px;">
+            <a class="navbar-brand" href="Trips.html">
+                <img src="IMG/logo.png" alt="Logo" style="width: 50px">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Trips</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+
+            <span class="navbar-text p-2"> Username /</span>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1 id="TopH1">Registration form</h1>
+
+    <!--List of employees-->
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne" id="oneButton">
+                        List of employees
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="container">
+                            <h2>List of employees</h2>
+                            <ul class="list-group list-group-flush" id="SelectedEmployees">
+                                <!--List is automatically made from selected employees-->
+                                <li class="list-group-item">Tomas Kiziela</li>
+                                <li class="list-group-item">Marijus Šmigelskis</li>
+                            </ul>
+
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" id="newEmployeeButton"
+                                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Add new employee
+                            </button>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <p id="EmployeeNotification" style="font-size: 18px">Please select the employees.
+                                    </p>
+                                    <table class="table responsive" id="sort">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" id="NrColumn">Nr</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Surname</th>
+                                                <th scope="col">Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tBody">
+                                            <tr>
+                                                <td data-table-header="Nr" id="NrColumn">1</td>
+                                                <td data-table-header="Name">Elžbieta</td>
+                                                <td data-table-header="Surname">Ščerba</td>
+                                                <td data-table-header="Email">elzbieta.scerba@mif.stud.vu.lt</td>
+                                            </tr>
+                                            <tr>
+                                                <td data-table-header="Nr" id="NrColumn">2</td>
+                                                <td data-table-header="Name">Aurimas</td>
+                                                <td data-table-header="Surname">Laureckis</td>
+                                                <td data-table-header="Email">aurimas.laureckis@mif.stud.vu.lt</td>
+                                            </tr>
+                                            <tr>
+                                                <td data-table-header="Nr" id="NrColumn" s>3</td>
+                                                <td data-table-header="Name">Tomas</td>
+                                                <td data-table-header="Surname">Kiziela</td>
+                                                <td data-table-header="Email">tomas.kiziela@mif.stud.vu.lt</td>
+                                            </tr>
+                                            <tr>
+                                                <td data-table-header="Nr" id="NrColumn" s>4</td>
+                                                <td data-table-header="Name">Rūta</td>
+                                                <td data-table-header="Surname">Jankauskaitė</td>
+                                                <td data-table-header="Email">ruta.jankauskaite@mif.stud.vu.lt</td>
+                                            </tr>
+                                            <tr>
+                                                <td data-table-header="Nr" id="NrColumn" s>5</td>
+                                                <td data-table-header="Name">Marijus</td>
+                                                <td data-table-header="Surname">Šmigelskis</td>
+                                                <td data-table-header="Email">marijus.smigelskis@mif.stud.vu.lt</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p id="rowSelected">0 row(s) selected</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-------------------------------------Calendar---------------------------------->
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Calendar
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <h2>Calendar</h2>
+                    <div class="events_calendar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------------------------Transport---------------------------->
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Transport
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <h2>Transport</h2>
+                        <h5>Please select the transport</h5>
+                        <div class="form-check">
+                            <input id="CheckPlane" class="form-check-input" type="checkbox" name="exampleRadios"
+                                id="exampleRadios1" value="option1" onclick="airplane()" checked>
+                            <label class="form-check-label" for="defaultCheck1">
+                                Airplane
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input id="CheckRentCar" class="form-check-input" type="checkbox" name="exampleRadios"
+                                id="exampleRadios2" value="option2" onclick="rentalCar()">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Car rental
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" id="CheckEmployeeCar" type="checkbox" name="exampleRadios"
+                                id="exampleRadios3" value="option3" onclick="employeeCar()">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Employee car
+                            </label>
+                        </div>
+                        <br>
+
+                        <div id='plane_div' style="display:none">
+                            
+
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Tomas Kiziela
+                                        <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Marijus Šmigelskis
+                                        <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
+                                    </li>
+                                </ul>
+                        </div>
+
+                        <div id='plane_div2' style="display:none">
+                                <form>
+                            <h4>Please enter the information about flight</h4>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">Departure</label>
+                                    <input type="datetime-local" class="form-control" id="inputEmail4"
+                                        placeholder="From">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Arrival</label>
+                                    <input type="datetime-local" class="form-control" id="inputPassword4"
+                                        placeholder="To">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress2">Airline</label>
+                                <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">Departure airport</label>
+                                    <input type="text" class="form-control" id="inputEmail4"
+                                        placeholder="Vilnius airport">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Arrival airport</label>
+                                    <input type="text" class="form-control" id="inputPassword4"
+                                        placeholder="Chicago airport">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputAddress">Seat</label>
+                                    <input type="text" class="form-control" id="inputAddress" placeholder="15A">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Gate</label>
+                                    <input type="text" class="form-control" id="inputPassword4" placeholder="14">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress2">Price</label>
+                                <div class="form-inline">
+                                    <input type="number" class="form-control" id="inputAddress2" placeholder="100"
+                                        min="0">
+                                    <select style="margin-left: 10px;">
+                                        <option>€/Eur</option>
+                                        <option>$/USD</option>
+                                        <option>£/GBP</option>
+                                        <option>C$/CAD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">Tickets file</label>
+                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+
+                        </div>
+
+                        <div id='car_rental' style="display:none">
+                            <form>
+                                <h4>Please enter the information rental car.</h4>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Start of rent</label>
+                                        <input type="datetime-local" class="form-control" id="inputEmail4"
+                                            placeholder="From">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">End of rent</label>
+                                        <input type="datetime-local" class="form-control" id="inputPassword4"
+                                            placeholder="To">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2">Rental company</label>
+                                    <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2">Car pickup address</label>
+                                    <input type="text" class="form-control" id="inputAddress2"
+                                        placeholder="1 Verkių ST">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputAddress">Car brand and model</label>
+                                        <input type="text" class="form-control" id="inputAddress" placeholder="15A">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">Gate</label>
+                                        <input type="text" class="form-control" id="inputPassword4" placeholder="14">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2">Price</label>
+                                    <div class="form-inline">
+                                        <input type="number" class="form-control" id="inputAddress2" placeholder="100"
+                                            min="0">
+                                        <select style="margin-left: 10px;">
+                                            <option>€/Eur</option>
+                                            <option>$/USD</option>
+                                            <option>£/GBP</option>
+                                            <option>C$/CAD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id='employee_car' style="display:none">
+                            <form>
+                                <h4>Please enter the information about owner of the car</h4>
+                                <div class="form-group">
+                                    <label for="name">Employee Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="surname">Employee Surname</label>
+                                    <input type="password" class="form-control" placeholder="Enter surname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="telephone">Employee's telephone number</label>
+                                    <input type="tel" class="form-control" placeholder="Enter telephone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Price">Employee's telephone number</label>
+                                    <div class="form-inline">
+                                        <input type="number" class="form-control" placeholder="Enter price" min="0">
+                                        <select style="margin-left: 10px;">
+                                            <option>€/Eur</option>
+                                            <option>$/USD</option>
+                                            <option>£/GBP</option>
+                                            <option>C$/CAD</option>
+                                        </select>
+                                        </fordivm>
+                                    </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!----------------------------------------Accommodation----------------------------------------------------->
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Accommodation
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container">
+                        <h2>Accommodation</h2>
+                        <h4>Please select your destination country</h4>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" onclick="chicago() "
+                                id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Chicago, USA
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" onclick="philadelphia() "
+                                id="exampleRadios1" value="option1">
+                            <label class="form-check-label" for="exampleRadios1">
+                                Philadelphia, USA
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                                value="option2" onclick="toronto()">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Toronto, Canada
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="option3" onclick="london()">
+                            <label class="form-check-label" for="exampleRadios3">
+                                London, United Kingdom
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="option3" onclick="vilnius()">
+                            <label class="form-check-label" for="exampleRadios3">
+                                Vilnius, Lithuania
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                                value="option3" onclick="kaunas()">
+                            <label class="form-check-label" for="exampleRadios3">
+                                Kaunas, Lithuania
+                            </label>
+                        </div>
+                        <br>
+
+                        <div id="listDiv">
+                            <h4>List of employee</h4>
+                            <ul class="list-group list-group-flush" id="employeeList">
+                                <!--List is automatically made from selected employees-->
+                            </ul>
+                        </div>
+
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" id="changeRooms"
+                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Change rooms
+                        </button>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <table class="table table-striped" id="rooms_table" id="TableOfRomms">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="SmallColumn">Room</th>
+                                            <th scope="col">Employee</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse"
+                            data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">Hotel
+                            information</button>
+                        <p>
+                            <div class="collapse" id="collapseExample2">
+                                <div class="card card-body">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Check-in from</label>
+                                                <input type="datetime-local" class="form-control" id="inputEmail4"
+                                                    placeholder="From">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Check-in to</label>
+                                                <input type="datetime-local" class="form-control" id="inputPassword4"
+                                                    placeholder="To">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Check-out from</label>
+                                                <input type="datetime-local" class="form-control" id="inputEmail4"
+                                                    placeholder="From">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Check-out to</label>
+                                                <input type="datetime-local" class="form-control" id="inputPassword4"
+                                                    placeholder="To">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Hotel name</label>
+                                            <input type="text" class="form-control" id="inputAddress2"
+                                                placeholder="Radisson">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress">Address</label>
+                                            <input type="text" class="form-control" id="inputAddress"
+                                                placeholder="1234 Main St">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress">Room number</label>
+                                            <input type="number" class="form-control" id="inputAddress"
+                                                placeholder="123">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Price</label>
+                                            <div class="form-inline">
+                                                <input type="number" class="form-control" id="inputAddress2"
+                                                    placeholder="100" min="0">
+                                                <select style="margin-left: 10px;">
+                                                    <option>€/Eur</option>
+                                                    <option>$/USD</option>
+                                                    <option>£/GBP</option>
+                                                    <option>C$/CAD</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Sign in</button>
+                                    </form>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-right">
+        <button type="button" class="btn btn-primary" id="savingButton" onclick="saveTrip()">Add Trip</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+    <script src="js/FinalRegistrationFormJS.js"></script>
+</body>
+
+</html>
