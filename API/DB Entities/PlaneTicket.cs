@@ -8,8 +8,8 @@ namespace API
         public int PlaneTicketID { get; set; }
         public string FlightCompany { get; set; }
         public string Airport { get; set; }
-        public DateTime ForwardFlightFate { get; set; }
-        public DateTime ReturnFlightFate { get; set; }
+        public DateTime ForwardFlightDate { get; set; }
+        public DateTime ReturnFlightDate { get; set; }
         public int Price { get; set; }
         public string PlaneTicketUrl { get; set; }
 
