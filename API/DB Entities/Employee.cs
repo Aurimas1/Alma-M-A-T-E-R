@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API
 {
@@ -13,6 +11,9 @@ namespace API
         public string Phone_number { get; set; }
         public string Email_address { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+        
         public virtual List<Reservation> Reservations { get; set; }
   
         public virtual List<GasCompensation> GasCompensations { get; set; }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace API
 {
@@ -12,6 +11,9 @@ namespace API
         public DateTime CheckOut { get; set; }
         public string ReservationUrl { get; set; }
       
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+        
         public int ApartmentID { get; set; }
         public virtual Apartment Apartment { get; set; }
         
