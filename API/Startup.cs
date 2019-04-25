@@ -6,6 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using API.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using API.Controllers;
+using API.Repositories;
 
 namespace API
 {
@@ -25,6 +32,8 @@ namespace API
             services.AddDbContext<IdentityDbContext>
                 (options => options.UseSqlServer(connection));
 
+            services.AddSingleton<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
+
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
@@ -38,9 +47,27 @@ namespace API
                     {
                         o.ClientId = "536082131203-00r94akb0omi6qdsuvs2u7rcfenhmi47.apps.googleusercontent.com";
                         o.ClientSecret = "xfIcqv3AItFZjWMvZa4qZttS";
+                        o.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
+                        o.ClaimActions.Clear();
+                        o.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                        o.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                        o.ClaimActions.MapJsonKey(ClaimTypes.GivenName, "given_name");
+                        o.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
+                        o.ClaimActions.MapJsonKey("urn:google:profile", "link");
+                        o.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                        o.SaveTokens = true;
+                        o.Scope.Add("https://www.googleapis.com/auth/calendar");
+                        o.Scope.Add("https://www.googleapis.com/auth/calendar.readonly");
+                        o.Events.OnCreatingTicket += AuthController.Callback;
                     })
                 .AddCookie();
 
+            services.AddSingleton<Gaa>();
+            services.AddHttpClient<Gaa>();
+
+            services.AddScoped<IRepository<Employee>, EmployeeRepository>();
+
+            services.AddScoped<IEmployeeService, EmployeeService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -61,6 +88,8 @@ namespace API
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+
+            //app.UseWhen(context => context.Items["LoginProvider"] == "Google")
 
             app.UseMvc();
         }
