@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,9 @@ namespace API
         public bool IsCarRentalNeeded { get; set; }
         public bool IsCarCompensationNeeded { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+        
         public int DepartureOfficeID { get; set; }
         public virtual Office DepartureOffice { get; set; }
 
