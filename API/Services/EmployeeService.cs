@@ -1,7 +1,5 @@
 ﻿using API.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -18,6 +16,19 @@ namespace API.Services
         public IEnumerable<Employee> GetAll()
         {
             return repository.GetAll();
+        }
+
+        public async Task<Employee> Ensure(Employee employee)
+        {
+            var exists = repository.Get(e => e.Email == employee.Email);
+            if (null == exists)
+            {
+                return await repository.Add(new Employee {Email = employee.Email, Name = employee.Name, Role = employee.Email == "aurimaiteo@gmail.com" ? Role.Admin : null });
+            }
+            else
+            {
+                return exists;
+            }
         }
     }
 }

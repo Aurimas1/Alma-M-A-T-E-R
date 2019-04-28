@@ -1,7 +1,4 @@
-﻿using API.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -9,5 +6,6 @@ namespace API.Services
     public interface IEmployeeService
     {
         IEnumerable<Employee> GetAll();
+        Task<Employee> Ensure(Employee employee);
     }
 }

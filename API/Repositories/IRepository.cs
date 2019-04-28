@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Repositories
@@ -8,8 +9,10 @@ namespace API.Repositories
         Task<T> Add(T item);
 
         IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(Func<T, bool> predicate);
 
         T Get(int id);
+        T Get(Func<T, bool> predicate);
 
         T Update(T item);
 

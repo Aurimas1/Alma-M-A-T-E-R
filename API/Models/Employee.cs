@@ -5,6 +5,9 @@ namespace API
     public class Employee
     {
         public int EmployeeID { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Role { get; set; }
         public virtual List<Reservation> Reservations { get; set; }
         public virtual List<GasCompensation> GasCompensations { get; set; }
         public virtual List<PlaneTicket> PlaneTickets { get; set; }
