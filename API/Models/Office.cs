@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
 
 namespace API
 {
@@ -10,10 +8,6 @@ namespace API
         public string Country { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
-
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
-        
         public virtual List<Apartment> Apartaments { get; set; }
     }
 }
