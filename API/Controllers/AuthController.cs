@@ -6,12 +6,21 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Net.Http.Formatting;
+using System.Linq;
+using API.Services;
 
 namespace API.Controllers
 {
     [Authorize]
     public class AuthController : Controller
     {
+        private readonly IEmployeeService service;
+
+        public AuthController(IEmployeeService service)
+        {
+            this.service = service;
+        }
+
         [Route("login")]
         public IActionResult Login()
         {
@@ -30,18 +39,26 @@ namespace API.Controllers
         [Route("cb")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterUser([FromBody] ClaimsIdentity identity = null)
+        public async Task<IActionResult> EnsureUser([FromBody] Employee user = null)
         {
-            return Ok();
+            user = await service.Ensure(user);
+
+            return Ok(user.Role);
         }
 
         public static async Task Callback(OAuthCreatingTicketContext context)
         {
-            
-            //using (var req = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44313/cb")) {
-            //    //req.Content = new ObjectContent<ClaimsIdentity>(context.Identity, new JsonMediaTypeFormatter());
-            //   // var response = await context.Backchannel.SendAsync(req);
-            //}
+            var data = new Employee
+            {
+                Name = context.Identity.Name,
+                Email = context.Identity.Claims.Where(x => x.Type == ClaimTypes.Email).Single().Value,
+            };
+            using (var req = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44313/cb"))
+            {
+                req.Content = new ObjectContent<Employee>(data, new JsonMediaTypeFormatter());
+                var response = await context.Backchannel.SendAsync(req);
+                context.Identity.AddClaim(new Claim(ClaimTypes.Role, await response.Content.ReadAsStringAsync()));
+            }
         }
     }
 }
