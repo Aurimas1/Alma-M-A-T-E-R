@@ -29,13 +29,13 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = @"Server=(localdb)\mssqllocaldb;Database=BigDb;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<IdentityDbContext>
+            services.AddDbContext<ApiDbContext>
                 (options => options.UseSqlServer(connection));
 
             services.AddSingleton<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
-            services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<ApiDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication(o =>

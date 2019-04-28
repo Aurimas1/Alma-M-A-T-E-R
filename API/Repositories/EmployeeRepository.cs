@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -6,9 +7,9 @@ namespace API.Repositories
 {
     public class EmployeeRepository : IRepository<Employee>
     {
-        private readonly IdentityDbContext context;
+        private readonly ApiDbContext context;
 
-        public EmployeeRepository(IdentityDbContext context)
+        public EmployeeRepository(ApiDbContext context)
         {
             this.context = context;
         }
@@ -30,9 +31,19 @@ namespace API.Repositories
             return context.Employees.FirstOrDefault(x => x.EmployeeID == id);
         }
 
+        public Employee Get(Func<Employee, bool> predicate)
+        {
+            return context.Employees.FirstOrDefault(predicate);
+        }
+
         public IEnumerable<Employee> GetAll()
         {
             return context.Employees.ToList();
+        }
+
+        public IEnumerable<Employee> GetAll(Func<Employee, bool> predicate)
+        {
+            return context.Employees.Where(predicate);
         }
 
         public Employee Update(Employee item)
