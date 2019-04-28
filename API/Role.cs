@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace API
+﻿namespace API
 {
-    public class Role : IdentityRole<string>
+    public static class Role
     {
+        public const string Admin = nameof(Admin);
+        public const string Organiser = nameof(Organiser);
     }
 }

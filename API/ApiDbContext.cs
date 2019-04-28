@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace API
 {
-    public class IdentityDbContext : IdentityDbContext<User, Role, string>
+    public class ApiDbContext : DbContext
     {
-        public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
+        public ApiDbContext(DbContextOptions<ApiDbContext> options)
             : base(options)
         {
         }
