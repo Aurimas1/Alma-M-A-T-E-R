@@ -1,9 +1,10 @@
 $(document).ready(function () {
-    var table = $('#sort').DataTable();
+
 
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
-    
+    //load list of employees from DB
+    loadEmployees();
     /*$.ajax({
         url: "",
         type: "GET",
@@ -19,12 +20,14 @@ $(document).ready(function () {
         },
         error: function () {alert('Internet error'); },
     });*/
+    var table = $('#sort').DataTable();
 
     $('#tBody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
         $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
         $('#EmployeeNotification').css({ 'visibility': 'hidden' });
     });
+
 });
 
 function CheckEmployees() {
@@ -54,4 +57,31 @@ function saveTrip() {
         alert("You didn't choose any employee!");
     }
     //prideti dar kalendoriaus patikrinimą ir išsaugoti tada kelionę
+}
+
+function loadEmployees() {
+        $.ajax({
+            type: "GET",
+            url: '/api/employee',
+            contentType: "application/json",
+            /*xhrFields: {
+                withCredentials: true
+            },*/
+            success: function (data) {
+                var i = 1;
+                $.each(data, function (key, entry) {
+                    var line = $('<tr>');
+                    var fullName = entry.name;
+                    var splitName = fullName.split(" ");
+                    line.append($('<td>').text(i))
+                        .append($('</td><td>').text(splitName[0]))
+                        .append($('</td><td>').text(splitName[1]))
+                        .append($('</td><td>').text(entry.email))
+                        .append($('</td></tr>'));
+                    $('#tBody').append(line);
+                    i++;
+                });
+            },
+            error: function () {alert('Internet error'); },
+        })
 }
