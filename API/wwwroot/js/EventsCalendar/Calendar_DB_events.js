@@ -1,56 +1,28 @@
 // Dynamic CSS
-var eventColor = "#fa5050"
+var eventColor = "#fa5050";
 
-var events_json = '[\
-{\
-"date": "2019-03-18",\
-"events": [\
-{"time_from": "10:15", "time_to": "16:00", "full_name": "vardenis pavardenis"},\
-{"time_from": "12:45", "time_to": "14:00", "full_name": "vardenis K."}\
-]\
-},\
-{\
-"date": "2019-03-19",\
-"events": [\
-{"time_from": "15:15", "time_to": "22:00", "full_name": "Something A."},\
-{"time_from": "18:45", "time_to": "21:00", "full_name": "Kazkas anonimas"}\
-]\
-},\
-{\
-"date": "2019-03-22",\
-"events": [\
-{"time_from": "15:15", "time_to": "16:00", "full_name": "Anabelė A."},\
-{"time_from": "18:45", "time_to": "20:00", "full_name": "Antanas K."}\
-]\
-},\
-{\
-"date": "2019-03-23",\
-"events": [\
-{"time_from": "15:15", "time_to": "24:00", "full_name": "vardenis pavardenis"}\
-]\
-},\
-{\
-"date": "2019-03-24",\
-"events": [\
-{"time_from": "00:00", "time_to": "24:00", "full_name": "vardenis pavardenis"}\
-]\
-},\
-{\
-"date": "2019-03-25",\
-"events": [\
-{"time_from": "00:00", "time_to": "16:00", "full_name": "vardenis pavardenis"}\
-]\
-}\
-]'
+var events = null;
 
-var events = JSON.parse(events_json);
-
-
-function addEvents(){
-    
+function getEvents(from, to, employeeIds){
+    var array=[1,2,3];
+    var dateFrom = from.getFullYear()+'-'+_addZero(from.getMonth()<12?from.getMonth()+1:0)+'-'+_addZero(from.getDate());
+    var dateTo = to.getFullYear()+'-'+_addZero(to.getMonth()<12?to.getMonth()+1:0)+'-'+_addZero(to.getDate());
+    $.ajax({
+        type: "GET",
+        url: "/api/event",
+        data: {dateFrom:dateFrom, dateTo:dateTo, employeeIds: array},
+        success: function(data, status){
+        addEvents(data);
+    },
+        traditional: true});
+}
+function addEvents(data){
+    events = data;
     var date;
+    
     $("*").removeAttr("data-content");
-    $("*").removeClass("event");
+    $("div.col.cal, div.col.cal-w").removeClass("event");
+    $("div.col.cal, div.col.cal-w").popover('dispose');
     for (var i = 0; i < events.length; i++){
          
          date = events[i].date;
@@ -63,16 +35,16 @@ function addEvents(){
          }  
          else {     
              events[i].events.forEach(function(el){                 
-                 var hour_from = el.time_from.split(':')[0];
-                 var hour_to = el.time_to.split(':')[0];
+                 var hour_from = el.timeFrom.split(':')[0];
+                 var hour_to = el.timeTo.split(':')[0];
                  var hour_from_int = parseInt(hour_from);
                  var hour_to_int = parseInt(hour_to);
-                 (el.time_to.split(':'))[1] > 0 ? hour_to_int++ : "";
+                 (el.timeTo.split(':'))[1] > 0 ? hour_to_int++ : "";
                  for(var j = hour_from_int+1; j <= hour_to_int; j++){
                      var $element = $("#"+date+"h"+_addZero(j)+".col.cal-w");
                      $($element).css("background-color", eventColor);
                      $($element).addClass("event");
-                     addPopoverWeek($($element),el.time_from, el.time_to, el.full_name);
+                     addPopoverWeek($($element),el.timeFrom, el.timeTo, el.fullName);
                  }
                  
              });
@@ -85,15 +57,15 @@ function addPopoverMonth(element, date){
     _addPopoverAttributes(element, "Today's events");
     var todaysEvents = events.filter((x) => {return x.date == date});
     todaysEvents[0].events.forEach(function(el){
-        $(element).attr("data-content", $(element).attr("data-content") + el.time_from + "-" + el.time_to + " " + el.full_name + "<br/>");
+        $(element).attr("data-content", $(element).attr("data-content") + el.timeFrom + "-" + el.timeTo + " " + el.fullName + "<br/>");
     });    
     $(element).popover();
 }
 
-function addPopoverWeek(element, time_from, time_to, full_name){
+function addPopoverWeek(element, timeFrom, timeTo, fullName){
     
     if (!$(element).attr("data-content")) _addPopoverAttributes(element, "Current events");
-    $(element).attr("data-content", $(element).attr("data-content") + time_from + "-" + time_to + " " + full_name + "<br/>");  
+    $(element).attr("data-content", $(element).attr("data-content") + timeFrom + "-" + timeTo + " " + fullName + "<br/>");  
     $(element).popover();
 }
 
