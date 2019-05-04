@@ -67,9 +67,11 @@ namespace API
 
             services.AddScoped<IRepository<Employee>, EmployeeRepository>();
             services.AddScoped<IRepository<Office>, OfficeRepository>();
+            services.AddScoped<IRepository<Trip>, TripRepository>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IOfficeService, OfficeService>();
+            services.AddScoped<ITripService, TripService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

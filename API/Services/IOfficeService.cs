@@ -6,6 +6,6 @@ namespace API.Services
     public interface IOfficeService
     {
         IEnumerable<Office> GetAll();
-        //Task<Office> Ensure(Office office);
+        Task<Office> Ensure(Office office);
     }
 }
