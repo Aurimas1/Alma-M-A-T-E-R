@@ -1,0 +1,44 @@
+div#login-container img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
+}
+
+div.container.login{
+    max-width: 475px;
+    height:100%;
+    color: dimgrey;
+    margin-top: 8%;
+}
+
+div#login-container button{
+    margin-top: 25px;
+    width: 191px;
+    height: 46px;
+    background-color: transparent;
+    background-image: url(../IMG/login/btn_google_signin_light_normal_web.png);
+}
+
+div#login-container button:hover{
+    background-image: url(../IMG/login/btn_google_signin_light_focus_web.png);
+}
+
+div#login-container button:visited{
+    background-image: url(../IMG/login/btn_google_signin_light_pressed_web.png);
+}
+
+html{
+    min-height: 100%;
+    position:relative;
+    background-color: #fcfcfc;
+}
+
+body{
+    min-height: 60%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 60vh; /* These two lines are counted as one :-)       */
+    background-color: inherit;
+}
