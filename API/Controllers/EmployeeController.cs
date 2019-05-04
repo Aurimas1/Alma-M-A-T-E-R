@@ -7,7 +7,8 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Kebab")]
+    [AllowAnonymous]
+    //[Authorize(Roles = "Kebab")]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService service;
