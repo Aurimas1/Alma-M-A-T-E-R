@@ -66,8 +66,10 @@ namespace API
             services.AddHttpClient<Gaa>();
 
             services.AddScoped<IRepository<Employee>, EmployeeRepository>();
+            services.AddScoped<IRepository<Office>, OfficeRepository>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IOfficeService, OfficeService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
