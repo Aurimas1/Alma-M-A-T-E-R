@@ -50,7 +50,7 @@ function updateCalendarMonth(){
     //set Month header (Month name + year)
     $(".nav_month_header").text(months[currentMonth]);
     $(".nav_year_header").text(currentYear+" m.");
-    addEvents();
+    getEvents(startingMonthDate,newDate,[1,2,3]);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
@@ -74,7 +74,6 @@ function updateCalendarWeek(){
     for (var i = 0; i < 7; i++){
         var $element = days.eq(i);
         $element.text(newDate.getDate());
-        
         
         var $dayElemets = $(".col.cal-w."+weekdays[newDate.getDay()]);
         $dayElemets.each(function(){
@@ -107,7 +106,7 @@ function updateCalendarWeek(){
     $(".nav_month_header").text(month);
     $(".nav_year_header").text(year + ' m.');
     
-    addEvents();
+    getEvents(startingWeekDate, newDate, [1,2,3]);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
