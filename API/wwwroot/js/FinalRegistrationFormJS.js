@@ -4,23 +4,7 @@ $(document).ready(function () {
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
     
-    /*$.ajax({
-        url: "",
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            employee = data;
-            $.each(data, function () {
-                var line = $('<tr>');
-                line.append($('<th>').text($(this).Name))
-                    .append($('<th>').text($(this).Surname))
-                    .append($('<th>').text($(this).Email_address))
-            $('#tBody').append(line);
-            });
-        },
-        error: function () {alert('Internet error'); },
-    });*/
-
+    loadEmployees().then(function() {
     $('tr:contains("Šmigelskis")').prop('disabled', true).css("cssText", "background-color:#D33F49 !important;");
     $('tr:contains("Kiziela")').prop('disabled', true).css("cssText", "background-color:#D33F49 !important;");
 
@@ -97,7 +81,7 @@ $(document).ready(function () {
         $("#plane_div").show();
     }
 
-
+    })
 });
 
 /*function thirdCard() {
@@ -157,4 +141,31 @@ function openPlane(){
     else {
         $("#plane_div2").show();
     }
+}
+
+function loadEmployees() {
+    return $.ajax({
+        type: "GET",
+        url: '/api/employee',
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            var id = 1;
+            $.each(data, function (key, entry) {
+                var line = $('<tr>');
+                var fullName = entry.name;
+                var splitName = fullName.split(" ");
+                line.append($('<td data-table-header="Nr" id="NrColumn">').text(id))
+                    .append($('</td><td data-table-header="Name">').text(splitName[0]))
+                    .append($('</td><td data-table-header="Surname">').text(splitName[1]))
+                    .append($('</td><td data-table-header="Email">').text(entry.email))
+                    .append($('</td></tr>'));
+                $('#tBody').append(line);
+                id++;
+            });
+        },
+        error: function () {alert('Internet error'); },
+    })
 }
