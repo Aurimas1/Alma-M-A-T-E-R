@@ -68,6 +68,10 @@ namespace API
             services.AddScoped<IRepository<Employee>, EmployeeRepository>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
+            
+            services.AddScoped<IRepository<Event>, EventRepository>();
+
+            services.AddScoped<IEventService, EventService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
