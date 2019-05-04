@@ -3,16 +3,15 @@ $(document).ready(function () {
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
     //load list of employees from DB
-    loadEmployees();
+    loadEmployees().then(function() {
+        var table = $('#sort').DataTable();
 
-    var table = $('#sort').DataTable();
-
-    $('#tBody').on('click', 'tr', function () {
-        $(this).toggleClass('selected');
-        $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
-        $('#EmployeeNotification').css({ 'visibility': 'hidden' });
-    });
-
+        $('#tBody').on('click', 'tr', function () {
+            $(this).toggleClass('selected');
+            $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
+            $('#EmployeeNotification').css({ 'visibility': 'hidden' });
+        });
+    })
 });
 
 function CheckEmployees() {
@@ -45,7 +44,7 @@ function saveTrip() {
 }
 
 function loadEmployees() {
-        $.ajax({
+        return $.ajax({
             type: "GET",
             url: '/api/employee',
             contentType: "application/json",
