@@ -28,9 +28,41 @@ namespace API.Controllers
         // GET api/Trip/employees
         [Route("employees")]
         [HttpGet]
-        public IEnumerable<Employee> GetEmployeesFromTrip(int id)
+        public IEnumerable<Employee> GetEmployees(int id)
         {
-            return service.GetEmployeesFromTrip(id);
+            return service.GetEmployees(id);
+        }
+
+        // GET api/Trip/reservedApartments
+        [Route("reservedApartments")]
+        [HttpGet]
+        public IEnumerable<Apartment> GetReservedApartments(int id)
+        {
+            return service.GetReservedApartments(id);
+        }
+
+        // GET api/Trip/planeTickets
+        [Route("planeTickets")]
+        [HttpGet]
+        public IEnumerable<PlaneTicket> GetPlaneTickets(int id)
+        {
+            return service.GetPlaneTickets(id);
+        }
+
+        // GET api/Trip/carRentals
+        [Route("carRentals")]
+        [HttpGet]
+        public IEnumerable<CarRental> GetCarRentals(int id)
+        {
+            return service.GetCarRentals(id);
+        }
+
+        // GET api/Trip/gasCompensations
+        [Route("gasCompensations")]
+        [HttpGet]
+        public IEnumerable<GasCompensation> GetGasCompensations(int id)
+        {
+            return service.GetGasCompensations(id);
         }
     }
 }

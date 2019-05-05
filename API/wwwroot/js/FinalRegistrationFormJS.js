@@ -2,6 +2,11 @@ $(document).ready(function () {
     
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
+
+    loadReservedApartments();
+    loadPlaneTickets();
+    loadCarRentals();
+    loadGasCompensations();
     
     loadTripEmployees().then(loadEmployees()).then(function() {
         var table = $('#sort').DataTable();
@@ -186,6 +191,66 @@ function loadEmployees() {
                 $('#tBody').append(line);
                 id++;
             });
+        },
+        error: function () {alert('Internet error'); },
+    })
+}
+
+function loadReservedApartments() {
+    return $.ajax({
+        type: "GET",
+        url: '/api/trip/reservedApartments?id=4', //Insert current trip ID instead of 4
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            
+        },
+        error: function () {alert('Internet error'); },
+    })
+}
+
+function loadPlaneTickets() {
+    return $.ajax({
+        type: "GET",
+        url: '/api/trip/planeTickets?id=4', //Insert current trip ID instead of 4
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            
+        },
+        error: function () {alert('Internet error'); },
+    })
+}
+
+function loadCarRentals() {
+    return $.ajax({
+        type: "GET",
+        url: '/api/trip/carRentals?id=4', //Insert current trip ID instead of 4
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            
+        },
+        error: function () {alert('Internet error'); },
+    })
+}
+
+function loadGasCompensations() {
+    return $.ajax({
+        type: "GET",
+        url: '/api/trip/gasCompensations?id=4', //Insert current trip ID instead of 4
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            
         },
         error: function () {alert('Internet error'); },
     })
