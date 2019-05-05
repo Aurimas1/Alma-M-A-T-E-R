@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Repositories
 {
-    public class TripRepository : IRepository<Trip>
+    public class TripRepository
     {
         private readonly ApiDbContext context;
 
@@ -50,6 +50,16 @@ namespace API.Repositories
         {
             context.Trips.Update(item);
             return context.SaveChanges() == 1 ? item : null;
+        }
+
+        public IEnumerable<Employee> GetEmployeesFromTrip(int id)
+        {
+            List<Employee> employees = context.EmployeeToTrips
+                .Where(x => x.TripId == id)
+                .Select(x => x.Employee)
+                .Distinct()
+                .ToList();
+            return employees;
         }
     }
 }
