@@ -6,6 +6,10 @@ namespace API.Services
     {
         IEnumerable<Trip> GetAll();
 
-        IEnumerable<Employee> GetEmployeesFromTrip(int id);
+        IEnumerable<Employee> GetEmployees(int id);
+        IEnumerable<Apartment> GetReservedApartments(int id);
+        IEnumerable<PlaneTicket> GetPlaneTickets(int id);
+        IEnumerable<CarRental> GetCarRentals(int id);
+        IEnumerable<GasCompensation> GetGasCompensations(int id);
     }
 }

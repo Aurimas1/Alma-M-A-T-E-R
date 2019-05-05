@@ -18,9 +18,29 @@ namespace API.Services
             return repository.GetAll();
         }
 
-        public IEnumerable<Employee> GetEmployeesFromTrip(int id)
+        public IEnumerable<Employee> GetEmployees(int id)
         {
-            return repository.GetEmployeesFromTrip(id);
+            return repository.GetEmployees(id);
+        }
+
+        public IEnumerable<Apartment> GetReservedApartments(int id)
+        {
+            return repository.GetReservedApartments(id);
+        }
+
+        public IEnumerable<PlaneTicket> GetPlaneTickets(int id)
+        {
+            return repository.GetPlaneTickets(id);
+        }
+
+        public IEnumerable<CarRental> GetCarRentals(int id)
+        {
+            return repository.GetCarRentals(id);
+        }
+
+        public IEnumerable<GasCompensation> GetGasCompensations(int id)
+        {
+            return repository.GetGasCompensations(id);
         }
     }
 }

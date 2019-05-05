@@ -52,14 +52,46 @@ namespace API.Repositories
             return context.SaveChanges() == 1 ? item : null;
         }
 
-        public IEnumerable<Employee> GetEmployeesFromTrip(int id)
+        public IEnumerable<Employee> GetEmployees(int id)
         {
             List<Employee> employees = context.EmployeeToTrips
                 .Where(x => x.TripId == id)
                 .Select(x => x.Employee)
-                .Distinct()
                 .ToList();
             return employees;
+        }
+
+        public IEnumerable<Apartment> GetReservedApartments(int id)
+        {
+            List<Apartment> apartments = context.Reservations
+                .Where(x => x.TripID == id)
+                .Select(x => x.Apartment)
+                .ToList();
+            return apartments;
+        }
+
+        public IEnumerable<PlaneTicket> GetPlaneTickets(int id)
+        {
+            List<PlaneTicket> planeTickets = context.PlaneTickets
+                .Where(x => x.TripID == id)
+                .ToList();
+            return planeTickets;
+        }
+
+        public IEnumerable<CarRental> GetCarRentals(int id)
+        {
+            List<CarRental> carRentals = context.CarRentals
+                .Where(x => x.TripID == id)
+                .ToList();
+            return carRentals;
+        }
+
+        public IEnumerable<GasCompensation> GetGasCompensations(int id)
+        {
+            List<GasCompensation> gasCompensations = context.GasCompensations
+                .Where(x => x.TripID == id)
+                .ToList();
+            return gasCompensations;
         }
     }
 }
