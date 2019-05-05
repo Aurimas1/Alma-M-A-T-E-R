@@ -6,9 +6,9 @@ namespace API.Services
 {
     public class TripService : ITripService
     {
-        private readonly IRepository<Trip> repository;
+        private readonly TripRepository repository;
 
-        public TripService(IRepository<Trip> repository)
+        public TripService(TripRepository repository)
         {
             this.repository = repository;
         }
@@ -16,6 +16,11 @@ namespace API.Services
         public IEnumerable<Trip> GetAll()
         {
             return repository.GetAll();
+        }
+
+        public IEnumerable<Employee> GetEmployeesFromTrip(int id)
+        {
+            return repository.GetEmployeesFromTrip(id);
         }
     }
 }

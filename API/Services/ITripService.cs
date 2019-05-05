@@ -5,5 +5,7 @@ namespace API.Services
     public interface ITripService
     {
         IEnumerable<Trip> GetAll();
+
+        IEnumerable<Employee> GetEmployeesFromTrip(int id);
     }
 }

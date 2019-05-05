@@ -24,5 +24,13 @@ namespace API.Controllers
         {
             return service.GetAll();
         }
+
+        // GET api/Trip/employees
+        [Route("employees")]
+        [HttpGet]
+        public IEnumerable<Employee> GetEmployeesFromTrip(int id)
+        {
+            return service.GetEmployeesFromTrip(id);
+        }
     }
 }
