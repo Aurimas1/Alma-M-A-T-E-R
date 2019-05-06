@@ -18,12 +18,12 @@ namespace API.Services
             return repository.GetAll();
         }
 
-        public async Task<Employee> Ensure(Employee employee)
+        public async Task<Employee> Ensure(string email, string name)
         {
-            var exists = repository.Get(e => e.Email == employee.Email);
+            var exists = repository.Get(e => e.Email == email);
             if (null == exists)
             {
-                return await repository.Add(new Employee {Email = employee.Email, Name = employee.Name, Role = employee.Email == "aurimaiteo@gmail.com" ? Role.Admin : null });
+                return await repository.Add(new Employee {Email = email, Name = name, Role = email == "aurimaiteo@gmail.com" ? Role.Admin : null });
             }
             else
             {

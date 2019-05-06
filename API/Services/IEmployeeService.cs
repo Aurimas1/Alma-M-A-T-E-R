@@ -6,6 +6,6 @@ namespace API.Services
     public interface IEmployeeService
     {
         IEnumerable<Employee> GetAll();
-        Task<Employee> Ensure(Employee employee);
+        Task<Employee> Ensure(string email, string name);
     }
 }
