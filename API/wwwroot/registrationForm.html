@@ -54,7 +54,7 @@
                 <h5 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFirst"
                         aria-expanded="true" aria-controls="collapseFirst">
-                        City and country
+                        List of offices
                     </button>
                 </h5>
             </div>
@@ -65,95 +65,11 @@
                     <div class="row">
                         <div class="container">
                             <div class="row">
-                                <div class="col">
-                                    <h4>Please select your departure country</h4>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios"
-                                            onclick="chicago() " id="exampleRadios1" value="option1">
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Chicago, USA
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios"
-                                            onclick="philadelphia() " id="exampleRadios1" value="option1">
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Philadelphia, USA
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios"
-                                            id="exampleRadios2" value="option2" onclick="toronto()">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            Toronto, Canada
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios"
-                                            id="exampleRadios3" value="option3" onclick="london()">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            London, United Kingdom
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios"
-                                            id="exampleRadios3" value="option3" onclick="vilnius()" checked>
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            Vilnius, Lithuania
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios"
-                                            id="exampleRadios3" value="option3" onclick="kaunas()">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            Kaunas, Lithuania
-                                        </label>
-                                    </div>
+                                <div id="js-dep-office" class="col">
+                                    <h4>Please select your departure city</h4>
                                 </div>
-                                <div class="col">
-                                    <h4>Please select your destination country</h4>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="example2"
-                                            onclick="chicago() " id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Chicago, USA
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="example2"
-                                            onclick="philadelphia() " id="exampleRadios1" value="option1">
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Philadelphia, USA
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="example2"
-                                            id="exampleRadios2" value="option2" onclick="toronto()">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            Toronto, Canada
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="example2"
-                                            id="exampleRadios3" value="option3" onclick="london()">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            London, United Kingdom
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="example2"
-                                            id="exampleRadios3" value="option3" onclick="vilnius()">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            Vilnius, Lithuania
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="example2"
-                                            id="exampleRadios3" value="option3" onclick="kaunas()">
-                                        <label class="form-check-label" for="exampleRadios3">
-                                            Kaunas, Lithuania
-                                        </label>
-                                    </div>
+                                <div id="js-arr-office" class="col">
+                                    <h4>Please select your destination city</h4>
                                 </div>
                             </div>
                         </div>
@@ -188,36 +104,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tBody">
-                                    <tr>
-                                        <td data-table-header="Nr" id="NrColumn">1</td>
-                                        <td data-table-header="Name">Elžbieta</td>
-                                        <td data-table-header="Surname">Ščerba</td>
-                                        <td data-table-header="Email">elzbieta.scerba@mif.stud.vu.lt</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-table-header="Nr" id="NrColumn">2</td>
-                                        <td data-table-header="Name">Aurimas</td>
-                                        <td data-table-header="Surname">Laureckis</td>
-                                        <td data-table-header="Email">aurimas.laureckis@mif.stud.vu.lt</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-table-header="Nr" id="NrColumn" s>3</td>
-                                        <td data-table-header="Name">Tomas</td>
-                                        <td data-table-header="Surname">Kiziela</td>
-                                        <td data-table-header="Email">tomas.kiziela@mif.stud.vu.lt</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-table-header="Nr" id="NrColumn" s>4</td>
-                                        <td data-table-header="Name">Rūta</td>
-                                        <td data-table-header="Surname">Jankauskaitė</td>
-                                        <td data-table-header="Email">ruta.jankauskaite@mif.stud.vu.lt</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-table-header="Nr" id="NrColumn" s>5</td>
-                                        <td data-table-header="Name">Marijus</td>
-                                        <td data-table-header="Surname">Šmigelskis</td>
-                                        <td data-table-header="Email">marijus.smigelskis@mif.stud.vu.lt</td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                             <p id="rowSelected">0 row(s) selected</p>
