@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -15,10 +16,14 @@ namespace API.Controllers
     public class AuthController : Controller
     {
         private readonly IEmployeeService service;
+        private readonly IGoogleCalendarService calendarService;
+        private readonly IEventService eventService;
 
-        public AuthController(IEmployeeService service)
+        public AuthController(IEmployeeService service, IGoogleCalendarService calendarService, IEventService eventService)
         {
             this.service = service;
+            this.calendarService = calendarService;
+            this.eventService = eventService;
         }
 
         [Route("login")]
@@ -39,26 +44,37 @@ namespace API.Controllers
         [Route("cb")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> EnsureUser([FromBody] Employee user = null)
+        public async Task<IActionResult> EnsureUser([FromBody] EnsureParams parameters)
         {
-            user = await service.Ensure(user);
+            var user = await service.Ensure(parameters.Email, parameters.Name);
+            var events = await calendarService.GetEvents(parameters.AccessToken);
+
+            await eventService.SaveEventsForEmployee(events.Items.ToEvents(user.EmployeeID));
 
             return Ok(user.Role);
         }
 
         public static async Task Callback(OAuthCreatingTicketContext context)
         {
-            var data = new Employee
+            var data = new EnsureParams
             {
                 Name = context.Identity.Name,
-                Email = context.Identity.Claims.Where(x => x.Type == ClaimTypes.Email).Single().Value,
+                Email = context.Identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value,
+                AccessToken = context.AccessToken,
             };
             using (var req = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44313/cb"))
             {
-                req.Content = new ObjectContent<Employee>(data, new JsonMediaTypeFormatter());
+                req.Content = new ObjectContent<EnsureParams>(data, new JsonMediaTypeFormatter());
                 var response = await context.Backchannel.SendAsync(req);
                 context.Identity.AddClaim(new Claim(ClaimTypes.Role, await response.Content.ReadAsStringAsync()));
             }
         }
+    }
+
+    public class EnsureParams
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string AccessToken { get; set; }
     }
 }
