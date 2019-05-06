@@ -9,18 +9,18 @@ namespace API.Controllers
     [ApiController]
     [AllowAnonymous]
     //[Authorize(Roles = "Kebab")]
-    public class EmployeeController : ControllerBase
+    public class OfficeController : ControllerBase
     {
-        private readonly IEmployeeService service;
+        private readonly IOfficeService service;
 
-        public EmployeeController(IEmployeeService service)
+        public OfficeController(IOfficeService service)
         {
             this.service = service;
         }
 
-        // GET api/employee
+        // GET api/office
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<Office> Get()
         {
             return service.GetAll();
         }

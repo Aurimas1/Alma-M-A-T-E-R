@@ -67,9 +67,13 @@ namespace API
             //services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
 
             services.AddScoped<IRepository<Employee>, EmployeeRepository>();
+            services.AddScoped<IRepository<Office>, OfficeRepository>();
             services.AddScoped<IRepository<Event>, EventRepository>();
+            services.AddScoped<TripRepository>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IOfficeService, OfficeService>();
+            services.AddScoped<ITripService, TripService>();
             services.AddScoped<IEventService, EventService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
