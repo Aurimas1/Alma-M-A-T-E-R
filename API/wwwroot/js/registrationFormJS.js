@@ -2,8 +2,9 @@ $(document).ready(function () {
 
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
+    loadOffices();
     //load list of employees from DB
-    loadOffices().then(loadEmployees()).then(function() {
+    loadEmployees().then(function() {
         var table = $('#sort').DataTable();
 
         $('#tBody').on('click', 'tr', function () {
@@ -37,10 +38,48 @@ function CheckEmployees() {
 
 function saveTrip() {
     const table = $('#sort').DataTable();
-    if (table.rows('.selected').data().length == '0') {
-        alert("You didn't choose any employee!");
+    
+    if($('input[name="exampleRadios"]:checked').val() == undefined)
+    {
+        alert("You didn't choose any departure office.");
+        return;
     }
-    //prideti dar kalendoriaus patikrinimą ir išsaugoti tada kelionę
+    else if($('input[name="exampleRadios2"]:checked').val() == undefined){
+        alert("You didn't choose any arrival office.");
+        return;
+    }
+        else if($('input[name="exampleRadios"]:checked').val() == $('input[name="exampleRadios2"]:checked').val()){
+            alert("You choose the same departure and arrival office");
+            return;
+        }
+    
+    if (table.rows('.selected').data().length == '0') {
+        alert("You didn't choose any employee.");
+        return;
+    }
+    alert($("#departureDate").val());
+    if($("#departureDate").val() == undefined){
+        alert("You didn't choose departure date");
+        return;
+    }
+    else if($("#arrivalDate").val() == undefined){
+        alert("You didn't choose arrival date");
+        return;
+    }
+
+    /*$.ajax({
+        type: "POST",
+        url: '/api/trip',
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        data: JSON.stringify({"DepartureOfficeID": $('input[name="exampleRadios"]:checked').val(), "ArrivalOfficeID": $('input[name="exampleRadios2"]:checked').val()}),
+        success: function (data) {
+            alert('Trip was saved');
+        },
+        error: function () {alert('Internet error'); },
+    })*/
 }
 
 function loadEmployees() {
@@ -80,10 +119,9 @@ function loadOffices() {
         },
         success: function (data) {
             $.each(data, function (key, entry) {
-                var line1 = $('<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios"onclick="'
-                + entry.city + '() " id="exampleRadios1" value="option1"><label class="form-check-label" for="exampleRadios1">'
-                + entry.city + ', ' + entry.country + '</label></div>');
-                var line2 = line1.clone();
+                var line1 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value=${entry.officeID}><label class="form-check-label" for="exampleRadios1">
+                ${entry.city}, ${entry.country}</label></div>`);
+                var line2 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios2" value=${entry.officeID}><label class="form-check-label" for="exampleRadios2">${entry.city}, ${entry.country}</label></div>`);
                 $('#js-dep-office').append(line1);
                 $('#js-arr-office').append(line2);
             });
