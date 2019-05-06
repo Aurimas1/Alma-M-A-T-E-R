@@ -118,10 +118,13 @@ function loadOffices() {
             withCredentials: true
         },
         success: function (data) {
+            var id = 1;
             $.each(data, function (key, entry) {
-                var line1 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value=${entry.officeID}><label class="form-check-label" for="exampleRadios1">
+                var line1 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios${id}" value=${entry.officeID}><label class="form-check-label" for="exampleRadios${id}">
                 ${entry.city}, ${entry.country}</label></div>`);
-                var line2 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios2" value=${entry.officeID}><label class="form-check-label" for="exampleRadios2">${entry.city}, ${entry.country}</label></div>`);
+                id++;
+                var line2 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios${id}" value=${entry.officeID}><label class="form-check-label" for="exampleRadios${id}">${entry.city}, ${entry.country}</label></div>`);
+                id++;
                 $('#js-dep-office').append(line1);
                 $('#js-arr-office').append(line2);
             });
