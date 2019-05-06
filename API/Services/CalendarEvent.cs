@@ -22,4 +22,19 @@ namespace API.Services
     {
         public ICollection<CalendarEvent> Items { get; set; }
     }
+
+    public static class CalendarExtensions
+    {
+        public static IEnumerable<Event> ToEvents(this IEnumerable<CalendarEvent> events, int employeeId)
+        {
+            return events.Select(@event => new Event
+            {
+                DateFrom = DateTime.Parse(@event.Start.Date),
+                DateTo = DateTime.Parse(@event.End.Date),
+                name = @event.Summary,
+                EmployeeID = employeeId,
+            });
+
+        }
+    }
 }

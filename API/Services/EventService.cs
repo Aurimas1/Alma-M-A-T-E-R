@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using API.Repositories;
+using System.Threading.Tasks;
 
 namespace API.Services
 {
@@ -14,6 +15,12 @@ namespace API.Services
         {
             this.repository = repository;
             this.employeeRepo = employeeRepo;
+        }
+
+        public async Task SaveEventsForEmployee(IEnumerable<Event> events)
+        {
+            foreach (var @event in events)
+                await repository.Add(@event);
         }
         
         public IEnumerable<EventsInformationDTO> GetByDatesAndEmployees(DateTime from, DateTime to, IEnumerable<int> employeeIds)
@@ -100,3 +107,5 @@ namespace API.Services
         public List<EventDetails> Events;
     }
 }
+
+
