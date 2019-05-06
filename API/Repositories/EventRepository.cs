@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +19,7 @@ namespace API.Repositories
             await context.Events.AddAsync(item);
             return context.SaveChanges() == 1 ? item : null;
         }
+
 
         public bool Delete(int id)
         {
