@@ -35,7 +35,6 @@ namespace API
             services.AddSingleton<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
             services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApiDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication(o =>
@@ -62,16 +61,20 @@ namespace API
                     })
                 .AddCookie();
 
-            services.AddSingleton<Gaa>();
-            services.AddHttpClient<Gaa>();
+            services.AddHttpContextAccessor();
+
+            services.AddHttpClient<IGoogleCalendarService, GoogleCalendarService>();
+            //services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
 
             services.AddScoped<IRepository<Employee>, EmployeeRepository>();
             services.AddScoped<IRepository<Office>, OfficeRepository>();
+            services.AddScoped<IRepository<Event>, EventRepository>();
             services.AddScoped<TripRepository>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<ITripService, TripService>();
+            services.AddScoped<IEventService, EventService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -92,8 +95,6 @@ namespace API
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-
-            //app.UseWhen(context => context.Items["LoginProvider"] == "Google")
 
             app.UseMvc();
         }
