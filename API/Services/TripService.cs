@@ -13,6 +13,11 @@ namespace API.Services
             this.repository = repository;
         }
 
+        public async Task<Trip> Add(Trip item)
+        {
+            return await repository.Add(item);
+        }
+
         public IEnumerable<Trip> GetAll()
         {
             return repository.GetAll();
