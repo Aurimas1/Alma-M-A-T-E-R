@@ -2,8 +2,9 @@ $(document).ready(function () {
 
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
+    loadOffices();
     //load list of employees from DB
-    loadOffices().then(loadEmployees()).then(function() {
+    loadEmployees().then(function() {
         var table = $('#sort').DataTable();
 
         $('#tBody').on('click', 'tr', function () {
@@ -37,10 +38,63 @@ function CheckEmployees() {
 
 function saveTrip() {
     const table = $('#sort').DataTable();
-    if (table.rows('.selected').data().length == '0') {
-        alert("You didn't choose any employee!");
+    
+    if($('input[name="exampleRadios"]:checked').val() == undefined)
+    {
+        alert("You didn't choose any departure office.");
+        return;
     }
-    //prideti dar kalendoriaus patikrinimą ir išsaugoti tada kelionę
+    else if($('input[name="exampleRadios2"]:checked').val() == undefined){
+        alert("You didn't choose any arrival office.");
+        return;
+    }
+        else if($('input[name="exampleRadios"]:checked').val() == $('input[name="exampleRadios2"]:checked').val()){
+            alert("You choose the same departure and arrival office");
+            return;
+        }
+    
+    if (table.rows('.selected').data().length == '0') {
+        alert("You didn't choose any employee.");
+        return;
+    }
+    
+    if($("#departureDate").val() == undefined){
+        alert("You didn't choose departure and arrival date");
+        return;
+    }
+    var dateDeparture = $("#departureDate").val().replace("/","-");
+    var departure = dateDeparture + " " + $("#departureTime").val()+ ":00";
+   
+
+    var dateArrival = $("#arrivalDate").val().replace("/","-");
+    var arrival = dateArrival + " " + $("#arrivalTime").val() + ":00";
+
+    console.log(table.rows('.selected').data().toArray().map(x => +x[0]));
+    $.ajax({
+        type: "POST",
+        url: '/api/trip/saveTrip',
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        data: JSON.stringify({
+            "DepartureDate": new Date(departure),
+            "ReturnDate": new Date(arrival),
+            "IsPlaneNeeded": $("#airplaneRadios").is(':checked'),
+            "IsCarRentalNeeded":$("#carRadios").is(':checked'),
+            "IsCarCompensationNeeded":$("#employeeCarRadios").is(':checked'),
+            "DepartureOfficeID": $('input[name="exampleRadios"]:checked').val(),
+            "ArrivalOfficeID": $('input[name="exampleRadios2"]:checked').val(),
+            "Employees": table.rows('.selected').data().toArray().map(x => +x[0]),
+        }),
+        success: function () {
+            alert('Trip was saved');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    })
 }
 
 function loadEmployees() {
@@ -52,18 +106,16 @@ function loadEmployees() {
             withCredentials: true
         },
         success: function (data) {
-            var id = 1;
             $.each(data, function (key, entry) {
                 var line = $('<tr>');
                 var fullName = entry.name;
                 var splitName = fullName.split(" ");
-                line.append($('<td data-table-header="Nr" id="NrColumn">').text(id))
+                line.append($('<td data-table-header="Nr" id="NrColumn">').text(entry.employeeID))
                     .append($('</td><td data-table-header="Name">').text(splitName[0]))
                     .append($('</td><td data-table-header="Surname">').text(splitName[1]))
                     .append($('</td><td data-table-header="Email">').text(entry.email))
                     .append($('</td></tr>'));
                 $('#tBody').append(line);
-                id++;
             });
         },
         error: function () {alert('Internet error'); },
@@ -79,11 +131,13 @@ function loadOffices() {
             withCredentials: true
         },
         success: function (data) {
+            var id = 1;
             $.each(data, function (key, entry) {
-                var line1 = $('<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios"onclick="'
-                + entry.city + '() " id="exampleRadios1" value="option1"><label class="form-check-label" for="exampleRadios1">'
-                + entry.city + ', ' + entry.country + '</label></div>');
-                var line2 = line1.clone();
+                var line1 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios${id}" value=${entry.officeID}><label class="form-check-label" for="exampleRadios${id}">
+                ${entry.city}, ${entry.country}</label></div>`);
+                id++;
+                var line2 = $(`<div class="form-check"><input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios${id}" value=${entry.officeID}><label class="form-check-label" for="exampleRadios${id}">${entry.city}, ${entry.country}</label></div>`);
+                id++;
                 $('#js-dep-office').append(line1);
                 $('#js-arr-office').append(line2);
             });
