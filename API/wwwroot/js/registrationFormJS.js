@@ -57,29 +57,44 @@ function saveTrip() {
         alert("You didn't choose any employee.");
         return;
     }
-    alert($("#departureDate").val());
+    
     if($("#departureDate").val() == undefined){
-        alert("You didn't choose departure date");
+        alert("You didn't choose departure and arrival date");
         return;
     }
-    else if($("#arrivalDate").val() == undefined){
-        alert("You didn't choose arrival date");
-        return;
-    }
+    var dateDeparture = $("#departureDate").val().replace("/","-");
+    var departure = dateDeparture + " " + $("#departureTime").val()+ ":00";
+   
 
-    /*$.ajax({
+    var dateArrival = $("#arrivalDate").val().replace("/","-");
+    var arrival = dateArrival + " " + $("#arrivalTime").val() + ":00";
+
+    console.log(table.rows('.selected').data().toArray().map(x => +x[0]));
+    $.ajax({
         type: "POST",
-        url: '/api/trip',
+        url: '/api/trip/saveTrip',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
-        data: JSON.stringify({"DepartureOfficeID": $('input[name="exampleRadios"]:checked').val(), "ArrivalOfficeID": $('input[name="exampleRadios2"]:checked').val()}),
-        success: function (data) {
+        data: JSON.stringify({
+            "DepartureDate": new Date(departure),
+            "ReturnDate": new Date(arrival),
+            "IsPlaneNeeded": $("#airplaneRadios").is(':checked'),
+            "IsCarRentalNeeded":$("#carRadios").is(':checked'),
+            "IsCarCompensationNeeded":$("#employeeCarRadios").is(':checked'),
+            "DepartureOfficeID": $('input[name="exampleRadios"]:checked').val(),
+            "ArrivalOfficeID": $('input[name="exampleRadios2"]:checked').val(),
+            "Employees": table.rows('.selected').data().toArray().map(x => +x[0]),
+        }),
+        success: function () {
             alert('Trip was saved');
         },
-        error: function () {alert('Internet error'); },
-    })*/
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    })
 }
 
 function loadEmployees() {
@@ -91,18 +106,16 @@ function loadEmployees() {
             withCredentials: true
         },
         success: function (data) {
-            var id = 1;
             $.each(data, function (key, entry) {
                 var line = $('<tr>');
                 var fullName = entry.name;
                 var splitName = fullName.split(" ");
-                line.append($('<td data-table-header="Nr" id="NrColumn">').text(id))
+                line.append($('<td data-table-header="Nr" id="NrColumn">').text(entry.employeeID))
                     .append($('</td><td data-table-header="Name">').text(splitName[0]))
                     .append($('</td><td data-table-header="Surname">').text(splitName[1]))
                     .append($('</td><td data-table-header="Email">').text(entry.email))
                     .append($('</td></tr>'));
                 $('#tBody').append(line);
-                id++;
             });
         },
         error: function () {alert('Internet error'); },
