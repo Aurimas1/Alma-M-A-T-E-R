@@ -2,9 +2,10 @@
 var eventColor = "#fa5050";
 
 var events = null;
+var pickedDatesWithEvents = false;
 
 function getEvents(from, to, employeeIds){
-    var array=[1,2,3];
+    var array = employeeIds;
     var dateFrom = from.getFullYear()+'-'+_addZero(from.getMonth()<12?from.getMonth()+1:0)+'-'+_addZero(from.getDate());
     var dateTo = to.getFullYear()+'-'+_addZero(to.getMonth()<12?to.getMonth()+1:0)+'-'+_addZero(to.getDate());
     $.ajax({
@@ -31,9 +32,10 @@ function addEvents(data){
               $($element).css("background-color", eventColor);
               $($element).addClass("event");
               addPopoverMonth($($element), date); //Popover to show events
+             $(".col.cal.highlighted.event p").addClass("highlighted_event");
              
          }  
-         else {     
+         else {
              events[i].events.forEach(function(el){                 
                  var hour_from = el.timeFrom.split(':')[0];
                  var hour_to = el.timeTo.split(':')[0];
@@ -48,6 +50,7 @@ function addEvents(data){
                  }
                  
              });
+             $(".col.cal-w.highlighted.event").addClass("highlighted_event_week");
          }
      }
 }
