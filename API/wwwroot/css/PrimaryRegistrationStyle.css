@@ -34,6 +34,7 @@ td, th {
 
 #NrColumn {
   width: 80px !important;
+  display: none;
 }
 
 .SmallColumn {

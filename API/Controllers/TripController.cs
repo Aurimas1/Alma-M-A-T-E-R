@@ -24,7 +24,7 @@ namespace API.Controllers
         // POST api/Trip/saveTrip
         [Route("saveTrip")]
         [HttpPost]
-        public async Task<Trip> Add([FromBody]CreateTrip item)
+        public async Task<OkResult> Add([FromBody]CreateTrip item)
         {
             var trip = new Trip
             {
@@ -51,7 +51,7 @@ namespace API.Controllers
                 await employeeToTripService.Add(employeeToTrip);
             }
 
-            return result;
+            return Ok();
         }
 
         // GET api/Trip
