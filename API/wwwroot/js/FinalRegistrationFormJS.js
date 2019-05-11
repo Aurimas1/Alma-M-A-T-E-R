@@ -1,32 +1,46 @@
 $(document).ready(function () {
-    
+
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
-
     loadReservedApartments();
     loadPlaneTickets();
     loadCarRentals();
     loadGasCompensations();
-    
-    loadTripEmployees().then(loadEmployees()).then(function() {
+
+    loadEmployees().then(function () { return loadTripEmployees(); }).then(function () {
+
         var table = $('#sort').DataTable();
-
-        $('tr:contains("Šmigelskis")').prop('disabled', true).css("cssText", "background-color:#D33F49 !important;");
-        $('tr:contains("Kiziela")').prop('disabled', true).css("cssText", "background-color:#D33F49 !important;");
-
+        
         $('#tBody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
             $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
+            var email = $(this).children('td:eq(3)').text();
+            if ($(this).hasClass("selected")) {
+                var name = $(this).children('td:eq(1)').text() + " " + $(this).children('td:eq(2)').text();
+                var line = $("<tr>");
+                line.append($('<td id="NrColumn">').text($(this).children('td:eq(0)').text()))
+                    .append($('<td>').text(name))
+                    .append($("<td>").text(email))
+                    .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove").on("click", function () {
+                        $(this).parents('tr').detach();
+                        $(`#sort tr:contains(${email})`).removeClass("selected");
+                    }))));
+                $('#employeeTBody').append(line);
+            }
+            else {
+                $(`#employeeTBody tr td:contains(${email})`).parents("tr").remove();
+            }
             $('#EmployeeNotification').css({ 'visibility': 'hidden' });
         });
         //----------------------------------------------------------
-        var employee = [['Tomas', 'Kiziela'], ['Marijus', 'Šmigelskis']];
-        var li = $('<li>').text("Tomas Kiziela").addClass("list-group-item").attr('id', 'li');
-        $('#employeeList').append(li);
-        var li = $('<li>').text("Marijus Šmigelskis").addClass("list-group-item").attr('id', 'li');
-        $('#employeeList').append(li);
 
-        var a = [['1', 'Jonas', 'Jonaitis'], ['2', '', ''], ['3', 'Povilas', 'Povilaitis'], ['4', '', ''], ['5', '', ''], ['6', 'Petras', 'Petraitis']];
+        $('.table-remove').click(function () {
+            var email = $(this).parent("td").prev().text();
+            $(this).parents('tr').detach();
+            $(`#sort tr:contains(${email})`).prop('disabled', false).css("cssText", "background-color:");
+        });
+
+        /*var a = [['1', 'Jonas', 'Jonaitis'], ['2', '', ''], ['3', 'Povilas', 'Povilaitis'], ['4', '', ''], ['5', '', ''], ['6', 'Petras', 'Petraitis']];
         //--------------------------------------------------------------
         var i = 0;
         $.each(a, function () {
@@ -48,7 +62,6 @@ $(document).ready(function () {
                     td = $("<td>").append(dropDown);
                     tr.append(td);
                     $(`#li:contains(${name})`).text(name + '    - ' + $(this).get(0) + ' room');
-                    alert(name);
                     i++;
                 }
                 else {
@@ -75,7 +88,7 @@ $(document).ready(function () {
                 booking++;
             });
             $('#listDiv').append(`<p>${booking} rooms need to be booking in the hotel</p>`);
-        }
+        }*/
 
         if ($("#CheckEmployeeCar").is(':checked')) {
             $("#employee_car").show();
@@ -86,7 +99,6 @@ $(document).ready(function () {
         if ($("#CheckPlane").is(':checked')) {
             $("#plane_div").show();
         }
-
     })
 });
 
@@ -140,7 +152,7 @@ function employeeCar() {
     }
 }
 
-function openPlane(){
+function openPlane() {
     if ($("#plane_div2").is(":visible")) {
         $("#plane_div2").hide();
     }
@@ -152,20 +164,24 @@ function openPlane(){
 function loadTripEmployees() {
     return $.ajax({
         type: "GET",
-        url: '/api/trip/employees?id=4', //Insert current trip ID instead of 4
+        url: '/api/trip/employees?id=11', //Insert current trip ID instead of 4
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
         success: function (data) {
             $.each(data, function (key, entry) {
-                var fullName = entry.name;
-                var splitName = fullName.split(" ");
-                var line = $('<li class="list-group-item">' + splitName[0] + ' ' + splitName[1] + '</li>')
-                $('#SelectedEmployees').append(line);
+                var email = entry.email;
+                var line = $("<tr>");
+                line.append($('<td id="NrColumn">').text(entry.employeeID))
+                    .append($('<td>').text(entry.name))
+                    .append($("<td>").text(email))
+                    .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove"))));
+                $("#employeeTBody").append(line);
+                $(`#sort tr:contains(${email})`).prop('disabled', true).css("cssText", "background-color:#D33F49");
             });
         },
-        error: function () {alert('Internet error'); },
+        error: function () { alert('Internet error'); },
     })
 }
 
@@ -178,21 +194,19 @@ function loadEmployees() {
             withCredentials: true
         },
         success: function (data) {
-            var id = 1;
             $.each(data, function (key, entry) {
                 var line = $('<tr>');
                 var fullName = entry.name;
                 var splitName = fullName.split(" ");
-                line.append($('<td data-table-header="Nr" id="NrColumn">').text(id))
-                    .append($('</td><td data-table-header="Name">').text(splitName[0]))
+                line.append($('<td data-table-header="Nr" id="NrColumn">').text(entry.employeeID))
+                    .append($('</td><td data-table-header="Name"> id="EmployeeName"').text(splitName[0]))
                     .append($('</td><td data-table-header="Surname">').text(splitName[1]))
                     .append($('</td><td data-table-header="Email">').text(entry.email))
                     .append($('</td></tr>'));
                 $('#tBody').append(line);
-                id++;
             });
         },
-        error: function () {alert('Internet error'); },
+        error: function () { alert('Internet error'); },
     })
 }
 
@@ -205,9 +219,9 @@ function loadReservedApartments() {
             withCredentials: true
         },
         success: function (data) {
-            
+
         },
-        error: function () {alert('Internet error'); },
+        error: function () { alert('Internet error'); },
     })
 }
 
@@ -220,9 +234,9 @@ function loadPlaneTickets() {
             withCredentials: true
         },
         success: function (data) {
-            
+
         },
-        error: function () {alert('Internet error'); },
+        error: function () { alert('Internet error'); },
     })
 }
 
@@ -235,9 +249,9 @@ function loadCarRentals() {
             withCredentials: true
         },
         success: function (data) {
-            
+
         },
-        error: function () {alert('Internet error'); },
+        error: function () { alert('Internet error'); },
     })
 }
 
@@ -250,8 +264,8 @@ function loadGasCompensations() {
             withCredentials: true
         },
         success: function (data) {
-            
+
         },
-        error: function () {alert('Internet error'); },
+        error: function () { alert('Internet error'); },
     })
 }

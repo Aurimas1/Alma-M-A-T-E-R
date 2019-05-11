@@ -64,10 +64,19 @@
                     <div class="row">
                         <div class="container">
                             <h2>List of employees</h2>
-                            <ul class="list-group list-group-flush" id="SelectedEmployees">
-                                <!--List is automatically made from selected employees-->
-                            </ul>
+                            <table class="table responsive" id="EmployeeSelected">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" id="NrColumn">Nr</th>
+                                        <th scope="col">Name and Surname</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employeeTBody">
 
+                                </tbody>
+                            </table>
                             <button class="btn btn-primary" type="button" data-toggle="collapse" id="newEmployeeButton"
                                 data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                 Add new employee
@@ -155,79 +164,79 @@
                         <br>
 
                         <div id='plane_div' style="display:none">
-                            
 
-                                <ul class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Tomas Kiziela
-                                        <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Marijus Šmigelskis
-                                        <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
-                                    </li>
-                                </ul>
+
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Tomas Kiziela
+                                    <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Marijus Šmigelskis
+                                    <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
+                                </li>
+                            </ul>
                         </div>
 
                         <div id='plane_div2' style="display:none">
-                                <form>
-                            <h4>Please enter the information about flight</h4>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputEmail4">Departure</label>
-                                    <input type="datetime-local" class="form-control" id="inputEmail4"
-                                        placeholder="From">
+                            <form>
+                                <h4>Please enter the information about flight</h4>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Departure</label>
+                                        <input type="datetime-local" class="form-control" id="inputEmail4"
+                                            placeholder="From">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">Arrival</label>
+                                        <input type="datetime-local" class="form-control" id="inputPassword4"
+                                            placeholder="To">
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputPassword4">Arrival</label>
-                                    <input type="datetime-local" class="form-control" id="inputPassword4"
-                                        placeholder="To">
+                                <div class="form-group">
+                                    <label for="inputAddress2">Airline</label>
+                                    <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputAddress2">Airline</label>
-                                <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputEmail4">Departure airport</label>
-                                    <input type="text" class="form-control" id="inputEmail4"
-                                        placeholder="Vilnius airport">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Departure airport</label>
+                                        <input type="text" class="form-control" id="inputEmail4"
+                                            placeholder="Vilnius airport">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">Arrival airport</label>
+                                        <input type="text" class="form-control" id="inputPassword4"
+                                            placeholder="Chicago airport">
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputPassword4">Arrival airport</label>
-                                    <input type="text" class="form-control" id="inputPassword4"
-                                        placeholder="Chicago airport">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputAddress">Seat</label>
+                                        <input type="text" class="form-control" id="inputAddress" placeholder="15A">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">Gate</label>
+                                        <input type="text" class="form-control" id="inputPassword4" placeholder="14">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="inputAddress">Seat</label>
-                                    <input type="text" class="form-control" id="inputAddress" placeholder="15A">
+                                <div class="form-group">
+                                    <label for="inputAddress2">Price</label>
+                                    <div class="form-inline">
+                                        <input type="number" class="form-control" id="inputAddress2" placeholder="100"
+                                            min="0">
+                                        <select style="margin-left: 10px;">
+                                            <option>€/Eur</option>
+                                            <option>$/USD</option>
+                                            <option>£/GBP</option>
+                                            <option>C$/CAD</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputPassword4">Gate</label>
-                                    <input type="text" class="form-control" id="inputPassword4" placeholder="14">
+                                <div class="form-group">
+                                    <label for="exampleFormControlFile1">Tickets file</label>
+                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputAddress2">Price</label>
-                                <div class="form-inline">
-                                    <input type="number" class="form-control" id="inputAddress2" placeholder="100"
-                                        min="0">
-                                    <select style="margin-left: 10px;">
-                                        <option>€/Eur</option>
-                                        <option>$/USD</option>
-                                        <option>£/GBP</option>
-                                        <option>C$/CAD</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleFormControlFile1">Tickets file</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </form>
 
                         </div>
@@ -331,7 +340,7 @@
                 <div class="card-body">
                     <div class="container">
                         <h2>Accommodation</h2>
-                            <div id="listDiv">
+                        <div id="listDiv">
                             <h4>List of employee</h4>
                             <ul class="list-group list-group-flush" id="employeeList">
                                 <!--List is automatically made from selected employees-->
