@@ -62,6 +62,11 @@ function saveTrip() {
         alert("You didn't choose departure and arrival date");
         return;
     }
+    
+    if (pickedDatesWithEvents) {
+        if(!confirm("The employees have some events reserved during the dates you picked for the trip. Do you want to proceed with the trip creation?"))
+        return;
+    }
     var dateDeparture = $("#departureDate").val().replace("/","-");
     var departure = dateDeparture + " " + $("#departureTime").val()+ ":00";
    
@@ -88,7 +93,8 @@ function saveTrip() {
             "Employees": table.rows('.selected').data().toArray().map(x => +x[0]),
         }),
         success: function () {
-            alert('Trip was saved');
+            alert("The trip was successfully created!");
+            window.location.href = "/index.html";
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
