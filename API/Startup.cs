@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Controllers;
 using API.Repositories;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace API
 {
@@ -78,7 +80,9 @@ namespace API
             services.AddScoped<IEmployeeToTripService, EmployeeToTripService>();
             services.AddScoped<IEventService, EventService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
