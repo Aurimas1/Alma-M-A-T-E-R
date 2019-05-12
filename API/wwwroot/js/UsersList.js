@@ -1,18 +1,26 @@
 $(document).ready(function () {
     //load list of employees from DB
     loadEmployees().then(function() {
-        var table = $('#sort').DataTable();
+        var table = $('#sort').DataTable({
+            
+            //After the page is changed
+            "fnDrawCallback": function( oSettings ) {
+                
+                //add on click
+                $("td[data-table-header='Role']").on('click', function() {
+                    showDropdownAndSaveButton($(this));
+                });
+                
+                //if there are any dropdowns visible, show save button
+                if($("td[data-table-header='Role'] select").length > 0) $("button#savingEmployees").css("display","unset");
+            }});
 
         //Subscribe to on click for Role changing
         $("td[data-table-header='Role']").on('click', function() {
             showDropdownAndSaveButton($(this));
         });
         
-        $("li#sort_previous, li#sort_next, a.page-link").on('click', function(){
-            hideDropdownsAndSaveButton();
-        })
-    })
-    
+    });
     
 });
 
