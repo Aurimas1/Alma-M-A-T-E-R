@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Security.Claims;
 using API.Services;
 using Microsoft.AspNet.Identity;
@@ -28,12 +30,29 @@ namespace API.Controllers
             return service.GetAll();
         }
         
-        // POST api/employee/currentUser
+        // GET api/employee/currentUser
         [HttpGet]
         [Route("currentUser")]
         public string GetCurrentUser()
         {
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(User.Identity.GetUserName()) + ";" + (User.IsInRole("Admin")?"Admin":"") + (User.IsInRole("Organiser")?"Organiser":"User");
+            if (User.Identity.IsAuthenticated)
+                return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(User.Identity.GetUserName()) + ";" +
+                       (User.IsInRole("Admin") ? "Admin" : "") + (User.IsInRole("Organiser") ? "Organiser" : "User");
+            return null;
         }
+        
+        // POST api/employee/update
+        [HttpPost]
+        [Route("update")]
+        public void UpdateEmployees([FromBody]EmployeeRolesDTO[] employees)
+        {
+            service.UpdateEmployees(employees.ToList());
+        }
+    }
+
+    public class EmployeeRolesDTO
+    {
+        public int EmployeeId { get; set; }
+        public string EmployeeRole { get; set; }
     }
 }

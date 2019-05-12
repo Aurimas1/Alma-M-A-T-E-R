@@ -40,8 +40,12 @@
                     <li class="nav-item" style="display:none;">
                         <a id="statistics" class="nav-link" href="javascript:void(0)" onclick="tabChanged(this)">Statistics</a>
                     </li>
-                    <li class="nav-item" style="display:none;">
-                        <a id="administration" class="nav-link" href="javascript:void(0)" onclick="tabChanged(this)">Administrate</a>
+                    <li class="nav-item dropdown bg-dark" style="display:none;">
+                        <a class="nav-link dropdown-toggle bg-dark" id="administration" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                        <div class="dropdown-menu bg-dark text-white">
+                            <a id="OfficesAndApartments" class="dropdown-item bg-dark text-white" href="javascript:void(0)" onclick="tabChanged(this)">Offices & Apartments</a>
+                            <a id="UsersList" class="dropdown-item bg-dark text-white" href="javascript:void(0)" onclick="tabChanged(this)">Users</a>
+                        </div>
                     </li>
                 </ul>
             </div>
