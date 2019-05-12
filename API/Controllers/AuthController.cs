@@ -29,7 +29,7 @@ namespace API.Controllers
         [Route("login")]
         public IActionResult Login()
         {
-            return Redirect("/trips.html");
+            return Redirect("/index.html");
         }
 
         [Route("logout")]

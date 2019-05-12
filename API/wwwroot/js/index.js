@@ -8,7 +8,11 @@ function tabChanged(elem){
         $("div#pageContent").load("../" + elem.id + ".html");
         //Change active tab
         $("li.nav-item.active").removeClass("active");
-        $(elem).parent().addClass("active");
+        
+        if (elem.id != "UsersList" && elem.id != "OfficesAndApartments") $(elem).parent().addClass("active");
+        else {
+            $("li.nav-item > a#administration").parent().addClass("active");
+        }
     }
 }
 
@@ -21,8 +25,12 @@ function getUser(){
         type: "GET",
         url: "/api/employee/currentUser",
         success: function(data, status){
-            setUsername(data.split(";")[0]);
-            hideTabs(data.split(";")[1]);
+            if(data != undefined){
+                setUsername(data.split(";")[0]);
+                hideTabs(data.split(";")[1]);
+            }
+            else hideTabs("User");
+            
         }});
 }
 
@@ -32,14 +40,19 @@ function setUsername(username){
 
 function hideTabs(role){
     console.log(role);
-    //during development
+    //during development predefined role
     role = "Admin";
     if (role !== "User"){
         $("li.nav-item > a#statistics, li.nav-item > a#Trips").parent().css("display","unset");
         $("li.nav-item.active").removeClass("active");
-        $("li.nav-item > a#Trips").addClass("active");
+        //load Trips tab, default for Admin and Organiser
+        tabChanged($("li.nav-item > a#Trips").get(0));
+        
         if (role === "Admin"){
             $("li.nav-item > a#administration").parent().css("display","unset");
         }
+    }
+    else {
+        //load MyTrips tab
     }
 }
