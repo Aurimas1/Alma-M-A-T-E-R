@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <title>Registration form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="css/PrimaryRegistrationStyle.css">
     <link rel="stylesheet" type="text/css" href="css/FinalRegistrationFormStyle.css">
     <link
         href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
@@ -141,22 +140,22 @@
                         <h2>Transport</h2>
                         <h5>Please select the transport</h5>
                         <div class="form-check">
-                            <input id="CheckPlane" class="form-check-input" type="checkbox" name="exampleRadios"
-                                id="exampleRadios1" value="option1" onclick="airplane()" checked>
+                            <input id="airplaneRadios" class="form-check-input" type="checkbox" name="exampleRadios"
+                                value="option1" checked>
                             <label class="form-check-label" for="defaultCheck1">
                                 Airplane
                             </label>
                         </div>
                         <div class="form-check">
-                            <input id="CheckRentCar" class="form-check-input" type="checkbox" name="exampleRadios"
-                                id="exampleRadios2" value="option2" onclick="rentalCar()">
+                            <input id="carRadios" class="form-check-input" type="checkbox" name="exampleRadios"
+                                value="option2">
                             <label class="form-check-label" for="defaultCheck1">
                                 Car rental
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" id="CheckEmployeeCar" type="checkbox" name="exampleRadios"
-                                id="exampleRadios3" value="option3" onclick="employeeCar()">
+                            <input class="form-check-input" id="employeeCarRadios" type="checkbox" name="exampleRadios"
+                                value="option3">
                             <label class="form-check-label" for="defaultCheck1">
                                 Employee car
                             </label>
@@ -164,17 +163,8 @@
                         <br>
 
                         <div id='plane_div' style="display:none">
-
-
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Tomas Kiziela
-                                    <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Marijus Šmigelskis
-                                    <span class="badge badge-primary badge-pill" onclick="openPlane()">+</span>
-                                </li>
+                            <ul class="list-group" id="employeeForTransport">
+                                
                             </ul>
                         </div>
 
@@ -330,7 +320,7 @@
         <div class="card">
             <div class="card-header" id="headingFour">
                 <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" onclick="clickAccomodation()"
                         data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                         Accommodation
                     </button>
@@ -341,7 +331,7 @@
                     <div class="container">
                         <h2>Accommodation</h2>
                         <div id="listDiv">
-                            <h4>List of employee</h4>
+                            <h4>List of employees</h4>
                             <ul class="list-group list-group-flush" id="employeeList">
                                 <!--List is automatically made from selected employees-->
                             </ul>
@@ -353,7 +343,7 @@
                         </button>
                         <div class="collapse" id="collapseExample">
                             <div class="card card-body">
-                                <table class="table table-striped" id="rooms_table" id="TableOfRomms">
+                                <table class="table table-striped" id="rooms_table">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="SmallColumn">Room</th>

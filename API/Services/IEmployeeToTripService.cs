@@ -8,5 +8,6 @@ namespace API.Services
     public interface IEmployeeToTripService
     {
         Task<EmployeeToTrip> Add(EmployeeToTrip item);
+        bool Remove(int id);
     }
 }

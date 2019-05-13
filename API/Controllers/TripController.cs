@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -21,8 +22,7 @@ namespace API.Controllers
             this.employeeToTripService = employeeToTripService;
         }
 
-        // POST api/Trip/saveTrip
-        [Route("saveTrip")]
+        // POST api/Trip
         [HttpPost]
         public async Task<OkResult> Add([FromBody]CreateTrip item)
         {
@@ -54,6 +54,53 @@ namespace API.Controllers
             return Ok();
         }
 
+        // PUT api/Trip/{id}
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<OkResult> Update([FromBody]UpdateTrip item, int id)
+        {
+            Trip trip = service.GetByID(id);
+            trip.IsCarCompensationNeeded = item.IsCarCompensationNeeded;
+            trip.IsPlaneNeeded = item.IsPlaneNeeded;
+            trip.IsCarRentalNeeded = item.IsCarRentalNeeded;
+            foreach(var employee in item.Employees)
+            {
+                if(trip.EmployeesToTrip?.Any(x => x.EmployeeID == employee) == false)
+                {
+                    var employeeToTrip = new EmployeeToTrip
+                    {
+                        EmployeeID = employee,
+                        TripId = id,
+                        Status = "PENDING",
+                        WasRead = false,
+                    };
+                    await employeeToTripService.Add(employeeToTrip);
+                }
+            }
+
+            foreach (var e in trip.EmployeesToTrip)
+            {
+                if (!item.Employees.Contains(e.EmployeeID))
+                {
+                    employeeToTripService.Remove(e.EmployeeToTripID);
+                }
+            }
+
+            trip.Reservations = item.Rooms.Select(x => new Reservation
+            {
+                ApartmentID = x.RoomID,
+                EmployeeID = x.EmployeeID,
+                CheckIn = trip.DepartureDate,
+                CheckOut =trip.ReturnDate,
+                TripID = trip.TripID,
+                ReservationUrl = "-",
+            }).ToList();
+            
+            var result = service.Update(trip);
+
+            return Ok();
+        }
+
         // GET api/Trip
         [HttpGet]
         public IEnumerable<Trip> Get()
@@ -62,7 +109,7 @@ namespace API.Controllers
         }
 
         // GET api/Trip/employees
-        [Route("employees")]
+        [Route("{id}")]
         [HttpGet]
         public IEnumerable<Employee> GetEmployees(int id)
         {
