@@ -50,7 +50,12 @@ function updateCalendarMonth(){
     //set Month header (Month name + year)
     $(".nav_month_header").text(months[currentMonth]);
     $(".nav_year_header").text(currentYear+" m.");
-    getEvents(startingMonthDate,newDate,[1,2,3]);
+    
+    //if any employees were selected
+    //var table = $('#sort').DataTable();
+    //console.log(table.rows('.selected').data());
+    //console.log("updating");
+    getEvents(startingMonthDate,newDate,[1007]);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
@@ -106,7 +111,7 @@ function updateCalendarWeek(){
     $(".nav_month_header").text(month);
     $(".nav_year_header").text(year + ' m.');
     
-    getEvents(startingWeekDate, newDate, [1,2,3]);
+    getEvents(startingWeekDate, newDate, [1007]);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
