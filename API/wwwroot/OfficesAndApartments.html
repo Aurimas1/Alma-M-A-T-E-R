@@ -1,10 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" lang="en">
+    <title>Users</title>
+    <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/DataTable.css"/>
+
+    <style>
+        td#NrColumn, th#NrColumn{
+            display:none;
+        }
+
+        button#newApartment {
+            margin-top:15px;
+        }
+        
+        
+        
+    </style>
+    <script>
+    </script>
 </head>
 <body>
-<p>offices and apartaments</p>
+<div style="padding-top:35px;">
+<h3 style="text-align:center">Administrate apartments</h3>
+<p style="color:grey;text-align:center;margin-bottom:40px;">(Click on apartment's row to edit or delete)</p>
+<div class="container officesAndApartments">
+    <!-- konteineriui reikia margin-left ir margin-right, pridejus forma reikes ir pridet col div ir min-width procentus uzmest -->
+    <div class="row">
+            <div class="col">
+            <table class="table responsive" id="sort">
+                <thead>
+                <tr>
+                    <th scope="col" id="NrColumn">Nr</th>
+                    <th scope="col">Office</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Room Number</th>
+                </tr>
+                </thead>
+                <tbody id="tBody">
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary" id="newApartment" onclick="showCreateForm()">New</button>
+            </div>
+            <div class="col creatingForm" style="display:none;">
+                <h5 style="margin-bottom: 20px;">Creating new apartment</h5>
+                <form method="post" action="#">
+                    <label>Office<select><option value='blank'> </option></select></label>
+                    <label>Apartment Name<input type='text'/></label>
+                    <label>Apartment Address<input type='text'/></label>
+                    <label>Room Number<input type='number'/></label>
+                    <button type="submit" class="btn btn-primary" id="createApartment" onclick="createApartment()">Create</button>
+                </form>
+            </div>
+            <div class="col editingForm" style="display:none;">
+                <h5 style="margin-bottom: 20px;">Editing:</h5>
+                <form method="post" action="#">
+                    <label>Office<select disabled="true"><option value='blank'> </option></select></label>
+                    <label>Apartment Name<input type='text'/></label>
+                    <label>Apartment Address<input type='text'/></label>
+                    <label>Room Number<input type='number'/></label>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" id="updateApartment" onclick="updateApartment()">Update</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" id="deleteApartment" onclick="deleteApartment()">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+    </div>
+</div>
+<script src="js/OfficesAndApartments.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+ <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+ <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+ <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>-->
 </body>
 </html>
+
+
