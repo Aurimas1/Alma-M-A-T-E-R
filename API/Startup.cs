@@ -72,12 +72,14 @@ namespace API
             services.AddScoped<IRepository<Office>, OfficeRepository>();
             services.AddScoped<IRepository<Event>, EventRepository>();
             services.AddScoped<IRepository<EmployeeToTrip>, EmployeeToTripRepository>();
+            services.AddScoped<IRepository<Apartment>, ApartmentRepository>();
             services.AddScoped<TripRepository>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<ITripService, TripService>();
             services.AddScoped<IEmployeeToTripService, EmployeeToTripService>();
+            services.AddScoped<IOfficeApartmentService, OfficeApartmentService>();
             services.AddScoped<IEventService, EventService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options => {
