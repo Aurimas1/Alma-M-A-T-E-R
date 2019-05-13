@@ -28,7 +28,7 @@ namespace API.Services
 
             //Get the list of events
             List<Event> events = repository.GetAll(e =>
-               e.DateFrom >= from && e.DateFrom <= to && employeeIds.Contains(e.EmployeeID)).ToList();
+               ((e.DateFrom >= from && e.DateFrom <= to) || (e.DateFrom <= from && e.DateTo >= to ) || (e.DateTo >= from && e.DateTo <= to) )&& employeeIds.Contains(e.EmployeeID)).ToList();
 
             //prepare new DTO
             List<EventsInformationDTO> eventDTOs = new List<EventsInformationDTO>();
