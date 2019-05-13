@@ -18,9 +18,18 @@ namespace API.Services
             return await repository.Add(item);
         }
 
+        public Trip Update(Trip item)
+        {
+            return repository.Update(item);
+        }
+
         public IEnumerable<Trip> GetAll()
         {
             return repository.GetAll();
+        }
+        public Trip GetByID(int id)
+        {
+            return repository.Get(id);
         }
 
         public IEnumerable<Employee> GetEmployees(int id)
