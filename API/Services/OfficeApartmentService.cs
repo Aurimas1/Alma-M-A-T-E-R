@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using API.Constants;
@@ -9,11 +10,13 @@ namespace API.Services
     {
         private readonly IRepository<Apartment> apartmentsRepository;
         private readonly IRepository<Office> officeRepository;
+        private readonly IRepository<Reservation> reservationRepository;
 
-        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository)
+        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository, IRepository<Reservation> reservationRepository)
         {
             this.apartmentsRepository = apartmentsRepository;
             this.officeRepository = officeRepository;
+            this.reservationRepository = reservationRepository;
         }
         
         public IEnumerable<Apartment> GetAll()
@@ -34,6 +37,17 @@ namespace API.Services
                 RoomNumber = e.RoomNumber
             }));
             return officeAndApartmentsDtos;
+        }
+
+        public IDictionary<int, bool> GetApartamentOccupationByOffice(int id, DateTime from, DateTime to)
+        {
+            var apartaments = apartmentsRepository.GetAll(x => x.OfficeId == id);
+            Dictionary<int, bool> dict = new Dictionary<int, bool>();
+            foreach(var apar in apartaments)
+            {
+                dict[apar.RoomNumber] = reservationRepository.GetAll(x => x.ApartmentID == apar.ApartmentID && ((x.CheckOut > from || x.CheckIn > from || x.CheckIn < to || x.CheckOut < to) || (x.CheckIn > from && x.CheckOut < to))).Any();
+            }
+            return dict;
         }
     }
 
