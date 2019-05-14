@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using API.Constants;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace API.Controllers
 {
@@ -30,6 +31,14 @@ namespace API.Controllers
         public IEnumerable<OfficeAndApartmentsDTO> GetCurrentUser()
         {
             return service.GetAllOfficeApartments();
+        }
+
+        // GET api/apartment/OfficeID
+        [HttpGet]
+        [Route("{id}")]
+        public IDictionary<int, bool> GetApartamentOccupationByOfficeID(int id, DateTime from, DateTime to)
+        {
+            return service.GetApartamentOccupationByOffice(id, from, to);
         }
     }
 }
