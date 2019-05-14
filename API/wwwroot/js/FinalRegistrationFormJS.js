@@ -52,13 +52,29 @@ function clickAccomodation() {
     });
 
     var id = 3;
-    loadAccommodation(id,"2019-05-20 15:20","2019-05-22 15:20").then(function (a) {
+    loadAccommodation(id, "2019-05-07 21:00", "2019-05-15 21:00").then(function (a) {
         var i = 0;
+        var emp2 = [];
+        $.each(a, function (j, t) {
+            var obj = employee.find(x=> x.id == t.employeeID);
+            if (t.isRoomIsOccupied && obj != null) {
+                employee = $.grep(employee, function(e){ 
+                    return e.id != t.employeeID; 
+               });
+               emp2.push(obj);
+            }
+        });
         $.each(a, function (j, t) {
             var tr = $('<tr>');
             var td = $('<td>').text(j).addClass('SmallColumn');
             tr.append(td);
-            if (t) {       
+            debugger;
+            var obj = emp2.find(x=> x.id == t.employeeID);
+            if (t.isRoomIsOccupied && obj != null) {
+                tr.append($('<td>').text(obj.name));
+               $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
+            }
+            else if (t.isRoomIsOccupied) {
                 tr.append('<td>The room is taken</td>');
             }
             else {
@@ -100,7 +116,7 @@ function clickAccomodation() {
     });
 }
 
-function loadAccommodation(id,from,to) {
+function loadAccommodation(id, from, to) {
     return $.ajax({
         type: "GET",
         url: `/api/apartment/${id}`,
@@ -165,23 +181,22 @@ function loadEmployees() {
     })
 }
 
-function saveTrip(){
-    var a=[];
-    $.each($("#tableBody tr"),function(i,j){
-        if ($(j).children('td:eq(1)').text() !== 'The room is taken' && $(j).find('select').val() != undefined)
-        {
-            a.push({roomID: $(j).children('td:eq(0)').text(), employeeID: $(j).find('select').val()})
+function saveTrip() {
+    var a = [];
+    $.each($("#tableBody tr"), function (i, j) {
+        if ($(j).children('td:eq(1)').text() !== 'The room is taken' && $(j).find('select').val() != undefined) {
+            a.push({ roomID: $(j).children('td:eq(0)').text(), employeeID: $(j).find('select').val() })
         }
     });
 
     var check = false;
-    a.map(function(x){return x.employeeID}).forEach(function(x,i,arr){
-        if(arr.indexOf(x) !== i){
+    a.map(function (x) { return x.employeeID }).forEach(function (x, i, arr) {
+        if (arr.indexOf(x) !== i) {
             alert("You selected the same person two times in apartaments table");
             check = true;
         }
     });
-    if(check){
+    if (check) {
         return Promise.reject();
     }
     var employee = [];
@@ -199,10 +214,10 @@ function saveTrip(){
         },
         data: JSON.stringify({
             "IsPlaneNeeded": $("#airplaneRadios").is(':checked'),
-            "IsCarRentalNeeded":$("#carRadios").is(':checked'),
-            "IsCarCompensationNeeded":$("#employeeCarRadios").is(':checked'),
+            "IsCarRentalNeeded": $("#carRadios").is(':checked'),
+            "IsCarCompensationNeeded": $("#employeeCarRadios").is(':checked'),
             "Employees": employee,
-            "Rooms": a.filter(function(x){
+            "Rooms": a.filter(function (x) {
                 return x.employeeID != '';
             }),
         }),

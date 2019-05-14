@@ -39,13 +39,18 @@ namespace API.Services
             return officeAndApartmentsDtos;
         }
 
-        public IDictionary<int, bool> GetApartamentOccupationByOffice(int id, DateTime from, DateTime to)
+        public IDictionary<int, FreeRooms> GetApartamentOccupationByOffice(int id, DateTime from, DateTime to)
         {
             var apartaments = apartmentsRepository.GetAll(x => x.OfficeId == id);
-            Dictionary<int, bool> dict = new Dictionary<int, bool>();
-            foreach(var apar in apartaments)
+            
+            Dictionary<int, FreeRooms> dict = new Dictionary<int, FreeRooms>();
+            foreach (var apar in apartaments)
             {
-                dict[apar.RoomNumber] = reservationRepository.GetAll(x => x.ApartmentID == apar.ApartmentID && ((x.CheckOut > from || x.CheckIn > from || x.CheckIn < to || x.CheckOut < to) || (x.CheckIn > from && x.CheckOut < to))).Any();
+                dict[apar.RoomNumber] = new FreeRooms()
+                {
+                    IsRoomIsOccupied = reservationRepository.GetAll(x => x.ApartmentID == apar.ApartmentID && ((x.CheckOut > from || x.CheckIn > from || x.CheckIn < to || x.CheckOut < to) || (x.CheckIn > from && x.CheckOut < to))).Any(),
+                    EmployeeID = reservationRepository.GetAll(x => x.ApartmentID == apar.ApartmentID && x.CheckIn == from && x.CheckOut == to)?.FirstOrDefault()?.EmployeeID,
+                };
             }
             return dict;
         }
