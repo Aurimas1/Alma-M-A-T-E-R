@@ -5,50 +5,50 @@ using System.Threading.Tasks;
 
 namespace API.Repositories
 {
-    public class ReservationRepository : IRepository<Reservation>
+    public class OfficeRepository : IRepository<Office>
     {
         private readonly ApiDbContext context;
 
-        public ReservationRepository(ApiDbContext context)
+        public OfficeRepository(ApiDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<Reservation> Add(Reservation item)
+        public async Task<Office> Add(Office item)
         {
-            await context.Reservations.AddAsync(item);
+            await context.Offices.AddAsync(item);
             return context.SaveChanges() == 1 ? item : null;
         }
 
         public bool Delete(int id)
         {
-            context.Reservations.Remove(Get(id));
+            context.Offices.Remove(Get(id));
             return context.SaveChanges() == 1;
         }
 
-        public Reservation Get(int id)
+        public Office Get(int id)
         {
-            return context.Reservations.FirstOrDefault(x => x.ReservationID == id);
+            return context.Offices.FirstOrDefault(x => x.OfficeID == id);
         }
 
-        public Reservation Get(Func<Reservation, bool> predicate)
+        public Office Get(Func<Office, bool> predicate)
         {
-            return context.Reservations.FirstOrDefault(predicate);
+            return context.Offices.FirstOrDefault(predicate);
         }
 
-        public IEnumerable<Reservation> GetAll()
+        public IEnumerable<Office> GetAll()
         {
-            return context.Reservations.ToList();
+            return context.Offices.ToList();
         }
 
-        public IEnumerable<Reservation> GetAll(Func<Reservation, bool> predicate)
+        public IEnumerable<Office> GetAll(Func<Office, bool> predicate)
         {
-            return context.Reservations.Where(predicate);
+            return context.Offices.Where(predicate);
         }
 
-        public Reservation Update(Reservation item)
+        public Office Update(Office item)
         {
-            context.Reservations.Update(item);
+            context.Offices.Update(item);
             return context.SaveChanges() == 1 ? item : null;
         }
     }
