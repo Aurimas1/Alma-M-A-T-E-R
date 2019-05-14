@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/DataTable.css"/>
 
     <style>
-        td#NrColumn, th#NrColumn, th#OfficeId, td#OfficeId{
+        td#NrColumn, th#NrColumn, th#OfficeId, td#OfficeId, th#RowVersion, td#RowVersion{
             display:none;
         }
 
@@ -66,6 +66,7 @@
                 <tr>
                     <th scope="col" id="NrColumn">Nr</th>
                     <th scope="col">Office</th>
+                    <th scope="col" id="RowVersion">Row Version</th>
                     <th scope="col" id="OfficeId">OfficeId</th>
                     <th scope="col">Name</th>
                     <th scope="col">Address</th>
@@ -91,6 +92,7 @@
             <div class="col-3 editingForm form-group" style="display:none;" onsubmit="updateApartment(event)">
                 <h5 style="margin-bottom: 20px;text-align: center;">Editing:</h5>
                 <form method="post" action="javascript:void(0)">
+                    <label style="display:none;">RowVersion<input name="RowVersion" class="form-control" type="text" id="apartment_RowVersion"/></label>
                     <label style="display:none;">Id<input name="ApartmentID" class="form-control" type="number" id="apartment_id_edit"/></label>
                     <label class="select">Office<br><select name="OfficeId" class='form-control form-control-sm' readonly id="offices_edit"><option value='blank'> </option></select></label><br>
                     <label class="text">Apartment Name<br><input required name="Name" class="form-control" type='text' id="apartment_name_edit"/></label><br>

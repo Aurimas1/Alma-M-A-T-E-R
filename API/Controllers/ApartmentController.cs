@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using API.Constants;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -36,10 +38,18 @@ namespace API.Controllers
         // POST api/apartment/update
         [HttpPost]
         [Route("update")]
-        public void UpdateApartment([FromBody]Apartment apartment)
+        public IActionResult UpdateApartment([FromBody]Apartment apartment)
         {
-            //exception handling, optimistic locking needed
-            service.UpdateApartment(apartment);
+            //exception handling, optimistic locking
+            try
+            {
+                service.UpdateApartment(apartment);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Conflict("Optimisting locking: version values are not the same.");
+            }
+            return Ok();
         }
         
         // POST api/apartment/delete
@@ -53,7 +63,7 @@ namespace API.Controllers
         // POST api/apartment/create
         [HttpPost]
         [Route("create")]
-        public async Task<OkResult> CreateApartment([FromBody]Apartment apartment)
+        public async Task<IActionResult> CreateApartment([FromBody]Apartment apartment)
         {
             await service.CreateApartment(apartment);
             return Ok();

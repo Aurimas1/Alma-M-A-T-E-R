@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Constants;
 using API.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Services
 {
@@ -33,7 +35,8 @@ namespace API.Services
                 OfficeId = e.OfficeId.GetValueOrDefault(),
                 Name = e.Name,
                 Address = e.Address,
-                RoomNumber = e.RoomNumber
+                RoomNumber = e.RoomNumber,
+                RowVersion = e.RowVersion
             }));
             return officeAndApartmentsDtos;
         }
@@ -62,5 +65,6 @@ namespace API.Services
         public string Name { get; set; }
         public string Address { get; set; }
         public int RoomNumber { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }
