@@ -88,7 +88,7 @@ namespace API.Controllers
 
             trip.Reservations = item.Rooms.Select(x => new Reservation
             {
-                ApartmentID = x.RoomID,
+                ApartmentID = trip.ArrivalOffice.Apartaments.First(a=>a.RoomNumber==x.RoomID).ApartmentID,
                 EmployeeID = x.EmployeeID,
                 CheckIn = trip.DepartureDate,
                 CheckOut =trip.ReturnDate,
