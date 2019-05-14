@@ -5,6 +5,7 @@ using API.Constants;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace API.Controllers
 {
@@ -34,7 +35,7 @@ namespace API.Controllers
         {
             return service.GetAllOfficeApartments();
         }
-        
+  
         // POST api/apartment/update
         [HttpPost]
         [Route("update")]
@@ -68,6 +69,13 @@ namespace API.Controllers
             await service.CreateApartment(apartment);
             return Ok();
         }
-        
+
+        // GET api/apartment/OfficeID
+        [HttpGet]
+        [Route("{id}")]
+        public IDictionary<int, bool> GetApartamentOccupationByOfficeID(int id, DateTime from, DateTime to)
+        {
+            return service.GetApartamentOccupationByOffice(id, from, to);
+        }
     }
 }
