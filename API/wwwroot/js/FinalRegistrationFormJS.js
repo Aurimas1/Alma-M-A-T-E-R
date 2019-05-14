@@ -51,7 +51,7 @@ function clickAccomodation() {
         $("#employeeList").append(line);
     });
 
-    var id = 5;
+    var id = 3;
     loadAccommodation(id,"2019-05-20 15:20","2019-05-22 15:20").then(function (a) {
         var i = 0;
         $.each(a, function (j, t) {
