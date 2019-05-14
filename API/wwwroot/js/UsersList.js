@@ -14,11 +14,6 @@ $(document).ready(function () {
                 //if there are any dropdowns visible, show save button
                 if($("td[data-table-header='Role'] select").length > 0) $("button#savingEmployees").css("display","unset");
             }});
-
-        //Subscribe to on click for Role changing
-        $("td[data-table-header='Role']").on('click', function() {
-            showDropdownAndSaveButton($(this));
-        });
         
     });
     
@@ -65,7 +60,7 @@ function showDropdownAndSaveButton(elem){
       }
 }
 
-var dropdown = $("<select>\n" +
+var dropdown = $("<select class='form-control form-control-sm'>\n" +
     "  <option value=\"User\">User</option>\n" +
     "  <option value=\"Organiser\">Organiser</option>\n" +
     "  <option value=\"Admin\">Admin</option>\n" +
