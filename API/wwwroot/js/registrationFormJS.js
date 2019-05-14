@@ -77,7 +77,7 @@ function saveTrip() {
     console.log(table.rows('.selected').data().toArray().map(x => +x[0]));
     $.ajax({
         type: "POST",
-        url: '/api/trip/saveTrip',
+        url: '/api/trip',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
