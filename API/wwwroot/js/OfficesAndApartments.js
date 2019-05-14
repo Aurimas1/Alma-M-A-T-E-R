@@ -29,6 +29,7 @@ function loadApartments(){
                     var line = $('<tr>');
                     line.append($('<td data-table-header="Nr" id="NrColumn">').text(entry.apartmentId))
                         .append($('</td><td data-table-header="OfficeId" id="OfficeId">').text(entry.officeId))
+                        .append($('</td><td data-table-header="RowVersion" id="RowVersion">').text(entry.rowVersion))
                         .append($('</td><td data-table-header="Office">').text(entry.office))
                         .append($('</td><td data-table-header="Name">').text(entry.name))
                         .append($('</td><td data-table-header="Address">').text(entry.address))
@@ -66,6 +67,7 @@ function showEditForm(elem){
     
     //show values in fields
     $("input#apartment_id_edit").val($(elem).children("td[data-table-header='Nr']").text());
+    $("input#apartment_RowVersion").val($(elem).children("td[data-table-header='RowVersion']").text());
     var selectedOffice = $(elem).children("td[data-table-header='OfficeId']").text();
     $("select#offices_edit").append($("<option value='"+selectedOffice+"' >"+($(elem).children("td[data-table-header='Office']").text())+"</option>"));
     $("select#offices_edit option[value='"+selectedOffice+"']").attr('selected', "true");
@@ -97,22 +99,35 @@ function updateApartment(event){
         apartment[this.name] = this.value;
     });
     apartment["Type"] = "OFFICE";
-    $.ajax({
-        type: "POST",
-        url: '/api/apartment/update',
-        contentType: "application/json",
-        xhrFields: {
-            withCredentials: true
-        },
-        data: JSON.stringify(apartment),
-        success: function () {
-            $("div#pageContent").load("../OfficesAndApartments.html");
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-        }
-    });
+    try {
+        $.post({
+            url: '/api/apartment/update',
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            statusCode: {
+                409: function() {
+                    alert("Update is not allowed. "
+                    + "The apartment information has been changed in the database and so you are currently editing an older version."
+                    + " Please refresh the page to see the up to date information.");
+                    }
+            },
+            data: JSON.stringify(apartment),
+            success: function () {
+                $("div#pageContent").load("../OfficesAndApartments.html");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status != 409){
+                    alert(xhr.status);
+                    alert(thrownError); 
+                }
+            }
+        })
+    }
+    catch(e){
+        console.log(e);
+    }
 }
 
 function createApartment(){

@@ -35,6 +35,10 @@ namespace API.Migrations
 
                     b.Property<int>("RoomNumber");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.Property<string>("Type");
 
                     b.HasKey("ApartmentID");
