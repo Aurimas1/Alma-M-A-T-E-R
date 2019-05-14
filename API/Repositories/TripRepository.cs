@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace API.Repositories
 
         public Trip Get(int id)
         {
-            return context.Trips.FirstOrDefault(x => x.TripID == id);
+            return context.Trips.Include(x => x.EmployeesToTrip).Include(x => x.Reservations).FirstOrDefault(x => x.TripID == id);
         }
 
         public Trip Get(Func<Trip, bool> predicate)
