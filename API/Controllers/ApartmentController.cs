@@ -36,7 +36,7 @@ namespace API.Controllers
         // GET api/apartment/OfficeID
         [HttpGet]
         [Route("{id}")]
-        public IDictionary<int, bool> GetApartamentOccupationByOfficeID(int id, DateTime from, DateTime to)
+        public IDictionary<int, FreeRooms> GetApartamentOccupationByOfficeID(int id, DateTime from, DateTime to)
         {
             return service.GetApartamentOccupationByOffice(id, from, to);
         }
