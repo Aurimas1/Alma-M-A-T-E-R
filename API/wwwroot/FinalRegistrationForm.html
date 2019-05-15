@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <header>
+    <header style="margin-bottom: 70px;">
         <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px;">
             <a class="navbar-brand" href="Trips.html">
                 <img src="IMG/logo.png" alt="Logo" style="width: 50px">
@@ -160,156 +160,208 @@
                                 Employee car
                             </label>
                         </div>
-                        <br>
 
-                        <div id='plane_div' style="display:none">
-                            <ul class="list-group" id="employeeForTransport">
-                                
-                            </ul>
-                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AirplaneModal">
+                            Airplane ticket
+                          </button>
+                          
+                          <div class="modal fade" id="AirplaneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Plane ticket</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <h4>Please enter the information about flight</h4>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Departure</label>
+                                                <input type="datetime-local" class="form-control" id="inputEmail4"
+                                                    placeholder="From">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Arrival</label>
+                                                <input type="datetime-local" class="form-control" id="inputPassword4"
+                                                    placeholder="To">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Airline</label>
+                                            <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Departure airport</label>
+                                                <input type="text" class="form-control" id="inputEmail4"
+                                                    placeholder="Vilnius airport">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Arrival airport</label>
+                                                <input type="text" class="form-control" id="inputPassword4"
+                                                    placeholder="Chicago airport">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAddress">Seat</label>
+                                                <input type="text" class="form-control" id="inputAddress" placeholder="15A">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Gate</label>
+                                                <input type="text" class="form-control" id="inputPassword4" placeholder="14">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Price</label>
+                                            <div class="form-inline">
+                                                <input type="number" class="form-control" id="inputAddress2" placeholder="100"
+                                                    min="0">
+                                                <select style="margin-left: 10px;">
+                                                    <option>€/Eur</option>
+                                                    <option>$/USD</option>
+                                                    <option>£/GBP</option>
+                                                    <option>C$/CAD</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlFile1">Tickets file</label>
+                                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" onclick="saveAirplane()" class="btn btn-primary">Save changes</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
-                        <div id='plane_div2' style="display:none">
-                            <form>
-                                <h4>Please enter the information about flight</h4>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputEmail4">Departure</label>
-                                        <input type="datetime-local" class="form-control" id="inputEmail4"
-                                            placeholder="From">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputPassword4">Arrival</label>
-                                        <input type="datetime-local" class="form-control" id="inputPassword4"
-                                            placeholder="To">
-                                    </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CarRentalModal">
+                            Car rental
+                        </button>
+                          
+                          <!-- Modal -->
+                          <div class="modal fade" id="CarRentalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Car information</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputAddress2">Airline</label>
-                                    <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
+                                <div class="modal-body">
+                                    <form>
+                                        <h4>Please enter the information rental car.</h4>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Start of rent</label>
+                                                <input type="datetime-local" class="form-control" id="inputEmail4"
+                                                    placeholder="From">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">End of rent</label>
+                                                <input type="datetime-local" class="form-control" id="inputPassword4"
+                                                    placeholder="To">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Rental company</label>
+                                            <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Car pickup address</label>
+                                            <input type="text" class="form-control" id="inputAddress2"
+                                                placeholder="1 Verkių ST">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAddress">Car brand and model</label>
+                                                <input type="text" class="form-control" id="inputAddress" placeholder="15A">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Gate</label>
+                                                <input type="text" class="form-control" id="inputPassword4" placeholder="14">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress2">Price</label>
+                                            <div class="form-inline">
+                                                <input type="number" class="form-control" id="inputAddress2" placeholder="100"
+                                                    min="0">
+                                                <select style="margin-left: 10px;">
+                                                    <option>€/Eur</option>
+                                                    <option>$/USD</option>
+                                                    <option>£/GBP</option>
+                                                    <option>C$/CAD</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputEmail4">Departure airport</label>
-                                        <input type="text" class="form-control" id="inputEmail4"
-                                            placeholder="Vilnius airport">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputPassword4">Arrival airport</label>
-                                        <input type="text" class="form-control" id="inputPassword4"
-                                            placeholder="Chicago airport">
-                                    </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" onclick="saveCarRental()" class="btn btn-primary">Save changes</button>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputAddress">Seat</label>
-                                        <input type="text" class="form-control" id="inputAddress" placeholder="15A">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputPassword4">Gate</label>
-                                        <input type="text" class="form-control" id="inputPassword4" placeholder="14">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputAddress2">Price</label>
-                                    <div class="form-inline">
-                                        <input type="number" class="form-control" id="inputAddress2" placeholder="100"
-                                            min="0">
-                                        <select style="margin-left: 10px;">
-                                            <option>€/Eur</option>
-                                            <option>$/USD</option>
-                                            <option>£/GBP</option>
-                                            <option>C$/CAD</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlFile1">Tickets file</label>
-                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </form>
+                              </div>
+                            </div>
+                          </div>
 
-                        </div>
-
-                        <div id='car_rental' style="display:none">
-                            <form>
-                                <h4>Please enter the information rental car.</h4>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputEmail4">Start of rent</label>
-                                        <input type="datetime-local" class="form-control" id="inputEmail4"
-                                            placeholder="From">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputPassword4">End of rent</label>
-                                        <input type="datetime-local" class="form-control" id="inputPassword4"
-                                            placeholder="To">
-                                    </div>
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GasCompensationModal">
+                            Employee car
+                          </button>
+                          
+                          <!-- Modal -->
+                          <div class="modal fade" id="GasCompensationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Gas compensation</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputAddress2">Rental company</label>
-                                    <input type="text" class="form-control" id="inputAddress2" placeholder="Radisson">
+                                <div class="modal-body">
+                                    <form>
+                                        <h4>Please enter the information about owner of the car</h4>
+                                        <div class="form-group">
+                                            <label for="name">Employee Name</label>
+                                            <input type="text" id="gasName" class="form-control" placeholder="Enter name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="surname">Employee Surname</label>
+                                            <input type="text" id="gasSurname" class="form-control" placeholder="Enter surname">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="telephone">Employee's telephone number</label>
+                                            <input type="tel" id="gasTel" class="form-control" placeholder="+3706979796">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Price">Price</label>
+                                            <div class="form-inline">
+                                                <input type="number" id="gasPrice" class="form-control" placeholder="Enter price" min="0">
+                                                <select id="gasSelect" style="margin-left: 10px;">
+                                                    <option value="Eur" selected>€/Eur</option>
+                                                    <option value="USD">$/USD</option>
+                                                    <option value="GBP">£/GBP</option>
+                                                    <option value="CAD">C$/CAD</option>
+                                                </select>
+                                            </div>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <label for="inputAddress2">Car pickup address</label>
-                                    <input type="text" class="form-control" id="inputAddress2"
-                                        placeholder="1 Verkių ST">
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" onclick="saveGasCompensation()" class="btn btn-primary">Save changes</button>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputAddress">Car brand and model</label>
-                                        <input type="text" class="form-control" id="inputAddress" placeholder="15A">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputPassword4">Gate</label>
-                                        <input type="text" class="form-control" id="inputPassword4" placeholder="14">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputAddress2">Price</label>
-                                    <div class="form-inline">
-                                        <input type="number" class="form-control" id="inputAddress2" placeholder="100"
-                                            min="0">
-                                        <select style="margin-left: 10px;">
-                                            <option>€/Eur</option>
-                                            <option>$/USD</option>
-                                            <option>£/GBP</option>
-                                            <option>C$/CAD</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div id='employee_car' style="display:none">
-                            <form>
-                                <h4>Please enter the information about owner of the car</h4>
-                                <div class="form-group">
-                                    <label for="name">Employee Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="surname">Employee Surname</label>
-                                    <input type="password" class="form-control" placeholder="Enter surname">
-                                </div>
-                                <div class="form-group">
-                                    <label for="telephone">Employee's telephone number</label>
-                                    <input type="tel" class="form-control" placeholder="Enter telephone">
-                                </div>
-                                <div class="form-group">
-                                    <label for="Price">Employee's telephone number</label>
-                                    <div class="form-inline">
-                                        <input type="number" class="form-control" placeholder="Enter price" min="0">
-                                        <select style="margin-left: 10px;">
-                                            <option>€/Eur</option>
-                                            <option>$/USD</option>
-                                            <option>£/GBP</option>
-                                            <option>C$/CAD</option>
-                                        </select>
-                                        </fordivm>
-                                    </div>
-                            </form>
-                        </div>
+                              </div>
+                            </div>
+                          </div>
 
                     </div>
                 </div>
@@ -320,8 +372,9 @@
         <div class="card">
             <div class="card-header" id="headingFour">
                 <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" onclick="clickAccomodation()"
-                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                        onclick="clickAccomodation()" data-target="#collapseFour" aria-expanded="false"
+                        aria-controls="collapseFour">
                         Accommodation
                     </button>
                 </h5>
@@ -335,6 +388,7 @@
                             <ul class="list-group list-group-flush" id="employeeList">
                                 <!--List is automatically made from selected employees-->
                             </ul>
+                            <p><span id="bookingSpan">0</span> rooms need to be booking in the hotel</p>
                         </div>
 
                         <button class="btn btn-primary" type="button" data-toggle="collapse" id="changeRooms"
@@ -356,78 +410,93 @@
                                 </table>
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse"
-                            data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">Hotel
-                            information</button>
-                        <p>
-                            <div class="collapse" id="collapseExample2">
-                                <div class="card card-body">
-                                    <form>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="inputEmail4">Check-in from</label>
-                                                <input type="datetime-local" class="form-control" id="inputEmail4"
-                                                    placeholder="From">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#HotelModal">
+                            Add hotel
+                          </button>
+                        <div class="modal fade" id="HotelModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Hotel information</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputEmail4">Check-in from</label>
+                                                    <input type="datetime-local" class="form-control" id="inputEmail4"
+                                                        placeholder="From">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPassword4">Check-in to</label>
+                                                    <input type="datetime-local" class="form-control"
+                                                        id="inputPassword4" placeholder="To">
+                                                </div>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputPassword4">Check-in to</label>
-                                                <input type="datetime-local" class="form-control" id="inputPassword4"
-                                                    placeholder="To">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputEmail4">Check-out from</label>
+                                                    <input type="datetime-local" class="form-control" id="inputEmail4"
+                                                        placeholder="From">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPassword4">Check-out to</label>
+                                                    <input type="datetime-local" class="form-control"
+                                                        id="inputPassword4" placeholder="To">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="inputEmail4">Check-out from</label>
-                                                <input type="datetime-local" class="form-control" id="inputEmail4"
-                                                    placeholder="From">
+                                            <div class="form-group">
+                                                <label for="inputAddress2">Hotel name</label>
+                                                <input type="text" class="form-control" id="inputAddress2"
+                                                    placeholder="Radisson">
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="inputPassword4">Check-out to</label>
-                                                <input type="datetime-local" class="form-control" id="inputPassword4"
-                                                    placeholder="To">
+                                            <div class="form-group">
+                                                <label for="inputAddress">Address</label>
+                                                <input type="text" class="form-control" id="inputAddress"
+                                                    placeholder="1234 Main St">
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputAddress2">Hotel name</label>
-                                            <input type="text" class="form-control" id="inputAddress2"
-                                                placeholder="Radisson">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputAddress">Address</label>
-                                            <input type="text" class="form-control" id="inputAddress"
-                                                placeholder="1234 Main St">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputAddress">Room number</label>
-                                            <input type="number" class="form-control" id="inputAddress"
-                                                placeholder="123">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputAddress2">Price</label>
-                                            <div class="form-inline">
-                                                <input type="number" class="form-control" id="inputAddress2"
-                                                    placeholder="100" min="0">
-                                                <select style="margin-left: 10px;">
-                                                    <option>€/Eur</option>
-                                                    <option>$/USD</option>
-                                                    <option>£/GBP</option>
-                                                    <option>C$/CAD</option>
-                                                </select>
+                                            <div class="form-group">
+                                                <label for="inputAddress">Room number</label>
+                                                <input type="number" class="form-control" id="inputAddress"
+                                                    placeholder="123">
                                             </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Sign in</button>
-                                    </form>
+                                            <div class="form-group">
+                                                <label for="inputAddress2">Price</label>
+                                                <div class="form-inline">
+                                                    <input type="number" class="form-control" id="inputAddress2"
+                                                        placeholder="100" min="0">
+                                                    <select style="margin-left: 10px;">
+                                                        <option>€/Eur</option>
+                                                        <option>$/USD</option>
+                                                        <option>£/GBP</option>
+                                                        <option>C$/CAD</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="saveHotel()">Save changes</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <button type="button" class="btn btn-primary" id="savingButton" onclick="saveTrip()">Add Trip</button>
-                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary" id="savingButton" onclick="saveTrip()">Add
+                                Trip</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>

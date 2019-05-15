@@ -116,6 +116,14 @@ namespace API.Controllers
             return service.GetEmployees(id);
         }
 
+        // GET api/Trip/Time/{id}
+        [Route("time/{id}")]
+        [HttpGet]
+        public Times GetTimes(int id)
+        {
+            return service.GetTimes(id);
+        }
+
         // GET api/Trip/reservedApartments
         [Route("reservedApartments")]
         [HttpGet]

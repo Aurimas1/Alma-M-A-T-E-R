@@ -7,6 +7,6 @@ namespace API.Services
     {
         IEnumerable<Apartment> GetAll();
         IEnumerable<OfficeAndApartmentsDTO> GetAllOfficeApartments();
-        IDictionary<int, bool> GetApartamentOccupationByOffice(int id, DateTime from, DateTime to);
+        IDictionary<int, FreeRooms> GetApartamentOccupationByTrip(int id);
     }
 }
