@@ -2,15 +2,11 @@ $(document).ready(function () {
 
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
-    loadReservedApartments();
-    loadPlaneTickets();
-    loadCarRentals();
-    loadGasCompensations();
-
-    loadEmployees().then(function () { return loadTripEmployees(); }).then(function () {
+    var id = 11;
+    loadEmployees().then(function () { return loadTripEmployees(id); }).then(function () {
 
         var table = $('#sort').DataTable();
-        
+
         $('#tBody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
             $("#rowSelected").text(table.rows('.selected').data().length + ' row(s) selected');
@@ -19,7 +15,7 @@ $(document).ready(function () {
                 var name = $(this).children('td:eq(1)').text() + " " + $(this).children('td:eq(2)').text();
                 var line = $("<tr>");
                 line.append($('<td id="NrColumn">').text($(this).children('td:eq(0)').text()))
-                    .append($('<td>').text(name))
+                    .append($('<td class="attrName">').text(name))
                     .append($("<td>").text(email))
                     .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove").on("click", function () {
                         $(this).parents('tr').detach();
@@ -32,7 +28,6 @@ $(document).ready(function () {
             }
             $('#EmployeeNotification').css({ 'visibility': 'hidden' });
         });
-        //----------------------------------------------------------
 
         $('.table-remove').click(function () {
             var email = $(this).parent("td").prev().text();
@@ -40,35 +35,50 @@ $(document).ready(function () {
             $(`#sort tr:contains(${email})`).prop('disabled', false).css("cssText", "background-color:");
         });
 
-        /*var a = [['1', 'Jonas', 'Jonaitis'], ['2', '', ''], ['3', 'Povilas', 'Povilaitis'], ['4', '', ''], ['5', '', ''], ['6', 'Petras', 'Petraitis']];
-        //--------------------------------------------------------------
+    });
+});
+
+function clickAccomodation() {
+    $("#tableBody").empty();
+    $("#employeeList").empty();
+    $('#hotelRooms').remove();
+    var employee = [];
+    $('#employeeTBody tr').each(function (a, b) {
+        var name = $('.attrName', b).text();
+        var id = $('#NrColumn', b).text();
+        var line = $('<li class="list-group-item d-flex justify-content-between align-items-center">').text(name);
+        employee.push({ id: `${id}`, name: `${name}` });
+        $("#employeeList").append(line);
+    });
+
+    var id = 3;
+    loadAccommodation(id,"2019-05-20 15:20","2019-05-22 15:20").then(function (a) {
         var i = 0;
-        $.each(a, function () {
+        $.each(a, function (j, t) {
             var tr = $('<tr>');
-            var td = $('<td>').text($(this).get(0)).addClass('SmallColumn');
+            var td = $('<td>').text(j).addClass('SmallColumn');
             tr.append(td);
-            if ($(this).get(1) != '') {
+            if (t) {       
                 tr.append('<td>The room is taken</td>');
             }
             else {
                 if (employee[i] != null) {
-                    var name = employee[i][0] + " " + employee[i][1];
+                    var name = employee[i].name;
                     var dropDown = $('<select>');
-                    $.each(employee, function () {
-                        var emp = $(this).get(0) + " " + $(this).get(1);
-                        dropDown.append("<option>" + emp + "</option>");
+                    $.each(employee, function (i, e) {
+                        dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
+                    dropDown.append("<option></option>");
                     dropDown.prop('selectedIndex', i).css("width:100%");
                     td = $("<td>").append(dropDown);
                     tr.append(td);
-                    $(`#li:contains(${name})`).text(name + '    - ' + $(this).get(0) + ' room');
+                    $(`#employeeList li:contains(${name})`).text(name + '    - ' + j + ' room');
                     i++;
                 }
                 else {
                     var dropDown = $('<select>');
-                    $.each(employee, function () {
-                        var emp = $(this).get(0) + " " + $(this).get(1);
-                        dropDown.append("<option>" + emp + "</option>");
+                    $.each(employee, function (i, e) {
+                        dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
                     dropDown.append("<option></option>");
                     dropDown.prop('selectedIndex', i).css("width:100%;position:absolute");
@@ -79,92 +89,37 @@ $(document).ready(function () {
             }
             $('#tableBody').append(tr);
         });
-        if (employee[i] != null) {
-            var booking = 0;
-            $.each(employee, function () {
-                var name = employee[i] + " " + employee[i];
-                $(`li:contains(${name})`).text(name + '    - no room').css({ 'color': 'red' });
-                i++;
-                booking++;
-            });
-            $('#listDiv').append(`<p>${booking} rooms need to be booking in the hotel</p>`);
-        }*/
 
-        if ($("#CheckEmployeeCar").is(':checked')) {
-            $("#employee_car").show();
-        }
-        if ($("#CheckRentCar").is(':checked')) {
-            $("#car_rental").show();
-        }
-        if ($("#CheckPlane").is(':checked')) {
-            $("#plane_div").show();
-        }
-    })
-});
-
-/*function thirdCard() {
-        $('#changeRooms').show();
-        var number = 0;
-        var employee = [];
-        var dropDownas = $('<select>');
-        $.each(table.rows('.selected').data(), function () {
-            var li = $('<li>').text($(this).get(1) + " " + $(this).get(2)).addClass("list-group-item");
-            $('#employeeList').append(li);
-            employee[number] = $(this);
-            var name = employee[number].get(1) + " " + employee[number].get(2);
-            number++;
-            dropDownas.append("<option>" + name + "</option>");
-        });
-        
         var booking = 0;
-        $.each(employee, function () {
-            var name = employee[i].get(1) + " " + employee[i].get(2);
+        for (var i; i < employee.length; i++) {
+            var name = employee[i].name;
             $(`li:contains(${name})`).text(name + '    - no room').css({ 'color': 'red' });
-            i++;
             booking++;
-        });
-        $('#listDiv').append(`<p>${booking} rooms need to be booking in the hotel</p>`);
-    }
-}*/
-
-function airplane() {
-    if ($("#plane_div").is(":visible")) {
-        $("#plane_div").hide();
-    }
-    else {
-        $("#plane_div").show();
-    }
-}
-function rentalCar() {
-    if ($("#car_rental").is(":visible")) {
-        $("#car_rental").hide();
-    }
-    else {
-        $("#car_rental").show();
-    }
-}
-function employeeCar() {
-    if ($("#employee_car").is(":visible")) {
-        $("#employee_car").hide();
-    }
-    else {
-        $("#employee_car").show();
-    }
+        }
+        $('#listDiv').append(`<p id="hotelRooms">${booking} rooms need to be booking in the hotel</p>`);
+    });
 }
 
-function openPlane() {
-    if ($("#plane_div2").is(":visible")) {
-        $("#plane_div2").hide();
-    }
-    else {
-        $("#plane_div2").show();
-    }
-}
-
-function loadTripEmployees() {
+function loadAccommodation(id,from,to) {
     return $.ajax({
         type: "GET",
-        url: '/api/trip/employees?id=11', //Insert current trip ID instead of 4
+        url: `/api/apartment/${id}`,
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        data: {
+            from: new Date(from).toISOString(),
+            to: new Date(to).toISOString()
+        },
+        error: function () { alert('Internet error'); },
+    })
+}
+
+function loadTripEmployees(id) {
+    return $.ajax({
+        type: "GET",
+        url: `/api/trip/${id}`,
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
@@ -174,7 +129,7 @@ function loadTripEmployees() {
                 var email = entry.email;
                 var line = $("<tr>");
                 line.append($('<td id="NrColumn">').text(entry.employeeID))
-                    .append($('<td>').text(entry.name))
+                    .append($('<td class="attrName">>').text(entry.name))
                     .append($("<td>").text(email))
                     .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove"))));
                 $("#employeeTBody").append(line);
@@ -210,62 +165,54 @@ function loadEmployees() {
     })
 }
 
-function loadReservedApartments() {
-    return $.ajax({
-        type: "GET",
-        url: '/api/trip/reservedApartments?id=4', //Insert current trip ID instead of 4
+function saveTrip(){
+    var a=[];
+    $.each($("#tableBody tr"),function(i,j){
+        if ($(j).children('td:eq(1)').text() !== 'The room is taken' && $(j).find('select').val() != undefined)
+        {
+            a.push({roomID: $(j).children('td:eq(0)').text(), employeeID: $(j).find('select').val()})
+        }
+    });
+
+    var check = false;
+    a.map(function(x){return x.employeeID}).forEach(function(x,i,arr){
+        if(arr.indexOf(x) !== i){
+            alert("You selected the same person two times in apartaments table");
+            check = true;
+        }
+    });
+    if(check){
+        return Promise.reject();
+    }
+    var employee = [];
+    $('#employeeTBody tr').each(function (a, b) {
+        var id = $('#NrColumn', b).text();
+        employee.push(id);
+    });
+
+    $.ajax({
+        type: "PUT",
+        url: '/api/trip/11',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
-        success: function (data) {
-
+        data: JSON.stringify({
+            "IsPlaneNeeded": $("#airplaneRadios").is(':checked'),
+            "IsCarRentalNeeded":$("#carRadios").is(':checked'),
+            "IsCarCompensationNeeded":$("#employeeCarRadios").is(':checked'),
+            "Employees": employee,
+            "Rooms": a.filter(function(x){
+                return x.employeeID != '';
+            }),
+        }),
+        success: function () {
+            alert("The trip was successfully created!");
+            window.location.href = "/index.html";
         },
-        error: function () { alert('Internet error'); },
-    })
-}
-
-function loadPlaneTickets() {
-    return $.ajax({
-        type: "GET",
-        url: '/api/trip/planeTickets?id=4', //Insert current trip ID instead of 4
-        contentType: "application/json",
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (data) {
-
-        },
-        error: function () { alert('Internet error'); },
-    })
-}
-
-function loadCarRentals() {
-    return $.ajax({
-        type: "GET",
-        url: '/api/trip/carRentals?id=4', //Insert current trip ID instead of 4
-        contentType: "application/json",
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (data) {
-
-        },
-        error: function () { alert('Internet error'); },
-    })
-}
-
-function loadGasCompensations() {
-    return $.ajax({
-        type: "GET",
-        url: '/api/trip/gasCompensations?id=4', //Insert current trip ID instead of 4
-        contentType: "application/json",
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (data) {
-
-        },
-        error: function () { alert('Internet error'); },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
     })
 }
