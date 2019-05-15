@@ -42,6 +42,7 @@ function clickAccomodation() {
     $("#tableBody").empty();
     $("#employeeList").empty();
     $('#hotelRooms').remove();
+    var booking = 0;
     var employee = [];
     $('#employeeTBody tr').each(function (a, b) {
         var name = $('.attrName', b).text();
@@ -56,24 +57,23 @@ function clickAccomodation() {
         var i = 0;
         var emp2 = [];
         $.each(a, function (j, t) {
-            var obj = employee.find(x=> x.id == t.employeeID);
+            var obj = employee.find(x => x.id == t.employeeID);
             if (t.isRoomIsOccupied && obj != null) {
-                employee = $.grep(employee, function(e){ 
-                    return e.id != t.employeeID; 
-               });
-               emp2.push(obj);
+                employee = $.grep(employee, function (e) {
+                    return e.id != t.employeeID;
+                });
+                emp2.push(obj);
             }
         });
         $.each(a, function (j, t) {
             var tr = $('<tr>');
             var td = $('<td>').text(j).addClass('SmallColumn');
             tr.append(td);
-            var obj = emp2.find(x=> x.id == t.employeeID);
+            var obj = emp2.find(x => x.id == t.employeeID);
             if (t.isRoomIsOccupied && obj != null) {
-                //tr.append($('<td>').text(obj.name));
-                var dropDown = $('<select>');
+                var dropDown = $('<select>'); ``
                 $.each(emp2, function (i, e) {
-                    if(obj.id === e.id){
+                    if (obj.id === e.id) {
                         dropDown.append($('<option selected></option>').val(e.id).html(e.name));
                     }
                     else {
@@ -83,7 +83,27 @@ function clickAccomodation() {
                 $.each(employee, function (i, e) {
                     dropDown.append($('<option></option>').val(e.id).html(e.name));
                 });
-                dropDown.append("<option></option>");
+                dropDown.append("<option></option>").on('focus', function () {
+                    previous = $(this).find("option:selected").text();
+                }).on("change", function () {
+                    if (previous !== "") {
+                        $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                    }
+                    debugger;
+                    var text = $(this).find("option:selected").text();
+                    if (text !== "") {
+                        $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                        $.each($("#tableBody tr"), function (a, b) {
+                            alert($(b).children('td:eq(0)').text() + "   " + j);
+                            if ($(b).find("option:selected").text() == text) {
+                                if ($(b).children('td:eq(0)').text() != j) {
+                                    $(b).find('option:contains("")').attr('selected', 'selected');
+                                }
+                            }
+                        });
+                        //$(this).find(`option:contains(${text})`).attr('selected', 'selected');
+                    }
+                });
                 td = $("<td>").append(dropDown);
                 tr.append(td);
                 $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
@@ -101,7 +121,25 @@ function clickAccomodation() {
                     $.each(emp2, function (i, e) {
                         dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
-                    dropDown.append("<option></option>");
+                    dropDown.append("<option></option>").on('focus', function () {
+                        previous = $(this).find("option:selected").text();
+                    }).on("change", function () {
+                        if (previous !== "") {
+                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                        }
+                        var text = $(this).find("option:selected").text();
+                        if (text !== "") {
+                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                            $.each($("#tableBody tr"), function (a, b) {
+                                if ($(b).find("option:selected").text() === text) {
+                                    if ($(b).children('td:eq(0)').text() != j) {
+                                        $(b).find('option:contains("")').attr('selected', 'selected');
+                                    }
+                                }
+                            });
+                            //$(this).closest('tr').text().charAt(0);
+                        }
+                    });
                     dropDown.prop('selectedIndex', i).css("width:100%");
                     td = $("<td>").append(dropDown);
                     tr.append(td);
@@ -116,7 +154,24 @@ function clickAccomodation() {
                     $.each(emp2, function (i, e) {
                         dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
-                    dropDown.append("<option selected></option>");
+                    dropDown.append("<option selected></option>").on('focus', function () {
+                        previous = $(this).find("option:selected").text();
+                    }).on("change", function () {
+                        if (previous !== "") {
+                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                        }
+                        var text = $(this).find("option:selected").text();
+                        if (text !== "") {
+                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                            $.each($("#tableBody tr"), function (a, b) {
+                                if ($(b).find("option:selected").text() === text) {
+                                    if ($(b).children('td:eq(0)').text() != j) {
+                                        $(b).find('option:contains("")').attr('selected', 'selected');
+                                    }
+                                }
+                            });
+                        }
+                    });
                     td = $("<td>").append(dropDown);
                     tr.append(td);
                     i++;
@@ -125,7 +180,7 @@ function clickAccomodation() {
             $('#tableBody').append(tr);
         });
 
-        var booking = 0;
+        
         for (var i; i < employee.length; i++) {
             var name = employee[i].name;
             $(`li:contains(${name})`).text(name + '    - no room').css({ 'color': 'red' });
