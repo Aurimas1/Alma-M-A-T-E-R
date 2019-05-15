@@ -100,8 +100,9 @@ function updateApartment(event){
     });
     apartment["Type"] = "OFFICE";
     try {
-        $.post({
-            url: '/api/apartment/update',
+        $.ajax({
+            url: '/api/apartment',
+            type: "PUT",
             contentType: "application/json",
             xhrFields: {
                 withCredentials: true
@@ -139,7 +140,7 @@ function createApartment(){
     apartment["Type"] = "OFFICE";
     $.ajax({
         type: "POST",
-        url: '/api/apartment/create',
+        url: '/api/apartment',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
@@ -160,8 +161,8 @@ function deleteApartment(){
 
     if (confirm("Do you really want to delete this apartment? All of the associated reservations will be deleted.")){
         $.ajax({
-            type: "POST",
-            url: '/api/apartment/delete',
+            type: "DELETE",
+            url: '/api/apartment',
             contentType: "application/json",
             xhrFields: {
                 withCredentials: true
