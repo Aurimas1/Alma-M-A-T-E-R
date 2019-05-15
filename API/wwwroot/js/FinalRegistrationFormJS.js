@@ -54,8 +54,11 @@ function clickAccomodation() {
         $("#employeeList").append(line);
     });
 
+    
     var id = 3;
     loadAccommodation(id, "2019-05-07 21:00", "2019-05-15 21:00").then(function (a) {
+        let map = {};
+    
         var i = 0;
         var emp2 = [];
         $.each(a, function (j, t) {
@@ -73,33 +76,25 @@ function clickAccomodation() {
             var td = $('<td>').text(j).addClass('SmallColumn');
             tr.append(td);
             var obj = emp2.find(x => x.id == t.employeeID);
-            var dropDown = $('<select>');
-            dropDown.append("<option selected>").on('focus', function () {
-                previous = $(this).find("option:selected").text();
-            }).on("change", function () {
-                if (previous !== "") {
-                    $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
-                }
-                debugger;
-                var text = $(this).find("option:selected").text();
-                if (text !== "") {
-                    $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
-                    $.each($("#tableBody tr"), function (a, b) {
-                        alert($(b).children('td:eq(0)').text() + "   " + j);
-                        if ($(b).find("option:selected").text() == text) {
-                            if ($(b).children('td:eq(0)').text() != j) {
-                                $(b).find('option:contains("")').attr('selected', 'selected');
-                            }
-                        }
-                    });
-                    //$(this).find(`option:contains(${text})`).attr('selected', 'selected');
-                }
-            });
-
-            debugger;
             if (t.isRoomIsOccupied) {
                 if (obj == undefined) {
                     if (idToNameMap[t.employeeID] != null) {
+                        var dropDown = $('<select>').on('focus', function () {
+                            previous = $(this).find("option:selected").text();
+                        }).on("change", function () {
+                            if (previous !== '') {
+                                $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                                map[previous] = undefined;
+                            }
+                            var text = $(this).find("option:selected").text();
+                            if (text !== "") {
+                                $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                                const oldPosision = map[text];
+                                if (oldPosision)
+                                    $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
+                                map[text] = j;
+                            }
+                        });
                         obj = { id: t.employeeID, name: idToNameMap[t.employeeID] };
                         $.each(emp2, function (i, e) {
                             dropDown.append($('<option>').val(e.id).html(e.name));
@@ -107,6 +102,7 @@ function clickAccomodation() {
                         $.each(employee, function (i, e) {
                             dropDown.append($('<option>').val(e.id).html(e.name));
                         });
+                        dropDown.append("<option selected></option>")
                         td = $("<td>").append(dropDown);
                         tr.append(td);
                         $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
@@ -117,6 +113,24 @@ function clickAccomodation() {
                     }
                 }
                 else {
+                    var dropDown = $('<select>').on('focus', function () {
+                        console.log("a");
+                        previous = $(this).find("option:selected").text();
+                    }).on("change", function () {
+                        if (previous !== '') {
+                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                            map[previous] = undefined;
+                        }
+                        var text = $(this).find("option:selected").text();
+                        if (text !== "") {
+                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                            const oldPosision = map[text];
+                            if (oldPosision)
+                            debugger;
+                                $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
+                            map[text] = j;
+                        }
+                    });
                     $.each(emp2, function (i, e) {
                         if (obj.id === e.id) {
                             dropDown.append($('<option selected>').val(e.id).html(e.name));
@@ -128,12 +142,30 @@ function clickAccomodation() {
                     $.each(employee, function (i, e) {
                         dropDown.append($('<option>').val(e.id).html(e.name));
                     });
+                    dropDown.append("<option></option>")
                     td = $("<td>").append(dropDown);
                     tr.append(td);
                     $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
                 }
             }
             else {
+                var dropDown = $('<select>').on('focus', function () {
+                    console.log("a");
+                        previous = $(this).find("option:selected").text();
+                    }).on("change", function () {
+                        if (previous !== "") {
+                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                            map[previous] = undefined;
+                        }
+                        var text = $(this).find("option:selected").text();
+                        if (text !== "") {
+                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                            const oldPosision = map[text];
+                            if (oldPosision)
+                                $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
+                            map[text] = j;
+                        }
+                    });
                 if (employee[i] != null) {
                     var name = employee[i].name;
                     $.each(employee, function (i, e) {
@@ -143,18 +175,38 @@ function clickAccomodation() {
                         dropDown.append($('<option>').val(e.id).html(e.name));
                     });
                     dropDown.prop('selectedIndex', i).css("width:100%");
+                    dropDown.append("<option></option>")
                     td = $("<td>").append(dropDown);
                     tr.append(td);
                     $(`#employeeList li:contains(${name})`).text(name + '    - ' + j + ' room');
                     i++;
                 }
                 else {
+                    var dropDown = $('<select>').on('focus', function () {
+                        console.log("a");
+                        previous = $(this).find("option:selected").text();
+                    }).on("change", function () {
+                        if (previous !== "") { // prev person no do not have a room, damn
+                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                            map[previous] = undefined;
+                        }
+                        var text = $(this).find("option:selected").text(); // new text                        
+                    
+                        if (text !== "") {
+                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                            const oldPosision = map[text];
+                            if (oldPosision)
+                                $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
+                            map[text] = j;
+                        }
+                    });
                     $.each(employee, function (i, e) {
                         dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
                     $.each(emp2, function (i, e) {
                         dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
+                    dropDown.append("<option selected></option>")
                     td = $("<td>").append(dropDown);
                     tr.append(td);
                     i++;
@@ -170,6 +222,8 @@ function clickAccomodation() {
             booking++;
         }
         $('#listDiv').append(`<p id="hotelRooms">${booking} rooms need to be booking in the hotel</p>`);
+
+        map = createMap();
     });
 }
 
@@ -288,4 +342,33 @@ function saveTrip() {
             alert(thrownError);
         }
     })
+}
+////////////////
+////////////////////////////////////////////////////////
+function saveGasCompensation(){
+    var name = $("#gasName").val();
+    var surname = $("#gasSurname").val();
+    var tel = $("#gasTel").val();
+    var price = $("#gasPrice").val();
+    var select = $("#gasSelect :selected").val();
+    if(name == "" || surname == "" || tel == "" || price == "")
+    {
+        alert("You didn't write all information.");
+    }
+    else{
+        $('#GasCompensationModal').modal('toggle');
+    }
+}
+
+function createMap() {
+    const map = {};
+    $.each($('#rooms_table tr'), function(position, entry) { // position starts from 0
+        const select = $(entry).find('td:eq(1) select');
+        if (select) {
+            const id = select.val();
+            if (id)
+                map[idToNameMap[id]] = position;
+        }
+    });
+    return map;
 }
