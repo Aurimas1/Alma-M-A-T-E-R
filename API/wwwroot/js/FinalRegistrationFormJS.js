@@ -1,8 +1,10 @@
+var idToNameMap = {};
+
 $(document).ready(function () {
 
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html");
-    var id = 11;
+    var id = 1;
     loadEmployees().then(function () { return loadTripEmployees(id); }).then(function () {
 
         var table = $('#sort').DataTable();
@@ -47,42 +49,45 @@ function clickAccomodation() {
         var name = $('.attrName', b).text();
         var id = $('#NrColumn', b).text();
         var line = $('<li class="list-group-item d-flex justify-content-between align-items-center">').text(name);
-        employee.push({ id: `${id}`, name: `${name}` });
+        employee.push({ id, name });
         $("#employeeList").append(line);
     });
 
-    var id = 3;
-    loadAccommodation(id, "2019-05-07 21:00", "2019-05-15 21:00").then(function (a) {
+    var id = 2;
+    loadAccommodation(id, "2019-05-14 21:00", "2019-05-22 21:00").then(function (a) {
         var i = 0;
         var emp2 = [];
         $.each(a, function (j, t) {
-            var obj = employee.find(x=> x.id == t.employeeID);
+            var obj = employee.find(x => x.id == t.employeeID);
             if (t.isRoomIsOccupied && obj != null) {
-                employee = $.grep(employee, function(e){ 
-                    return e.id != t.employeeID; 
-               });
-               emp2.push(obj);
+                employee = $.grep(employee, function (e) {
+                    return e.id != t.employeeID;
+                });
+                emp2.push(obj);
             }
+
+            //if (t.isRoomIsOccupied)
+             //   emp2.push({ id: t.employeeID, name: idToNameMap[t.employeeID] });
         });
         $.each(a, function (j, t) {
             var tr = $('<tr>');
             var td = $('<td>').text(j).addClass('SmallColumn');
             tr.append(td);
             var obj = emp2.find(x=> x.id == t.employeeID);
-            if (t.isRoomIsOccupied && obj != null) {
+            if (t.isRoomIsOccupied) {
                 //tr.append($('<td>').text(obj.name));
                 var dropDown = $('<select>');
                 $.each(emp2, function (i, e) {
                     if(obj.id === e.id){
-                        dropDown.append($('<option selected></option>').val(e.id).html(e.name));
+                        dropDown.append($('<option selected>').val(e.id).html(e.name));
                     }
                     else {
-                        dropDown.append($('<option></option>').val(e.id).html(e.name));
+                        dropDown.append($('<option>').val(e.id).html(e.name));
                     }
                 });
-                $.each(employee, function (i, e) {
-                    dropDown.append($('<option></option>').val(e.id).html(e.name));
-                });
+                //$.each(employee, function (i, e) {
+                //    dropDown.append($('<option></option>').val(e.id).html(e.name));
+                //});
                 dropDown.append("<option></option>");
                 td = $("<td>").append(dropDown);
                 tr.append(td);
@@ -185,6 +190,7 @@ function loadEmployees() {
         },
         success: function (data) {
             $.each(data, function (key, entry) {
+                idToNameMap[entry.employeeID] = entry.name;
                 var line = $('<tr>');
                 var fullName = entry.name;
                 var splitName = fullName.split(" ");
@@ -226,7 +232,7 @@ function saveTrip() {
 
     $.ajax({
         type: "PUT",
-        url: '/api/trip/11',
+        url: '/api/trip/1',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
