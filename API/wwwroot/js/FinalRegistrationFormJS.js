@@ -75,26 +75,28 @@ function clickAccomodation() {
             var tr = $('<tr>');
             var td = $('<td>').text(j).addClass('SmallColumn');
             tr.append(td);
+            var dropDown = $('<select>').on('focus', function () {
+                previous = $(this).find("option:selected").text();
+            }).on("change", function () {
+                if (previous !== '') {
+                    $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+                    map[previous] = undefined;
+                }
+                var text = $(this).find("option:selected").text();
+                if (text !== "") {
+                    $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
+                    const oldPosision = map[text];
+                    if (oldPosision)
+                        $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
+                    map[text] = j;
+                }
+                
+                $("#bookingSpan").text($(`#employeeList li:contains(no room)`).length);
+            });
             var obj = emp2.find(x => x.id == t.employeeID);
             if (t.isRoomIsOccupied) {
                 if (obj == undefined) {
                     if (idToNameMap[t.employeeID] != null) {
-                        var dropDown = $('<select>').on('focus', function () {
-                            previous = $(this).find("option:selected").text();
-                        }).on("change", function () {
-                            if (previous !== '') {
-                                $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
-                                map[previous] = undefined;
-                            }
-                            var text = $(this).find("option:selected").text();
-                            if (text !== "") {
-                                $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
-                                const oldPosision = map[text];
-                                if (oldPosision)
-                                    $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
-                                map[text] = j;
-                            }
-                        });
                         obj = { id: t.employeeID, name: idToNameMap[t.employeeID] };
                         $.each(emp2, function (i, e) {
                             dropDown.append($('<option>').val(e.id).html(e.name));
@@ -113,24 +115,6 @@ function clickAccomodation() {
                     }
                 }
                 else {
-                    var dropDown = $('<select>').on('focus', function () {
-                        console.log("a");
-                        previous = $(this).find("option:selected").text();
-                    }).on("change", function () {
-                        if (previous !== '') {
-                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
-                            map[previous] = undefined;
-                        }
-                        var text = $(this).find("option:selected").text();
-                        if (text !== "") {
-                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
-                            const oldPosision = map[text];
-                            if (oldPosision)
-                            debugger;
-                                $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
-                            map[text] = j;
-                        }
-                    });
                     $.each(emp2, function (i, e) {
                         if (obj.id === e.id) {
                             dropDown.append($('<option selected>').val(e.id).html(e.name));
@@ -149,23 +133,6 @@ function clickAccomodation() {
                 }
             }
             else {
-                var dropDown = $('<select>').on('focus', function () {
-                    console.log("a");
-                        previous = $(this).find("option:selected").text();
-                    }).on("change", function () {
-                        if (previous !== "") {
-                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
-                            map[previous] = undefined;
-                        }
-                        var text = $(this).find("option:selected").text();
-                        if (text !== "") {
-                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
-                            const oldPosision = map[text];
-                            if (oldPosision)
-                                $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
-                            map[text] = j;
-                        }
-                    });
                 if (employee[i] != null) {
                     var name = employee[i].name;
                     $.each(employee, function (i, e) {
@@ -182,24 +149,6 @@ function clickAccomodation() {
                     i++;
                 }
                 else {
-                    var dropDown = $('<select>').on('focus', function () {
-                        console.log("a");
-                        previous = $(this).find("option:selected").text();
-                    }).on("change", function () {
-                        if (previous !== "") { // prev person no do not have a room, damn
-                            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
-                            map[previous] = undefined;
-                        }
-                        var text = $(this).find("option:selected").text(); // new text                        
-                    
-                        if (text !== "") {
-                            $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
-                            const oldPosision = map[text];
-                            if (oldPosision)
-                                $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
-                            map[text] = j;
-                        }
-                    });
                     $.each(employee, function (i, e) {
                         dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
@@ -221,7 +170,7 @@ function clickAccomodation() {
             $(`li:contains(${name})`).text(name + '    - no room').css({ 'color': 'red' });
             booking++;
         }
-        $('#listDiv').append(`<p id="hotelRooms">${booking} rooms need to be booking in the hotel</p>`);
+        $("#bookingSpan").text(booking);
 
         map = createMap();
     });
