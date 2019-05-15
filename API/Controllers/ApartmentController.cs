@@ -35,9 +35,7 @@ namespace API.Controllers
             return service.GetAllOfficeApartments();
         }
         
-        // POST api/apartment/update
-        [HttpPost]
-        [Route("update")]
+        [HttpPut]
         public IActionResult UpdateApartment([FromBody]Apartment apartment)
         {
             //exception handling, optimistic locking
@@ -52,17 +50,13 @@ namespace API.Controllers
             return Ok();
         }
         
-        // POST api/apartment/delete
-        [HttpPost]
-        [Route("delete")]
+        [HttpDelete]
         public void DeleteApartment([FromBody]int id)
         {
             service.DeleteApartment(id);
         }
         
-        // POST api/apartment/create
         [HttpPost]
-        [Route("create")]
         public async Task<IActionResult> CreateApartment([FromBody]Apartment apartment)
         {
             await service.CreateApartment(apartment);
