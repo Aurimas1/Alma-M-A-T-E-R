@@ -33,12 +33,12 @@ namespace API.Controllers
             return service.GetAllOfficeApartments();
         }
 
-        // GET api/apartment/OfficeID
+        // GET api/apartment/TripID
         [HttpGet]
         [Route("{id}")]
-        public IDictionary<int, FreeRooms> GetApartamentOccupationByOfficeID(int id, DateTime from, DateTime to)
+        public IDictionary<int, FreeRooms> GetApartamentOccupationByTripID(int id)
         {
-            return service.GetApartamentOccupationByOffice(id, from, to);
+            return service.GetApartamentOccupationByTrip(id);
         }
     }
 }

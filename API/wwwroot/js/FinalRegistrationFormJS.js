@@ -55,8 +55,8 @@ function clickAccomodation() {
     });
 
     
-    var id = 3;
-    loadAccommodation(id, "2019-05-07 21:00", "2019-05-15 21:00").then(function (a) {
+    var id = 11;
+    loadAccommodation(id).then(function (a) {
         let map = {};
     
         var i = 0;
@@ -176,17 +176,13 @@ function clickAccomodation() {
     });
 }
 
-function loadAccommodation(id, from, to) {
+function loadAccommodation(id) {
     return $.ajax({
         type: "GET",
         url: `/api/apartment/${id}`,
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
-        },
-        data: {
-            from: new Date(from).toISOString(),
-            to: new Date(to).toISOString()
         },
         error: function () { alert('Internet error'); },
     })
