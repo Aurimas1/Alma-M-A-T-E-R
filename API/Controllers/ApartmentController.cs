@@ -64,12 +64,12 @@ namespace API.Controllers
             return Ok();
         }
 
-        // GET api/apartment/OfficeID
+        // GET api/apartment/TripID
         [HttpGet]
         [Route("{id}")]
-        public IDictionary<int, bool> GetApartamentOccupationByOfficeID(int id, DateTime from, DateTime to)
+        public IDictionary<int, FreeRooms> GetApartamentOccupationByTripID(int id)
         {
-            return service.GetApartamentOccupationByOffice(id, from, to);
+            return service.GetApartamentOccupationByTrip(id);
         }
     }
 }
