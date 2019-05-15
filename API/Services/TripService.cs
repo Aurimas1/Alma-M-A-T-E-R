@@ -37,6 +37,16 @@ namespace API.Services
             return repository.GetEmployees(id);
         }
 
+        public Times GetTimes(int id)
+        {
+            var trip = repository.Get(id);
+            return new Times()
+            {
+                DepartureDate = trip.DepartureDate,
+                ReturnDate = trip.ReturnDate,
+            };
+        }
+
         public IEnumerable<Apartment> GetReservedApartments(int id)
         {
             return repository.GetReservedApartments(id);

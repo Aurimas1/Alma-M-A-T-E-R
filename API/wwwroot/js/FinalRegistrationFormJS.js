@@ -1,11 +1,26 @@
 var idToNameMap = {};
-
+var tripID = location.hash.substr(1);
 $(document).ready(function () {
 
     //load EventsCalendar
-    $("div.events_calendar").load("../Calendar_DB.html");
-    var id = 11;
-    loadEmployees().then(function () { return loadTripEmployees(id); }).then(function () {
+    $("div.events_calendar").load("../Calendar_DB.html", function() {
+        loadTripTime().then(function(times){
+            var departureParts = times.departureDate.split("T");
+            $("#departureDate").val(departureParts[0]);
+            departureParts[1] = departureParts[1].substr(0,5);
+            $(`#departureTime option:contains(${departureParts[1]})`).attr('selected', 'selected');
+            $('#departureTime').attr('disabled', true);
+            var arrivalParts = times.returnDate.split("T");
+            $("#arrivalDate").val(arrivalParts[0]);
+            arrivalParts[1] = arrivalParts[1].substr(0,5);
+            $(`#arrivalTime option:contains(${arrivalParts[1]})`).attr('selected', 'selected');
+            $('#arrivalTime').attr('disabled', true);
+        });
+    });
+
+
+
+    loadEmployees().then(function () { return loadTripEmployees(tripID); }).then(function () {
 
         var table = $('#sort').DataTable();
 
@@ -54,9 +69,7 @@ function clickAccomodation() {
         $("#employeeList").append(line);
     });
 
-    
-    var id = 11;
-    loadAccommodation(id).then(function (a) {
+    loadAccommodation(tripID).then(function (a) {
         let map = {};
     
         var i = 0;
@@ -176,6 +189,18 @@ function clickAccomodation() {
     });
 }
 
+function loadTripTime(){
+    return $.ajax({
+        type: "GET",
+        url: `/api/trip/time/${tripID}`,
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        error: function () { alert('Internet error'); },
+    })
+}
+
 function loadAccommodation(id) {
     return $.ajax({
         type: "GET",
@@ -264,7 +289,7 @@ function saveTrip() {
 
     $.ajax({
         type: "PUT",
-        url: '/api/trip/11',
+        url: '/api/trip/' + tripID,
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
@@ -288,6 +313,19 @@ function saveTrip() {
         }
     })
 }
+
+function createMap() {
+    const map = {};
+    $.each($('#rooms_table tr'), function(position, entry) { // position starts from 0
+        const select = $(entry).find('td:eq(1) select');
+        if (select) {
+            const id = select.val();
+            if (id)
+                map[idToNameMap[id]] = position;
+        }
+    });
+    return map;
+}
 ////////////////
 ////////////////////////////////////////////////////////
 function saveGasCompensation(){
@@ -303,17 +341,4 @@ function saveGasCompensation(){
     else{
         $('#GasCompensationModal').modal('toggle');
     }
-}
-
-function createMap() {
-    const map = {};
-    $.each($('#rooms_table tr'), function(position, entry) { // position starts from 0
-        const select = $(entry).find('td:eq(1) select');
-        if (select) {
-            const id = select.val();
-            if (id)
-                map[idToNameMap[id]] = position;
-        }
-    });
-    return map;
 }
