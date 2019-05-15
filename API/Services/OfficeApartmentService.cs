@@ -50,8 +50,10 @@ namespace API.Services
                 {
                     IsRoomIsOccupied = reservationRepository.GetAll(
                         x => x.ApartmentID == apar.ApartmentID &&
-                        ((x.CheckIn  >= from && x.CheckIn  <= to) ||
-                         (x.CheckOut >= from && x.CheckOut <= to) ||
+                        ((x.CheckIn  > from && x.CheckIn  < to) ||
+                         (x.CheckOut > from && x.CheckOut < to) ||
+                         (x.CheckIn == from) ||
+                         (x.CheckOut == to) ||
                          (x.CheckIn  > from && x.CheckOut < to))).Any(),
                     EmployeeID = reservationRepository.GetAll(x => x.ApartmentID == apar.ApartmentID && x.CheckIn == from && x.CheckOut == to)?.FirstOrDefault()?.EmployeeID,
                 };
