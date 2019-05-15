@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/DataTable.css"/>
 
     <style>
-        td#NrColumn, th#NrColumn{
+        td#NrColumn, th#NrColumn, th#OfficeId, td#OfficeId, th#RowVersion, td#RowVersion{
             display:none;
         }
 
@@ -17,7 +17,38 @@
             margin-top:15px;
         }
         
+        input[type='number']{
+            max-width: 100px;
+        }
         
+        label.text{
+            width: 90%;
+        }
+        
+        label.select{
+            width: 70%;
+            
+        }
+        
+        div.creatingForm, div.editingForm{
+            margin-left: 50px;
+            padding-left: 50px;
+            border-left: 2px solid grey;
+            min-width: 400px;
+        }
+        
+        button#creApartment{
+            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+        
+        tr.selected{
+            background-color: rgba(45, 85, 163, 0.85);
+        }
+        
+        table#sort{
+            width: unset!important;
+        }
         
     </style>
     <script>
@@ -28,14 +59,15 @@
 <h3 style="text-align:center">Administrate apartments</h3>
 <p style="color:grey;text-align:center;margin-bottom:40px;">(Click on apartment's row to edit or delete)</p>
 <div class="container officesAndApartments">
-    <!-- konteineriui reikia margin-left ir margin-right, pridejus forma reikes ir pridet col div ir min-width procentus uzmest -->
     <div class="row">
-            <div class="col">
+            <div class="col tableColumn">
             <table class="table responsive" id="sort">
                 <thead>
                 <tr>
                     <th scope="col" id="NrColumn">Nr</th>
                     <th scope="col">Office</th>
+                    <th scope="col" id="RowVersion">Row Version</th>
+                    <th scope="col" id="OfficeId">OfficeId</th>
                     <th scope="col">Name</th>
                     <th scope="col">Address</th>
                     <th scope="col">Room Number</th>
@@ -47,29 +79,31 @@
             </table>
             <button type="button" class="btn btn-primary" id="newApartment" onclick="showCreateForm()">New</button>
             </div>
-            <div class="col creatingForm" style="display:none;">
-                <h5 style="margin-bottom: 20px;">Creating new apartment</h5>
-                <form method="post" action="#">
-                    <label>Office<select><option value='blank'> </option></select></label>
-                    <label>Apartment Name<input type='text'/></label>
-                    <label>Apartment Address<input type='text'/></label>
-                    <label>Room Number<input type='number'/></label>
-                    <button type="submit" class="btn btn-primary" id="createApartment" onclick="createApartment()">Create</button>
+            <div class="col-3 creatingForm form-group" style="display:none;" onsubmit="createApartment()">
+                <h5 style="margin-bottom: 20px;text-align: center;">Creating new apartment</h5>
+                <form method="post" action="javascript:void(0)">
+                    <label class="select">Office<br><select name="OfficeId" class="form-control form-control-sm" id="offices_create" required></select></label><br>
+                    <label class="text">Apartment Name<br><input name="Name" class="form-control" type='text' id="apartment_name_create" required/></label><br>
+                    <label class="text">Apartment Address<br><input name="Address" class="form-control" type='text' id="apartment_address_create" required/></label><br>
+                    <label>Room Number<br><input name="RoomNumber" class="form-control" type='number' id="apartment_room_create" required/></label><br>
+                    <button type="submit" class="btn btn-primary" id="creApartment">Create</button>
                 </form>
             </div>
-            <div class="col editingForm" style="display:none;">
-                <h5 style="margin-bottom: 20px;">Editing:</h5>
-                <form method="post" action="#">
-                    <label>Office<select disabled="true"><option value='blank'> </option></select></label>
-                    <label>Apartment Name<input type='text'/></label>
-                    <label>Apartment Address<input type='text'/></label>
-                    <label>Room Number<input type='number'/></label>
-                    <div class="row">
+            <div class="col-3 editingForm form-group" style="display:none;" onsubmit="updateApartment(event)">
+                <h5 style="margin-bottom: 20px;text-align: center;">Editing:</h5>
+                <form method="post" action="javascript:void(0)">
+                    <label style="display:none;">RowVersion<input name="RowVersion" class="form-control" type="text" id="apartment_RowVersion"/></label>
+                    <label style="display:none;">Id<input name="ApartmentID" class="form-control" type="number" id="apartment_id_edit"/></label>
+                    <label class="select">Office<br><select name="OfficeId" class='form-control form-control-sm' readonly id="offices_edit"><option value='blank'> </option></select></label><br>
+                    <label class="text">Apartment Name<br><input required name="Name" class="form-control" type='text' id="apartment_name_edit"/></label><br>
+                    <label class="text">Apartment Address<br><input required name="Address" class="form-control" type='text' id="apartment_address_edit"/></label><br>
+                    <label>Room Number<br><input required name="RoomNumber" class="form-control" type='number' id="apartment_room_edit"/></label><br>
+                    <div class="row" style="margin-top: 15px;">
                         <div class="col">
-                            <button type="button" class="btn btn-primary" id="updateApartment" onclick="updateApartment()">Update</button>
+                            <button type="submit" class="btn btn-primary" id="upApartment">Update</button>
                         </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-primary" id="deleteApartment" onclick="deleteApartment()">Delete</button>
+                        <div class="col" style="text-align: right;">
+                            <button type="button" class="btn btn-primary" id="delApartment" onclick="deleteApartment()">Delete</button>
                         </div>
                     </div>
                 </form>
