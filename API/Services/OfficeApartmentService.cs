@@ -13,12 +13,14 @@ namespace API.Services
         private readonly IRepository<Apartment> apartmentsRepository;
         private readonly IRepository<Office> officeRepository;
         private readonly IRepository<Reservation> reservationRepository;
+        private readonly TripRepository tripRepository;
 
-        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository, IRepository<Reservation> reservationRepository)
+        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository, IRepository<Reservation> reservationRepository, TripRepository tripRepository)
         {
             this.apartmentsRepository = apartmentsRepository;
             this.officeRepository = officeRepository;
             this.reservationRepository = reservationRepository;
+            this.tripRepository = tripRepository;
         }
         
         public IEnumerable<Apartment> GetAll()
@@ -58,13 +60,27 @@ namespace API.Services
             return await apartmentsRepository.Add(apartment);
         }
 
-        public IDictionary<int, bool> GetApartamentOccupationByOffice(int id, DateTime from, DateTime to)
+        public IDictionary<int, FreeRooms> GetApartamentOccupationByTrip(int id)
         {
-            var apartaments = apartmentsRepository.GetAll(x => x.OfficeId == id);
-            Dictionary<int, bool> dict = new Dictionary<int, bool>();
-            foreach(var apar in apartaments)
+            var trip = tripRepository.Get(id);
+            var apartaments = trip.ArrivalOffice.Apartaments;
+            var from = trip.DepartureDate;
+            var to = trip.ReturnDate;
+            
+            Dictionary<int, FreeRooms> dict = new Dictionary<int, FreeRooms>();
+            foreach (var apar in apartaments)
             {
-                dict[apar.RoomNumber] = reservationRepository.GetAll(x => x.ApartmentID == apar.ApartmentID && ((x.CheckOut > from || x.CheckIn > from || x.CheckIn < to || x.CheckOut < to) || (x.CheckIn > from && x.CheckOut < to))).Any();
+                dict[apar.RoomNumber] = new FreeRooms()
+                {
+                    IsRoomIsOccupied = reservationRepository.GetAll(
+                        x => x.ApartmentID == apar.ApartmentID &&
+                        ((x.CheckIn  > from && x.CheckIn  < to) ||
+                         (x.CheckOut > from && x.CheckOut < to) ||
+                         (x.CheckIn == from) ||
+                         (x.CheckOut == to) ||
+                         (x.CheckIn  > from && x.CheckOut < to))).Any(),
+                    EmployeeID = reservationRepository.GetAll(x => x.ApartmentID == apar.ApartmentID && x.CheckIn == from && x.CheckOut == to)?.FirstOrDefault()?.EmployeeID,
+                };
             }
             return dict;
         }
