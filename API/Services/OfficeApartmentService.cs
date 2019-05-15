@@ -11,12 +11,14 @@ namespace API.Services
         private readonly IRepository<Apartment> apartmentsRepository;
         private readonly IRepository<Office> officeRepository;
         private readonly IRepository<Reservation> reservationRepository;
+        private readonly TripRepository tripRepository;
 
-        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository, IRepository<Reservation> reservationRepository)
+        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository, IRepository<Reservation> reservationRepository, TripRepository tripRepository)
         {
             this.apartmentsRepository = apartmentsRepository;
             this.officeRepository = officeRepository;
             this.reservationRepository = reservationRepository;
+            this.tripRepository = tripRepository;
         }
         
         public IEnumerable<Apartment> GetAll()
@@ -39,9 +41,12 @@ namespace API.Services
             return officeAndApartmentsDtos;
         }
 
-        public IDictionary<int, FreeRooms> GetApartamentOccupationByOffice(int id, DateTime from, DateTime to)
+        public IDictionary<int, FreeRooms> GetApartamentOccupationByTrip(int id)
         {
-            var apartaments = apartmentsRepository.GetAll(x => x.OfficeId == id);
+            var trip = tripRepository.Get(id);
+            var apartaments = trip.ArrivalOffice.Apartaments;
+            var from = trip.DepartureDate;
+            var to = trip.ReturnDate;
             
             Dictionary<int, FreeRooms> dict = new Dictionary<int, FreeRooms>();
             foreach (var apar in apartaments)
