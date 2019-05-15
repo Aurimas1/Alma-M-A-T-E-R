@@ -68,11 +68,25 @@ function clickAccomodation() {
             var tr = $('<tr>');
             var td = $('<td>').text(j).addClass('SmallColumn');
             tr.append(td);
-            debugger;
             var obj = emp2.find(x=> x.id == t.employeeID);
             if (t.isRoomIsOccupied && obj != null) {
-                tr.append($('<td>').text(obj.name));
-               $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
+                //tr.append($('<td>').text(obj.name));
+                var dropDown = $('<select>');
+                $.each(emp2, function (i, e) {
+                    if(obj.id === e.id){
+                        dropDown.append($('<option selected></option>').val(e.id).html(e.name));
+                    }
+                    else {
+                        dropDown.append($('<option></option>').val(e.id).html(e.name));
+                    }
+                });
+                $.each(employee, function (i, e) {
+                    dropDown.append($('<option></option>').val(e.id).html(e.name));
+                });
+                dropDown.append("<option></option>");
+                td = $("<td>").append(dropDown);
+                tr.append(td);
+                $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
             }
             else if (t.isRoomIsOccupied) {
                 tr.append('<td>The room is taken</td>');
@@ -82,6 +96,9 @@ function clickAccomodation() {
                     var name = employee[i].name;
                     var dropDown = $('<select>');
                     $.each(employee, function (i, e) {
+                        dropDown.append($('<option></option>').val(e.id).html(e.name));
+                    });
+                    $.each(emp2, function (i, e) {
                         dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
                     dropDown.append("<option></option>");
@@ -96,8 +113,10 @@ function clickAccomodation() {
                     $.each(employee, function (i, e) {
                         dropDown.append($('<option></option>').val(e.id).html(e.name));
                     });
-                    dropDown.append("<option></option>");
-                    dropDown.prop('selectedIndex', i).css("width:100%;position:absolute");
+                    $.each(emp2, function (i, e) {
+                        dropDown.append($('<option></option>').val(e.id).html(e.name));
+                    });
+                    dropDown.append("<option selected></option>");
                     td = $("<td>").append(dropDown);
                     tr.append(td);
                     i++;
@@ -191,7 +210,7 @@ function saveTrip() {
 
     var check = false;
     a.map(function (x) { return x.employeeID }).forEach(function (x, i, arr) {
-        if (arr.indexOf(x) !== i) {
+        if (arr.indexOf(x) !== i && x != "") {
             alert("You selected the same person two times in apartaments table");
             check = true;
         }
