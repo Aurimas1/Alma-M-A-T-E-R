@@ -1,19 +1,20 @@
 ﻿using API.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Services
 {
     public class TripService : ITripService
     {
-        private readonly TripRepository repository;
+        private readonly IRepository<Trip> repository;
         private readonly IRepository<GasCompensation> gasCompensationRepository;
         private readonly IRepository<CarRental> carRentalRepository;
         private readonly IRepository<PlaneTicket> planeTicketRepository;
         private readonly IRepository<Apartment> apartmentRepository;
         private readonly IRepository<Reservation> reservationRepository;
 
-        public TripService(TripRepository repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository, IRepository<Apartment> apartmentRepository, IRepository<Reservation> reservationRepository)
+        public TripService(IRepository<Trip> repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository, IRepository<Apartment> apartmentRepository, IRepository<Reservation> reservationRepository)
         {
             this.repository = repository;
             this.gasCompensationRepository = gasCompensationRepository;
@@ -67,11 +68,6 @@ namespace API.Services
             return repository.Get(id);
         }
 
-        public IEnumerable<Employee> GetEmployees(int id)
-        {
-            return repository.GetEmployees(id);
-        }
-
         public Times GetTimes(int id)
         {
             var trip = repository.Get(id);
@@ -82,24 +78,29 @@ namespace API.Services
             };
         }
 
+        public IEnumerable<Employee> GetEmployees(int id) // need testing
+        {
+            return repository.Get(id).EmployeesToTrip.Select(x => x.Employee);
+        }
+
         public IEnumerable<Apartment> GetReservedApartments(int id)
         {
-            return repository.GetReservedApartments(id);
+            return repository.Get(id).Reservations.Select(x => x.Apartment); // need testing
         }
 
         public IEnumerable<PlaneTicket> GetPlaneTickets(int id)
         {
-            return repository.GetPlaneTickets(id);
+            return repository.Get(id).PlaneTickets;
         }
 
         public IEnumerable<CarRental> GetCarRentals(int id)
         {
-            return repository.GetCarRentals(id);
+            return repository.Get(id).CarRentals;
         }
 
         public IEnumerable<GasCompensation> GetGasCompensations(int id)
         {
-            return repository.GetGasCompensations(id);
+            return repository.Get(id).GasCompensations;
         }
 
         public Trip Get(int id)
