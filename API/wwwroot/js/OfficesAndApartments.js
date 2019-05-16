@@ -162,12 +162,11 @@ function deleteApartment(){
     if (confirm("Do you really want to delete this apartment? All of the associated reservations will be deleted.")){
         $.ajax({
             type: "DELETE",
-            url: '/api/apartment',
+            url: '/api/apartment' + apartment,
             contentType: "application/json",
             xhrFields: {
                 withCredentials: true
             },
-            data: apartment,
             success: function () {
                 $("div#pageContent").load("../OfficesAndApartments.html");
             },
