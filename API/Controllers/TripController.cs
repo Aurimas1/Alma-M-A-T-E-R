@@ -343,8 +343,8 @@ namespace API.Controllers
             return tripToBoard;
         }
 
-        // GET api/Trip/employees
-        [Route("{id}")]
+        // GET api/Trip/employees/{id}
+        [Route("employees/{id}")]
         [HttpGet]
         public IEnumerable<Employee> GetEmployees(int id)
         {

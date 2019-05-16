@@ -226,7 +226,7 @@ function loadAccommodation(id) {
 function loadTripEmployees(id) {
     return $.ajax({
         type: "GET",
-        url: `/api/trip/${id}`,
+        url: `/api/trip/employees/${id}`,
         contentType: "application/json",
         xhrFields: {
             withCredentials: true

@@ -47,7 +47,14 @@ namespace API.Repositories
 
         public IEnumerable<Trip> GetAll()
         {
-            return context.Trips.ToList(); // need testing
+            return context.Trips
+                .Include(x => x.EmployeesToTrip).ThenInclude(x => x.Employee)
+                .Include(x => x.Reservations)
+                .Include(x => x.ArrivalOffice)
+                .Include(x => x.ArrivalOffice.Apartaments)
+                .Include(x => x.PlaneTickets)
+                .Include(x => x.CarRentals)
+                .ToList();
         }
 
         public IEnumerable<Trip> GetAll(Func<Trip, bool> predicate)
