@@ -186,20 +186,20 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="inputAirplaneTo">Arrival</label>
-                                                    <input type="datetime-local" class="form-control"
-                                                        id="airplaneTo" placeholder="To">
+                                                    <input type="datetime-local" class="form-control" id="airplaneTo"
+                                                        placeholder="To">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="inputAirplaneCompany">Airline</label>
                                                 <input type="text" class="form-control" id="airplaneCompany"
-                                                    placeholder="Radisson">
+                                                    placeholder="WizzAir">
                                             </div>
                                             <div class="form-group">
-                                                    <label for="inputAirplaneUrl">Ticket link</label>
-                                                    <input type="url" class="form-control" id="airplaneUrl"
-                                                        placeholder="https://www.wizzairbilietai.lt/?gclid=CjwKCAjwlPTmBRBoEiwAHqpvhRavGE56vMxwPpesFfiPXEwVAAlqfGW5SeXgfHRxt_kwp1nMkoj8aRoCiboQAvD_BwE">
-                                                </div>
+                                                <label for="inputAirplaneUrl">Ticket link</label>
+                                                <input type="url" class="form-control" id="airplaneUrl"
+                                                    placeholder="https://www.wizzairbilietai.lt/?gclid=CjwKCAjwlPTmBRBoEiwAHqpvhRavGE56vMxwPpesFfiPXEwVAAlqfGW5SeXgfHRxt_kwp1nMkoj8aRoCiboQAvD_BwE">
+                                            </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="inputAirplaneAddressFrom">Departure airport</label>
@@ -283,7 +283,7 @@
                                                     placeholder="Audi A4">
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputCarUrl">Car brand and model</label>
+                                                <label for="inputCarUrl">Car rental link</label>
                                                 <input type="url" class="form-control" id="carUrl"
                                                     placeholder="https://www.citybee.lt/lt">
                                             </div>
@@ -430,54 +430,63 @@
                                         <form>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="inputEmail4">Check-in from</label>
-                                                    <input type="datetime-local" class="form-control" id="inputEmail4"
+                                                    <label for="inputHotelFrom">Check-in</label>
+                                                    <input type="datetime-local" class="form-control" id="hotelFrom"
                                                         placeholder="From">
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="inputPassword4">Check-in to</label>
-                                                    <input type="datetime-local" class="form-control"
-                                                        id="inputPassword4" placeholder="To">
+                                                    <label for="inputHotelTo">Check-out</label>
+                                                    <input type="datetime-local" class="form-control" id="hotelTo"
+                                                        placeholder="To">
                                                 </div>
                                             </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputEmail4">Check-out from</label>
-                                                    <input type="datetime-local" class="form-control" id="inputEmail4"
-                                                        placeholder="From">
+                                            <div class="form-group" id="radioDiv">
+                                                <label for="inputRadios">Please select your accommodation type:</label>
+                                                <br>
+                                                <input type="radio" name="types" value="HOTEL" onclick="changeToHotel()" checked>Hotel
+                                                <br>
+                                                <input type="radio" name="types" value="HOME" onclick="changeToHome()">Home
+                                            </div>
+                                            <div id="hotelDiv">
+                                                <div class="form-group">
+                                                    <label for="inputHotelName">Hotel name</label>
+                                                    <input type="text" class="form-control" id="hotelName"
+                                                        placeholder="Radisson">
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputPassword4">Check-out to</label>
-                                                    <input type="datetime-local" class="form-control"
-                                                        id="inputPassword4" placeholder="To">
+                                                <div class="form-group">
+                                                    <label for="inputHotelAddress">Address</label>
+                                                    <input type="text" class="form-control" id="hotelAddress"
+                                                        placeholder="1234 Main St">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputHotelRoom">Room number</label>
+                                                    <input type="number" class="form-control" id="hotelRoom"
+                                                        placeholder="123">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputHoteluRL">Hotel link</label>
+                                                    <input type="URL" class="form-control" id="hotelUrl"
+                                                        placeholder="https://www.radissonblu.com">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputHotelPrice">Price</label>
+                                                    <div class="form-inline">
+                                                        <input type="number" class="form-control" id="hotelPrice"
+                                                            placeholder="100" min="0">
+                                                        <select style="margin-left: 10px;" id="hotelSelect">
+                                                            <option>€/Eur</option>
+                                                            <option>$/USD</option>
+                                                            <option>£/GBP</option>
+                                                            <option>C$/CAD</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="inputAddress2">Hotel name</label>
-                                                <input type="text" class="form-control" id="inputAddress2"
-                                                    placeholder="Radisson">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputAddress">Address</label>
-                                                <input type="text" class="form-control" id="inputAddress"
-                                                    placeholder="1234 Main St">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputAddress">Room number</label>
-                                                <input type="number" class="form-control" id="inputAddress"
-                                                    placeholder="123">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputAddress2">Price</label>
-                                                <div class="form-inline">
-                                                    <input type="number" class="form-control" id="inputAddress2"
-                                                        placeholder="100" min="0">
-                                                    <select style="margin-left: 10px;">
-                                                        <option>€/Eur</option>
-                                                        <option>$/USD</option>
-                                                        <option>£/GBP</option>
-                                                        <option>C$/CAD</option>
-                                                    </select>
+                                            <div id="homeDiv" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="inputAddress">Home address</label>
+                                                    <input type="text" class="form-control" id="homeAddress"
+                                                        placeholder="1234 Main St">
                                                 </div>
                                             </div>
                                         </form>
@@ -509,6 +518,7 @@
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
     <script src="js/FinalRegistrationFormJS.js"></script>
+    <script src="js/EditTrip_saveDocuments.js"></script>
 </body>
 
 </html>

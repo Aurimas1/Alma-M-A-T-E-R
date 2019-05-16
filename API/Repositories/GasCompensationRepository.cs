@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,22 +13,16 @@ namespace API.Repositories
         {
             this.context = context;
         }
-        
         public async Task<GasCompensation> Add(GasCompensation item)
         {
             await context.GasCompensations.AddAsync(item);
             return context.SaveChanges() == 1 ? item : null;
         }
 
-        public IEnumerable<GasCompensation> GetAll()
+        public bool Delete(int id)
         {
-            return context.GasCompensations.ToList();
-        }
-
-        public IEnumerable<GasCompensation> GetAll(Func<GasCompensation, bool> predicate)
-        {
-            return context.GasCompensations.ToList().Where(predicate);
- 
+            context.GasCompensations.Remove(Get(id));
+            return context.SaveChanges() == 1;
         }
 
         public GasCompensation Get(int id)
@@ -42,16 +35,20 @@ namespace API.Repositories
             return context.GasCompensations.FirstOrDefault(predicate);
         }
 
+        public IEnumerable<GasCompensation> GetAll()
+        {
+            return context.GasCompensations.ToList();
+        }
+
+        public IEnumerable<GasCompensation> GetAll(Func<GasCompensation, bool> predicate)
+        {
+            return context.GasCompensations.Where(predicate);
+        }
+
         public GasCompensation Update(GasCompensation item)
         {
             context.GasCompensations.Update(item);
             return context.SaveChanges() == 1 ? item : null;
-        }
-
-        public bool Delete(int id)
-        {
-            context.GasCompensations.Remove(Get(id));
-            return context.SaveChanges() == 1;
         }
     }
 }

@@ -85,6 +85,7 @@ namespace API
             services.AddScoped<IEmployeeToTripService, EmployeeToTripService>();
             services.AddScoped<IOfficeApartmentService, OfficeApartmentService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IApartmentService, ApartmentService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
