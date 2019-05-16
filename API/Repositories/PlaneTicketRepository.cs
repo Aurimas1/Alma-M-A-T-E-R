@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,22 +13,16 @@ namespace API.Repositories
         {
             this.context = context;
         }
-        
         public async Task<PlaneTicket> Add(PlaneTicket item)
         {
             await context.PlaneTickets.AddAsync(item);
             return context.SaveChanges() == 1 ? item : null;
         }
 
-        public IEnumerable<PlaneTicket> GetAll()
+        public bool Delete(int id)
         {
-            return context.PlaneTickets.ToList();
-        }
-
-        public IEnumerable<PlaneTicket> GetAll(Func<PlaneTicket, bool> predicate)
-        {
-            return context.PlaneTickets.ToList().Where(predicate);
- 
+            context.PlaneTickets.Remove(Get(id));
+            return context.SaveChanges() == 1;
         }
 
         public PlaneTicket Get(int id)
@@ -42,16 +35,20 @@ namespace API.Repositories
             return context.PlaneTickets.FirstOrDefault(predicate);
         }
 
+        public IEnumerable<PlaneTicket> GetAll()
+        {
+            return context.PlaneTickets.ToList();
+        }
+
+        public IEnumerable<PlaneTicket> GetAll(Func<PlaneTicket, bool> predicate)
+        {
+            return context.PlaneTickets.Where(predicate);
+        }
+
         public PlaneTicket Update(PlaneTicket item)
         {
             context.PlaneTickets.Update(item);
             return context.SaveChanges() == 1 ? item : null;
-        }
-
-        public bool Delete(int id)
-        {
-            context.PlaneTickets.Remove(Get(id));
-            return context.SaveChanges() == 1;
         }
     }
 }

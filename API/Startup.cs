@@ -78,6 +78,12 @@ namespace API
             services.AddScoped<IRepository<CarRental>, CarRentalRepository>();
             services.AddScoped<IRepository<PlaneTicket>, PlaneTicketRepository>();
             services.AddScoped<TripRepository>();
+            services.AddScoped<IRepository<Reservation>, ReservationRepository>();
+            services.AddScoped<IRepository<CarRental>, CarRentalRepository>();
+            services.AddScoped<IRepository<PlaneTicket>, PlaneTicketRepository>();
+            services.AddScoped<IRepository<Apartment>, ApartmentRepository>();
+            services.AddScoped<IRepository<GasCompensation>, GasCompensationRepository>();
+
 
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IOfficeService, OfficeService>();
@@ -85,6 +91,7 @@ namespace API
             services.AddScoped<IEmployeeToTripService, EmployeeToTripService>();
             services.AddScoped<IOfficeApartmentService, OfficeApartmentService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IApartmentService, ApartmentService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

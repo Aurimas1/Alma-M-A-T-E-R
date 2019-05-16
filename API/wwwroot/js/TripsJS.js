@@ -1,32 +1,29 @@
 $(document).ready(function () {
 
-    var tripsAwaitingConfirmation = $('input[name="AwaitingConfirmation"]').val;
-    var tripsConfirmed = $('input[name="Confirmed"]').val;
-    var fullyPlannedTrips = $('input[name="PlannedTrips"]').val;
-    var tirpsInProgress = $('input[name="InProgress"]').val;
-    var finishedTrips = $('input[name="Finished"]').val;
-    var myOrganizedTrips = $('input[name="MyOrganized"]').val;
-    var otherOrganizedTrips = $('input[name="OtherOrganized"]').val;
-    var dateFromTo = $('input[name="daterange"]').val
+    var dateFromTo;
 
-    var display = displayTrips(); 
-    //let frag = document.createRange().createContextualFragment(display);
-    var d1 = document.getElementById("menu-toggle");
-    d1.insertAdjacentHTML('afterend', display);
-    d1.insertAdjacentHTML('afterend', display);
-    d1.insertAdjacentHTML('afterend', display);
-    $('[data-toggle="popover"]').popover({
-    });
+    $('input[name="AwaitingConfirmation"]').prop("checked", true);
+    $('input[name="Confirmed"]').prop("checked", true);
+    $('input[name="PlannedTrips"]').prop("checked", true);
+    $('input[name="MyOrganized"]').prop("checked", true);
 
-    $('input[name="daterange"]').val(String(JSON.parse(sessionStorage['date'] || '{}')));
+    var tripsAwaitingConfirmation = $('input[name="AwaitingConfirmation"]').is(':checked');
+    var tripsConfirmed = $('input[name="Confirmed"]').is(':checked');
+    var fullyPlannedTrips = $('input[name="PlannedTrips"]').is(':checked');
+    var finishedTrips = $('input[name="Finished"]').is(':checked');
+    var myOrganizedTrips = $('input[name="MyOrganized"]').is(':checked');
+    var otherOrganizedTrips = $('input[name="OtherOrganizer"]').is(':checked');
+
+    dateFromTo = TodaysDate();
+
+    $('input[name="daterange"]').val(dateFromTo);
 
     $(function () {
         $('input[name="daterange"]').daterangepicker({
             opens: 'left'
         }, function (start, end, label) {
             console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-            sessionStorage.date = JSON.stringify(start.format('MM/DD/YYYY') + " - " + end.format('MM/DD/YYYY'));
-            console.log(JSON.parse(sessionStorage.date));
+            dateFrom = start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY');
         });
     });
 
@@ -35,171 +32,181 @@ $(document).ready(function () {
         $("#wrapper").toggleClass("toggled");
     });
 
+    var dates = dateFromTo.split(" - ");
+    var dateFrom = new Date(dates[0]);
+    var dateTo = new Date(dates[1]);
 
-    /* $.ajax({
-         url:"https://api.myjson.com/bins",
-         type:"POST",
-         data:'[{ "Trip" : "Vilnius", "Arrival": "Kaunas", "DepartureTime" : "2018-10-12 12:00",  "ArrivalTime" : "2018-10-12 13:30", "Cost" : "3.00" }, { "Departure" : "Vilnius", "Arrival": "Varšuva", "DepartureTime" : "2018-10-13 12:00",  "ArrivalTime" : "2018-10-14 15:20", "Cost" : "15.00"}, { "Departure" : "Vilnius", "Arrival": "Klaipėda","DepartureTime" : "2018-10-13 08:00","ArrivalTime" : "2018-10-13 12:00","Cost" : "3.00"}]',
-         contentType:"application/json; charset=utf-8",
-         dataType:"json",
-         success: function(data, textStatus, jqXHR){
-             var json = JSON.stringify(data);
-                 var uri = $("#data").val(json);
-         }
-     });
-     // Send an AJAX request
-     $.ajax({
-         url: uri,
-         data: {
-            format: 'json',
-            TripsAwaitingConfirmation: tripsAwaitingConfirmation,
-            TripsConfirmed: tripsConfirmed,
-            FullyPlannedTrips: fullyPlannedTrips,
-            TirpsInProgress: tirpsInProgress,
-            FinishedTrips: finishedTrips,
-            MyOrganizedTrips: myOrganizedTrips,
-            OtherOrganizedTrips: otherOrganizedTrips,
-            DateFromTo: dateFromTo;
-         },
-         error: function() {
+    $.ajax({
+        url: 'api/trip/filter',
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        data: {
+            "TripsAwaitingConfirmation": tripsAwaitingConfirmation,
+            "TripsConfirmed": tripsConfirmed,
+            "FullyPlannedTrips": fullyPlannedTrips,
+            "FinishedTrips": finishedTrips,
+            "MyOrganizedTrips": myOrganizedTrips,
+            "OtherOrganizedTrips": otherOrganizedTrips,
+            "DateFrom": dateFrom,
+            "DateTo": dateTo
+        },
+        error: function () {
             console.error('Error');
-         },
-         success: function(data) {
-             console.log(parsed_data.success);
-             $.each(data, function (key, item) {
-                var display = displayTrips(item); 
-                var d1 = document.getElementById("menu-toggle");
-                d1.insertAdjacentHTML('afterend', display);
+        },
+        success: function (data) {
+            $.each(data, function (key, item) {
+                var display = displayTrips(item);
+                var d1 = document.getElementById("TripInfo");
+                d1.insertAdjacentHTML('afterbegin', display);
             });
-         },
-         type: 'GET'
-      });
-     });
- */
-});
+        },
+        type: 'GET'
+    });
 
-function displayTrips(){
-    var myvar = '<div class="container bg-light rounded-lg p-3">'+
-'        <a class="h3" href="trip_details.html">Vilnius, Lithuania - Warsaw, Poland</a>'+
-'        <div class="row">'+
-'            <div class="col-sm-1 ml-auto">'+
-'              <div class="progress" data-percentage="20">'+
-'                <span class="progress-left">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <span class="progress-right">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <div class="progress-value">'+
-'                  <div>'+
-'                    1/5<br>'+
-'                    <span>Confirmed</span>'+
-'                  </div>'+
-'                </div>'+
-'              </div>'+
-'            </div>'+
-'            <div class="col-sm-2">'+
-'              <div class="progress" data-percentage="40">'+
-'                <span class="progress-left">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <span class="progress-right">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <div class="progress-value">'+
-'                  <div>'+
-'                    2/5<br>'+
-'                    <span>Accomodation</span>'+
-'                  </div>'+
-'                </div>'+
-'              </div>'+
-'            </div>'+
-'          '+
-''+
-'          <div class="col-sm-1">'+
-'              <div class="progress" data-percentage="80">'+
-'                <span class="progress-left">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <span class="progress-right">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <div class="progress-value">'+
-'                  <div>'+
-'                    4/5<br>'+
-'                    <span>Plane tickets</span>'+
-'                  </div>'+
-'                </div>'+
-'              </div>'+
-'            </div>'+
-'            '+
-'            '+
-'            <div class="col-sm-2">'+
-'              <div class="progress" data-percentage="100">'+
-'                <span class="progress-left">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <span class="progress-right">'+
-'                  <span class="progress-bar"></span>'+
-'                </span>'+
-'                <div class="progress-value">'+
-'                  <div>'+
-'                    1/1<br>'+
-'                    <span>Car rental</span>'+
-'                  </div>'+
-'                </div>'+
-'              </div>'+
-'            </div>'+
-'            </div>'+
-''+
-'        <h5>Departure: 2019-01-25 16:00 Arrival: 2019-02-02 12:00</h5>'+
-'        '+
-'      </div><br>';
-    return myvar;
-}
+    $("#Filter").click(function () {
+        console.log("here");
+        var myNode = document.getElementById("TripInfo");
+        console.log(myNode.length);
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
 
+        tripsAwaitingConfirmation = $('input[name="AwaitingConfirmation"]').is(':checked');
+        tripsConfirmed = $('input[name="Confirmed"]').is(':checked');
+        fullyPlannedTrips = $('input[name="PlannedTrips"]').is(':checked');
+        finishedTrips = $('input[name="Finished"]').is(':checked');
+        myOrganizedTrips = $('input[name="MyOrganized"]').is(':checked');
+        otherOrganizedTrips = $('input[name="OtherOrganizer"]').is(':checked');
+        var dates = dateFromTo.split(" - ");
+        var dateFrom = new Date(dates[0]);
+        var dateTo = new Date(dates[1]);
 
-$(function() {
-        // variable to store our current state
-        var cbstate;
-        // bind to the onload event
-        window.addEventListener('load', function() {
-          // Get the current state from localstorage
-          // State is stored as a JSON string
-          cbstate = JSON.parse(sessionStorage['CBState'] || '{}');
-
-        
-          // Loop through state array and restore checked 
-          // state for matching elements
-          for(var i in cbstate) {
-            var el = document.querySelector('input[name="' + i + '"]');
-            if (el) el.checked = true;
-          }
-
-          
-
-        
-          // Get all checkboxes that you want to monitor state for
-          var cb = document.getElementsByClassName('box');
-          
-          // Loop through results and ...
-          for(var i = 0; i < cb.length; i++) {
-        
-            //bind click event handler
-            cb[i].addEventListener('click', function(evt) {
-              // If checkboxe is checked then save to state
-              if (this.checked) {
-                cbstate[this.name] = true;
-              }
-          
-             // Else remove from state
-              else if (cbstate[this.name]) {
-                delete cbstate[this.name];
-              }
-          
-             // Persist state
-              sessionStorage.CBState = JSON.stringify(cbstate);
-            });
-          }
+        $.ajax({
+            url: 'api/trip/filter',
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "TripsAwaitingConfirmation": tripsAwaitingConfirmation,
+                "TripsConfirmed": tripsConfirmed,
+                "FullyPlannedTrips": fullyPlannedTrips,
+                "FinishedTrips": finishedTrips,
+                "MyOrganizedTrips": myOrganizedTrips,
+                "OtherOrganizedTrips": otherOrganizedTrips,
+                "DateFrom": dateFrom,
+                "DateTo": dateTo
+            },
+            error: function () {
+                console.error('Error');
+            },
+            success: function (data) {
+                $.each(data, function (key, item) {
+                    var display = displayTrips(item);
+                    var d1 = document.getElementById("TripInfo");
+                    d1.insertAdjacentHTML('afterbegin', display);
+                });
+            },
+            type: 'GET'
         });
-      });
+    });
+
+    function TodaysDate() {
+        var today = moment(new Date()).format('MM/DD/YYYY');
+        var date = new Date();
+        date = date.setMonth(date.getMonth() + 1);
+        var monthLater = moment(date).format('MM/DD/YYYY');
+
+        return today + " - " + monthLater;
+    }
+
+
+
+    function displayTrips(item) {
+
+        var departure = moment(item.departureDate).format('YYYY-MM-DD kk:mm');
+        var arrival = moment(item.returnDate).format('YYYY-MM-DD HH:mm');
+        var queryString = "?tripID=" + item.id;
+        console.log(queryString);
+        var myvar = '<div class="container bg-light rounded-lg p-3">' +
+            '        <a class="h3" href="trip_details.html?tripID=' + item.id + '">' + item.departureOffice.city + ', ' + item.departureOffice.country + ' - ' + item.arrivalOffice.city + ', ' + item.arrivalOffice.country + '</a>' +
+            '        <div class="row">' +
+            '            <div class="col-sm-1 ml-auto">' +
+            '              <div class="progress" data-percentage="' + item.confirmedProcentage + '">' +
+            '                <span class="progress-left">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <span class="progress-right">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <div class="progress-value">' +
+            '                  <div>' +
+            '                    ' + item.employeeCount + '<br>' +
+            '                    <span>Confirmed</span>' +
+            '                  </div>' +
+            '                </div>' +
+            '              </div>' +
+            '            </div>' +
+
+            '            <div class="col-sm-2">' +
+            '              <div class="progress" data-percentage="' + item.accomodationProcentage + '">' +
+            '                <span class="progress-left">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <span class="progress-right">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <div class="progress-value">' +
+            '                  <div>' +
+            '                    ' + item.accomodationCount + '<br>' +
+            '                    <span>Accomodation</span>' +
+            '                  </div>' +
+            '                </div>' +
+            '              </div>' +
+            '            </div>' +
+            '          ' +
+            '' +
+            '          <div class="col-sm-1">' +
+            '              <div class="progress" data-percentage="' + item.planeTicketProcentage + '">' +
+            '                <span class="progress-left">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <span class="progress-right">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <div class="progress-value">' +
+            '                  <div>' +
+            '                    ' + item.planeTicketCount + '<br>' +
+            '                    <span>Plane tickets</span>' +
+            '                  </div>' +
+            '                </div>' +
+            '              </div>' +
+            '            </div>' +
+            '            ' +
+            '            ' +
+            '            <div class="col-sm-2">' +
+            '              <div class="progress" data-percentage="' + item.carRentalProcentage + '">' +
+            '                <span class="progress-left">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <span class="progress-right">' +
+            '                  <span class="progress-bar"></span>' +
+            '                </span>' +
+            '                <div class="progress-value">' +
+            '                  <div>' +
+            '                    ' + item.carRentalCount + '<br>' +
+            '                    <span>Car rental</span>' +
+            '                  </div>' +
+            '                </div>' +
+            '              </div>' +
+            '            </div>' +
+            '            </div>' +
+            '' +
+            '        <h5>Departure: ' + departure + ' Arrival: ' + arrival + '</h5>' +
+            '        ' +
+            '      </div><br>';
+        return myvar;
+    }
+});
