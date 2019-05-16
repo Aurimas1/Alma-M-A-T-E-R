@@ -101,6 +101,60 @@ namespace API.Controllers
             return Ok();
         }
 
+        // Post api/Trip/gasCompensation
+        [Route("gasCompensation")]
+        [HttpPost]
+        public async Task<OkResult> AddGasCompensation([FromBody]GasCompensation item)
+        {
+            await service.SaveGasCompensation(new GasCompensation()
+            {
+                TripID = item.TripID,
+                EmployeeID = item.EmployeeID,
+                Price = item.Price,
+            });
+            
+            return Ok();
+        }
+
+        // Post api/Trip/carRental
+        [Route("carRental")]
+        [HttpPost]
+        public async Task<OkResult> AddCarRental([FromBody]CarRental item)
+        {
+            await service.SaveCarRental(new CarRental()
+            {
+                TripID = item.TripID,
+                Price = item.Price,
+                CarRentalCompany = item.CarRentalCompany,
+                CarPickupAddress = item.CarPickupAddress,
+                CarRentalUrl = item.CarRentalUrl,
+                CarIssueDate = item.CarIssueDate,
+                CarReturnDate = item.CarReturnDate,
+            });
+
+            return Ok();
+        }
+
+        // Post api/Trip/planeTicket
+        [Route("planeTicket")]
+        [HttpPost]
+        public async Task<OkResult> AddPlaneTicket([FromBody]PlaneTicket item)
+        {
+            await service.SavePlaneTicket(new PlaneTicket()
+            {
+                TripID = item.TripID,
+                Price = item.Price,
+                PlaneTicketUrl = item.PlaneTicketUrl,
+                ForwardFlightDate = item.ForwardFlightDate,
+                ReturnFlightDate = item.ReturnFlightDate,
+                Airport = item.Airport,
+                FlightCompany = item.FlightCompany,
+                EmployeeID = item.EmployeeID,
+            });
+
+            return Ok();
+        }
+
         // GET api/Trip
         [HttpGet]
         public IEnumerable<Trip> Get()

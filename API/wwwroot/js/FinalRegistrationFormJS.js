@@ -3,21 +3,20 @@ var tripID = location.hash.substr(1);
 $(document).ready(function () {
 
     //load EventsCalendar
-    $("div.events_calendar").load("../Calendar_DB.html", function() {
-        loadTripTime().then(function(times){
+    $("div.events_calendar").load("../Calendar_DB.html", function () {
+        loadTripTime().then(function (times) {
             var departureParts = times.departureDate.split("T");
             $("#departureDate").val(departureParts[0]);
-            departureParts[1] = departureParts[1].substr(0,5);
+            departureParts[1] = departureParts[1].substr(0, 5);
             $(`#departureTime option:contains(${departureParts[1]})`).attr('selected', 'selected');
             $('#departureTime').attr('disabled', true);
             var arrivalParts = times.returnDate.split("T");
             $("#arrivalDate").val(arrivalParts[0]);
-            arrivalParts[1] = arrivalParts[1].substr(0,5);
+            arrivalParts[1] = arrivalParts[1].substr(0, 5);
             $(`#arrivalTime option:contains(${arrivalParts[1]})`).attr('selected', 'selected');
             $('#arrivalTime').attr('disabled', true);
         });
     });
-
 
 
     loadEmployees().then(function () { return loadTripEmployees(tripID); }).then(function () {
@@ -71,7 +70,7 @@ function clickAccomodation() {
 
     loadAccommodation(tripID).then(function (a) {
         let map = {};
-    
+
         var i = 0;
         var emp2 = [];
         $.each(a, function (j, t) {
@@ -103,7 +102,7 @@ function clickAccomodation() {
                         $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
                     map[text] = j;
                 }
-                
+
                 $("#bookingSpan").text($(`#employeeList li:contains(no room)`).length);
             });
             var obj = emp2.find(x => x.id == t.employeeID);
@@ -189,7 +188,7 @@ function clickAccomodation() {
     });
 }
 
-function loadTripTime(){
+function loadTripTime() {
     return $.ajax({
         type: "GET",
         url: `/api/trip/time/${tripID}`,
@@ -231,6 +230,7 @@ function loadTripEmployees(id) {
                     .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove"))));
                 $("#employeeTBody").append(line);
                 $(`#sort tr:contains(${email})`).prop('disabled', true).css("cssText", "background-color:#D33F49");
+                $('#employeeSelect').append($(`<option value="${entry.employeeID}" selected>`).text(entry.name));/////////////to editPage
             });
         },
         error: function () { alert('Internet error'); },
@@ -316,7 +316,7 @@ function saveTrip() {
 
 function createMap() {
     const map = {};
-    $.each($('#rooms_table tr'), function(position, entry) { // position starts from 0
+    $.each($('#rooms_table tr'), function (position, entry) { // position starts from 0
         const select = $(entry).find('td:eq(1) select');
         if (select) {
             const id = select.val();
@@ -328,17 +328,132 @@ function createMap() {
 }
 ////////////////
 ////////////////////////////////////////////////////////
-function saveGasCompensation(){
-    var name = $("#gasName").val();
-    var surname = $("#gasSurname").val();
+function saveGasCompensation() {
+    var employeeID = $("#employeeSelect :selected").val();
     var tel = $("#gasTel").val();
     var price = $("#gasPrice").val();
     var select = $("#gasSelect :selected").val();
-    if(name == "" || surname == "" || tel == "" || price == "")
-    {
+    if (tel == "" || price == "") {
         alert("You didn't write all information.");
     }
-    else{
+    else if (price < 0) {
+        alert("You didn't write price correctly.");
+    }
+
+    else {
         $('#GasCompensationModal').modal('toggle');
+        return $.ajax({
+            type: "POST",
+            url: '/api/trip/gasCompensation',
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: JSON.stringify({
+                "TripID": tripID,
+                "Price": price,
+                "EmployeeID": employeeID,
+            }),
+            success: function () {
+                alert("The information was saved!");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        })
+    }
+}
+
+function saveCarRental(){
+    var from = $("#carFrom").val();
+    var to = $("#carTo").val();
+    var company = $("#carCompany").val();
+    var address = $("#carAddress").val();
+    var model = $("#carModel").val();
+    var price = $("#carPrice").val();
+    var url = $("#carUrl").val();
+    var select = $("#carSelect :selected").val();
+    debugger;
+    if (from == "" || price == "" || to == "" || company == "" || address == "" || url == "") {
+        alert("You didn't write all information.");
+        $('#carCompany').css('border-color', 'red');
+    }
+    else if (price < 0) {
+        alert("You didn't write price correctly.");
+    }
+    else {
+        $('#CarRentalModal').modal('toggle');
+        return $.ajax({
+            type: "POST",
+            url: '/api/trip/carRental',
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: JSON.stringify({
+                "TripID": tripID,
+                "Price": price,
+                "CarRentalCompany": company,
+                "CarPickupAddress": address,
+                "CarRentalUrl": url,
+                "CarIssueDate": new Date(from),
+                "CarReturnDate": new Date(to),
+            }),
+            success: function () {
+                alert("The information was saved!");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        })
+    }
+}
+
+function saveAirplane(){
+    var from = $("#airplaneFrom").val();
+    var to = $("#airplaneTo").val();
+    var company = $("#airplaneCompany").val();
+    var addressFrom = $("#airplaneAddressFrom").val();
+    var addressTo = $("#airplaneAddressTo").val();
+    var price = $("#airplanePrice").val();
+    var url = $("#airplaneUrl").val();
+    var select = $("#airplaneSelect :selected").val();
+    var employeeID = 1;//sita reik pakeisti veliau!!!!
+    debugger;
+    if (from == "" || price == "" || to == "" || company == "" || addressFrom == "" || url == "" || addressTo == "") {
+        alert("You didn't write all information.");
+    }
+    else if (price < 0) {
+        alert("You didn't write price correctly.");
+    }
+    else {
+        $('#AirplaneModal').modal('toggle');
+        return $.ajax({
+            type: "POST",
+            url: '/api/trip/planeTicket',
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: JSON.stringify({
+                "TripID": tripID,
+                "Price": price,
+                "PlaneTicketUrl": url,
+                "ForwardFlightDate": new Date(from),
+                "ReturnFlightDate": new Date(to),
+                "Airport": addressFrom + "-" + addressTo,
+                "FlightCompany": company,
+                "EmployeeID": employeeID,
+            }),
+            success: function () {
+                alert("The information was saved!");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        })
     }
 }
