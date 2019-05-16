@@ -15,6 +15,17 @@ $(document).ready(function () {
             arrivalParts[1] = arrivalParts[1].substr(0,5);
             $(`#arrivalTime option:contains(${arrivalParts[1]})`).attr('selected', 'selected');
             $('#arrivalTime').attr('disabled', true);
+            
+            //load events
+            selectedEployeesForEvents = $('table#sort tbody tr td#NrColumn').map(function(){
+                return $.trim($(this).text());
+            }).get();
+
+            //fill in selected dates
+            fillInSelectedDates_FinalRegForm();
+            //load
+            monthButtonClicked();
+            
         });
     });
 

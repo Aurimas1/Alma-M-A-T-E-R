@@ -35,6 +35,9 @@ function CheckEmployees() {
         $('#Card3').attr("data-toggle", "collapse");
         
         //Load calendar
+        selectedEployeesForEvents = $('table#sort tbody tr.selected td#NrColumn').map(function(){
+            return $.trim($(this).text());
+        }).get();
         monthButtonClicked();
     }
 }

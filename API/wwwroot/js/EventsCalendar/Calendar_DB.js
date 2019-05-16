@@ -17,7 +17,7 @@ var startingMonthDate = new Date();
 var currentMonth = new Date().getMonth();
 var currentYear = new Date().getFullYear();
 
-
+selectedEployeesForEvents = [];
 //on load update
 window.onload = updateCalendarMonth();
 
@@ -51,10 +51,8 @@ function updateCalendarMonth(){
     $(".nav_month_header").text(months[currentMonth]);
     $(".nav_year_header").text(currentYear+" m.");
     
-    var selectedEployees = $('table#sort tbody tr.selected td#NrColumn').map(function(){
-        return $.trim($(this).text());
-    }).get();
-    getEvents(startingMonthDate,newDate,selectedEployees);
+
+    getEvents(startingMonthDate,newDate,selectedEployeesForEvents);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
@@ -110,10 +108,8 @@ function updateCalendarWeek(){
     $(".nav_month_header").text(month);
     $(".nav_year_header").text(year + ' m.');
 
-    var selectedEployees = $('table#sort tbody tr.selected td#NrColumn').map(function(){
-        return $.trim($(this).text());
-    }).get();
-    getEvents(startingWeekDate, newDate, selectedEployees);
+
+    getEvents(startingWeekDate, newDate, selectedEployeesForEvents);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
