@@ -39,9 +39,6 @@ function setUsername(username){
 }
 
 function hideTabs(role){
-    console.log(role);
-    //during development predefined role
-    role = "Admin";
     if (role !== "User"){
         $("li.nav-item > a#statistics, li.nav-item > a#Trips").parent().css("display","unset");
         $("li.nav-item.active").removeClass("active");
