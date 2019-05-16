@@ -155,6 +155,58 @@ namespace API.Controllers
             return Ok();
         }
 
+        // Post api/Trip/hotel
+        [Route("hotel")]
+        [HttpPost]
+        public async Task<OkResult> AddHouse([FromBody]Hotel item)
+        {
+            var apartament = await service.SaveHotelorHome(new Apartment()
+            {
+                OfficeId = null,
+                Address = item.Address,
+                Name = item.Name,
+                Price = item.Price,
+                RoomNumber = item.RoomNumber,
+                Type = "HOTEL",
+            });
+            await service.SaveReservation(new Reservation()
+            {
+                ApartmentID = apartament.ApartmentID,
+                CheckIn = item.CheckIn,
+                CheckOut = item.CheckOut,
+                ReservationUrl = item.ReservationUrl,
+                TripID = item.TripID,
+                EmployeeID = item.EmployeeID,
+            });
+            return Ok();
+        }
+
+        // Post api/Trip/home
+        [Route("home")]
+        [HttpPost]
+        public async Task<OkResult> AddHome([FromBody]Home item)
+        {
+            var apartament = await service.SaveHotelorHome(new Apartment()
+            {
+                OfficeId = null,
+                Address = item.Address,
+                Name = null,
+                Price = 0,
+                RoomNumber = 0,
+                Type = "HOME",
+            });
+            await service.SaveReservation(new Reservation()
+            {
+                ApartmentID = apartament.ApartmentID,
+                CheckIn = item.CheckIn,
+                CheckOut = item.CheckOut,
+                ReservationUrl = null,
+                TripID = item.TripID,
+                EmployeeID = item.EmployeeID,
+            });
+            return Ok();
+        }
+
         // GET api/Trip
         [HttpGet]
         public IEnumerable<Trip> Get()

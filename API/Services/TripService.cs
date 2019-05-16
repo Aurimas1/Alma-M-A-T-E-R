@@ -10,13 +10,17 @@ namespace API.Services
         private readonly IRepository<GasCompensation> gasCompensationRepository;
         private readonly IRepository<CarRental> carRentalRepository;
         private readonly IRepository<PlaneTicket> planeTicketRepository;
+        private readonly IRepository<Apartment> apartmentRepository;
+        private readonly IRepository<Reservation> reservationRepository;
 
-        public TripService(TripRepository repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository)
+        public TripService(TripRepository repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository, IRepository<Apartment> apartmentRepository, IRepository<Reservation> reservationRepository)
         {
             this.repository = repository;
             this.gasCompensationRepository = gasCompensationRepository;
             this.carRentalRepository = carRentalRepository;
             this.planeTicketRepository = planeTicketRepository;
+            this.apartmentRepository = apartmentRepository;
+            this.reservationRepository = reservationRepository;
         }
 
         public async Task<GasCompensation> SaveGasCompensation(GasCompensation item)
@@ -32,6 +36,16 @@ namespace API.Services
         public async Task<PlaneTicket> SavePlaneTicket(PlaneTicket item)
         {
             return await planeTicketRepository.Add(item);
+        }
+
+        public async Task<Apartment> SaveHotelorHome(Apartment item)
+        {
+            return await apartmentRepository.Add(item);
+        }
+
+        public async Task<Reservation> SaveReservation(Reservation item)
+        {
+            return await reservationRepository.Add(item);
         }
 
         public async Task<Trip> Add(Trip item)
