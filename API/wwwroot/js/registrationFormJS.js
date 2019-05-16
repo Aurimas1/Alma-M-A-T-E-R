@@ -33,6 +33,9 @@ function CheckEmployees() {
         $('#EmployeeNotification').css({ 'visibility': 'hidden' });
         $('#Card2').attr("data-toggle", "collapse");
         $('#Card3').attr("data-toggle", "collapse");
+        
+        //Load calendar
+        monthButtonClicked();
     }
 }
 
@@ -58,7 +61,7 @@ function saveTrip() {
         return;
     }
     
-    if($("#departureDate").val() == undefined){
+    if($("#departureDate").val() == ""){
         alert("You didn't choose departure and arrival date");
         return;
     }
