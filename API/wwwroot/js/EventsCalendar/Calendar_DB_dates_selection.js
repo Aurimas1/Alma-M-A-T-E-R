@@ -45,7 +45,6 @@ function fillInSelection(){
     
     var startingDate = new Date (trip_start_date);
     var endingDate = new Date (trip_end_date);
-    
     if(isMonthMode()){
 
         startingDate.setDate(startingDate.getDate());
@@ -131,4 +130,11 @@ function fillInSelection_afterCalendarNavigation(currentYear, currentMonth){
             fillInSelection();
         }
     }
+}
+
+function fillInSelectedDates_FinalRegForm(){
+    trip_start_date = $("input[name='date_from']").val();
+    trip_end_date = $("input[name='date_to']").val();
+    trip_start_hour = $("select[name='hour_from']").val();
+    trip_end_hour = $("select[name='hour_to']").val();
 }

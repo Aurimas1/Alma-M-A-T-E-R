@@ -17,9 +17,9 @@ var startingMonthDate = new Date();
 var currentMonth = new Date().getMonth();
 var currentYear = new Date().getFullYear();
 
-
+selectedEployeesForEvents = [];
 //on load update
-window.onload = updateCalendarMonth()
+window.onload = updateCalendarMonth();
 
 
 //Calendar logic for Month mode
@@ -51,11 +51,8 @@ function updateCalendarMonth(){
     $(".nav_month_header").text(months[currentMonth]);
     $(".nav_year_header").text(currentYear+" m.");
     
-    //if any employees were selected
-    //var table = $('#sort').DataTable();
-    //console.log(table.rows('.selected').data());
-    //console.log("updating");
-    getEvents(startingMonthDate,newDate,[1007]);
+
+    getEvents(startingMonthDate,newDate,selectedEployeesForEvents);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
@@ -110,8 +107,9 @@ function updateCalendarWeek(){
         
     $(".nav_month_header").text(month);
     $(".nav_year_header").text(year + ' m.');
-    
-    getEvents(startingWeekDate, newDate, [1007]);
+
+
+    getEvents(startingWeekDate, newDate, selectedEployeesForEvents);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
 
