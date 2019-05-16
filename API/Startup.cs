@@ -74,6 +74,9 @@ namespace API
             services.AddScoped<IRepository<EmployeeToTrip>, EmployeeToTripRepository>();
             services.AddScoped<IRepository<Apartment>, ApartmentRepository>();
             services.AddScoped<IRepository<Reservation>, ReservationRepository>();
+            services.AddScoped<IRepository<GasCompensation>, GasCompensationRepository>();
+            services.AddScoped<IRepository<CarRental>, CarRentalRepository>();
+            services.AddScoped<IRepository<PlaneTicket>, PlaneTicketRepository>();
             services.AddScoped<TripRepository>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
