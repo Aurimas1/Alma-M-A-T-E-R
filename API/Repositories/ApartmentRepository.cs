@@ -13,7 +13,6 @@ namespace API.Repositories
         {
             this.context = context;
         }
-
         public async Task<Apartment> Add(Apartment item)
         {
             await context.Apartments.AddAsync(item);

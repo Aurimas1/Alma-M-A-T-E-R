@@ -29,7 +29,7 @@ namespace API.Controllers
         [Route("login")]
         public IActionResult Login()
         {
-            return Redirect("/trips.html");
+            return Redirect("/index.html");
         }
 
         [Route("logout")]
@@ -49,7 +49,7 @@ namespace API.Controllers
             var user = await service.Ensure(parameters.Email, parameters.Name);
             var events = await calendarService.GetEvents(parameters.AccessToken);
 
-            await eventService.SaveEventsForEmployee(events.Items.ToEvents(user.EmployeeID));
+            //await eventService.SaveEventsForEmployee(events.Items.ToEvents(user.EmployeeID));
 
             return Ok(user.Role);
         }

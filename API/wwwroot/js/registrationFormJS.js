@@ -33,6 +33,12 @@ function CheckEmployees() {
         $('#EmployeeNotification').css({ 'visibility': 'hidden' });
         $('#Card2').attr("data-toggle", "collapse");
         $('#Card3').attr("data-toggle", "collapse");
+        
+        //Load calendar
+        selectedEployeesForEvents = $('table#sort tbody tr.selected td#NrColumn').map(function(){
+            return $.trim($(this).text());
+        }).get();
+        monthButtonClicked();
     }
 }
 
@@ -58,8 +64,13 @@ function saveTrip() {
         return;
     }
     
-    if($("#departureDate").val() == undefined){
+    if($("#departureDate").val() == ""){
         alert("You didn't choose departure and arrival date");
+        return;
+    }
+    
+    if (pickedDatesWithEvents) {
+        if(!confirm("The employees have some events reserved during the dates you picked for the trip. Do you want to proceed with the trip creation?"))
         return;
     }
     var dateDeparture = $("#departureDate").val().replace("/","-");
@@ -72,7 +83,7 @@ function saveTrip() {
     console.log(table.rows('.selected').data().toArray().map(x => +x[0]));
     $.ajax({
         type: "POST",
-        url: '/api/trip/saveTrip',
+        url: '/api/trip',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
@@ -88,7 +99,8 @@ function saveTrip() {
             "Employees": table.rows('.selected').data().toArray().map(x => +x[0]),
         }),
         success: function () {
-            alert('Trip was saved');
+            alert("The trip was successfully created!");
+            window.location.href = "/index.html";
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);

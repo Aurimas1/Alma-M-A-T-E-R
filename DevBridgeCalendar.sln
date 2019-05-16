@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{F02007FF-6B54-41FD-9435-F71097A7C661}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeder", "Seeder\Seeder.csproj", "{48E396D4-F06C-43B2-A2BF-30CD6C1A1543}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F02007FF-6B54-41FD-9435-F71097A7C661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F02007FF-6B54-41FD-9435-F71097A7C661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F02007FF-6B54-41FD-9435-F71097A7C661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E396D4-F06C-43B2-A2BF-30CD6C1A1543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E396D4-F06C-43B2-A2BF-30CD6C1A1543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E396D4-F06C-43B2-A2BF-30CD6C1A1543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E396D4-F06C-43B2-A2BF-30CD6C1A1543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

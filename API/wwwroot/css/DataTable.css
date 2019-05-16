@@ -1,17 +1,14 @@
-#newEmployeeButton {
-    margin-top: 20px;
-}
-
 table {
     border-collapse: collapse;
-    width: 50%;
-    margin: 0px auto;
+    width: 70%;
     float: none;
 }
 
+html{
+    overflow-x: hidden;
+}
 /* Zebra striping */
-
-h3#TopH1 {
+h3#TopH1{
     padding-top: 20px;
     margin-bottom: 30px;
 }
@@ -38,13 +35,8 @@ td, th {
     width: 250px;
 }
 
-.form-check-label {
-    margin-left: 20px;
-}
-
 #NrColumn {
     width: 80px !important;
-    display: none;
 }
 
 .SmallColumn {
@@ -61,32 +53,9 @@ td {
     line-height: 20px;
 }
 
-span {
-    font-style: italic
+tr:hover{
+    background-color: rgba(66, 134, 244, 0.62);
 }
-
-body {
-    overflow-x: hidden;
-}
-
-#page-content-wrapper {
-    min-width: 100vw;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-    margin-left: 0;
-}
-
-h1, h2, h3 {
-    text-align: center;
-}
-
-#savingButton {
-    margin-right: 100px;
-    margin-top: 40px;
-    margin-bottom: 10px;
-}
-
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
     /* Force table to not be like tables anymore */
     table.responsive, .responsive thead, .responsive tbody, .responsive th, .responsive td, .responsive tr {
@@ -114,7 +83,7 @@ h1, h2, h3 {
         /* Top/left values mimic padding */
         top: 6px;
         left: 6px;
-        width: 50%;
+        width: 80%;
         padding-right: 10px;
         white-space: nowrap !important;
         font-weight: 500 !important;

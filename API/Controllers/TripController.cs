@@ -31,10 +31,9 @@ namespace API.Controllers
             this.apartmentService = apartmentService;
         }
 
-        // POST api/Trip/saveTrip
-        [Route("saveTrip")]
+        // POST api/Trip
         [HttpPost]
-        public async Task<Trip> Add([FromBody]CreateTrip item)
+        public async Task<OkResult> Add([FromBody]CreateTrip item)
         {
             var trip = new Trip
             {
@@ -61,7 +60,160 @@ namespace API.Controllers
                 await employeeToTripService.Add(employeeToTrip);
             }
 
-            return result;
+            return Ok();
+        }
+
+        // PUT api/Trip/{id}
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<OkResult> Update([FromBody]UpdateTrip item, int id)
+        {
+            Trip trip = service.GetByID(id);
+            trip.IsCarCompensationNeeded = item.IsCarCompensationNeeded;
+            trip.IsPlaneNeeded = item.IsPlaneNeeded;
+            trip.IsCarRentalNeeded = item.IsCarRentalNeeded;
+            foreach(var employee in item.Employees)
+            {
+                if(trip.EmployeesToTrip?.Any(x => x.EmployeeID == employee) == false)
+                {
+                    var employeeToTrip = new EmployeeToTrip
+                    {
+                        EmployeeID = employee,
+                        TripId = id,
+                        Status = "PENDING",
+                        WasRead = false,
+                    };
+                    await employeeToTripService.Add(employeeToTrip);
+                }
+            }
+
+            foreach (var e in trip.EmployeesToTrip)
+            {
+                if (!item.Employees.Contains(e.EmployeeID))
+                {
+                    employeeToTripService.Remove(e.EmployeeToTripID);
+                }
+            }
+
+            trip.Reservations = item.Rooms.Select(x => new Reservation
+            {
+                ApartmentID = trip.ArrivalOffice.Apartaments.First(a=>a.RoomNumber==x.RoomID).ApartmentID,
+                EmployeeID = x.EmployeeID,
+                CheckIn = trip.DepartureDate,
+                CheckOut =trip.ReturnDate,
+                TripID = trip.TripID,
+                ReservationUrl = "-",
+            }).ToList();
+            
+            var result = service.Update(trip);
+
+            return Ok();
+        }
+
+        // Post api/Trip/gasCompensation
+        [Route("gasCompensation")]
+        [HttpPost]
+        public async Task<OkResult> AddGasCompensation([FromBody]GasCompensation item)
+        {
+            await service.SaveGasCompensation(new GasCompensation()
+            {
+                TripID = item.TripID,
+                EmployeeID = item.EmployeeID,
+                Price = item.Price,
+            });
+            
+            return Ok();
+        }
+
+        // Post api/Trip/carRental
+        [Route("carRental")]
+        [HttpPost]
+        public async Task<OkResult> AddCarRental([FromBody]CarRental item)
+        {
+            await service.SaveCarRental(new CarRental()
+            {
+                TripID = item.TripID,
+                Price = item.Price,
+                CarRentalCompany = item.CarRentalCompany,
+                CarPickupAddress = item.CarPickupAddress,
+                CarRentalUrl = item.CarRentalUrl,
+                CarIssueDate = item.CarIssueDate,
+                CarReturnDate = item.CarReturnDate,
+            });
+
+            return Ok();
+        }
+
+        // Post api/Trip/planeTicket
+        [Route("planeTicket")]
+        [HttpPost]
+        public async Task<OkResult> AddPlaneTicket([FromBody]PlaneTicket item)
+        {
+            await service.SavePlaneTicket(new PlaneTicket()
+            {
+                TripID = item.TripID,
+                Price = item.Price,
+                PlaneTicketUrl = item.PlaneTicketUrl,
+                ForwardFlightDate = item.ForwardFlightDate,
+                ReturnFlightDate = item.ReturnFlightDate,
+                Airport = item.Airport,
+                FlightCompany = item.FlightCompany,
+                EmployeeID = item.EmployeeID,
+            });
+
+            return Ok();
+        }
+
+        // Post api/Trip/hotel
+        [Route("hotel")]
+        [HttpPost]
+        public async Task<OkResult> AddHouse([FromBody]Hotel item)
+        {
+            var apartament = await service.SaveHotelorHome(new Apartment()
+            {
+                OfficeId = null,
+                Address = item.Address,
+                Name = item.Name,
+                Price = item.Price,
+                RoomNumber = item.RoomNumber,
+                Type = "HOTEL",
+            });
+            await service.SaveReservation(new Reservation()
+            {
+                ApartmentID = apartament.ApartmentID,
+                CheckIn = item.CheckIn,
+                CheckOut = item.CheckOut,
+                ReservationUrl = item.ReservationUrl,
+                TripID = item.TripID,
+                EmployeeID = item.EmployeeID,
+            });
+            return Ok();
+        }
+
+        // Post api/Trip/home
+        [Route("home")]
+        [HttpPost]
+        public async Task<OkResult> AddHome([FromBody]Home item)
+        {
+            var apartament = await service.SaveHotelorHome(new Apartment()
+            {
+                OfficeId = null,
+                Address = item.Address,
+                Name = null,
+                Price = 0,
+                RoomNumber = 0,
+                Type = "HOME",
+            });
+            await service.SaveReservation(new Reservation()
+            {
+                ApartmentID = apartament.ApartmentID,
+                CheckIn = item.CheckIn,
+                CheckOut = item.CheckOut,
+                ReservationUrl = null,
+                TripID = item.TripID,
+                EmployeeID = item.EmployeeID,
+            });
+            return Ok();
         }
 
         // GET api/Trip
@@ -192,11 +344,19 @@ namespace API.Controllers
         }
 
         // GET api/Trip/employees
-        [Route("employees")]
+        [Route("{id}")]
         [HttpGet]
         public IEnumerable<Employee> GetEmployees(int id)
         {
             return service.GetEmployees(id);
+        }
+
+        // GET api/Trip/Time/{id}
+        [Route("time/{id}")]
+        [HttpGet]
+        public Times GetTimes(int id)
+        {
+            return service.GetTimes(id);
         }
 
         // GET api/Trip/reservedApartments

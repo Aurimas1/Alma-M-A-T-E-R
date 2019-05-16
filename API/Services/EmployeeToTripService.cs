@@ -19,5 +19,10 @@ namespace API.Services
         {
             return repository.Add(item);
         }
+
+        public bool Remove(int id)
+        {
+            return repository.Delete(id);
+        }
     }
 }

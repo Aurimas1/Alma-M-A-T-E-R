@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" lang="en">
+    <title>Users</title>
+    <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/DataTable.css"/>
+
+    <style>
+        td#NrColumn, th#NrColumn, th#OfficeId, td#OfficeId, th#RowVersion, td#RowVersion{
+            display:none;
+        }
+
+        button#newApartment {
+            margin-top:15px;
+        }
+        
+        input[type='number']{
+            max-width: 100px;
+        }
+        
+        label.text{
+            width: 90%;
+        }
+        
+        label.select{
+            width: 70%;
+            
+        }
+        
+        div.creatingForm, div.editingForm{
+            margin-left: 50px;
+            padding-left: 50px;
+            border-left: 2px solid grey;
+            min-width: 400px;
+        }
+        
+        button#creApartment{
+            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+        
+        tr.selected{
+            background-color: rgba(45, 85, 163, 0.85);
+        }
+        
+        table#sort{
+            width: unset!important;
+        }
+        
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+<div style="padding-top:35px;">
+<h3 style="text-align:center">Administrate apartments</h3>
+<p style="color:grey;text-align:center;margin-bottom:40px;">(Click on apartment's row to edit or delete)</p>
+<div class="container officesAndApartments">
+    <div class="row">
+            <div class="col tableColumn">
+            <table class="table responsive" id="sort">
+                <thead>
+                <tr>
+                    <th scope="col" id="NrColumn">Nr</th>
+                    <th scope="col">Office</th>
+                    <th scope="col" id="RowVersion">Row Version</th>
+                    <th scope="col" id="OfficeId">OfficeId</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Room Number</th>
+                </tr>
+                </thead>
+                <tbody id="tBody">
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary" id="newApartment" onclick="showCreateForm()">New</button>
+            </div>
+            <div class="col-3 creatingForm form-group" style="display:none;" onsubmit="createApartment()">
+                <h5 style="margin-bottom: 20px;text-align: center;">Creating new apartment</h5>
+                <form method="post" action="javascript:void(0)">
+                    <label class="select">Office<br><select name="OfficeId" class="form-control form-control-sm" id="offices_create" required></select></label><br>
+                    <label class="text">Apartment Name<br><input name="Name" class="form-control" type='text' id="apartment_name_create" required/></label><br>
+                    <label class="text">Apartment Address<br><input name="Address" class="form-control" type='text' id="apartment_address_create" required/></label><br>
+                    <label>Room Number<br><input name="RoomNumber" class="form-control" type='number' id="apartment_room_create" required/></label><br>
+                    <button type="submit" class="btn btn-primary" id="creApartment">Create</button>
+                </form>
+            </div>
+            <div class="col-3 editingForm form-group" style="display:none;" onsubmit="updateApartment(event)">
+                <h5 style="margin-bottom: 20px;text-align: center;">Editing:</h5>
+                <form method="post" action="javascript:void(0)">
+                    <label style="display:none;">RowVersion<input name="RowVersion" class="form-control" type="text" id="apartment_RowVersion"/></label>
+                    <label style="display:none;">Id<input name="ApartmentID" class="form-control" type="number" id="apartment_id_edit"/></label>
+                    <label class="select">Office<br><select name="OfficeId" class='form-control form-control-sm' readonly id="offices_edit"><option value='blank'> </option></select></label><br>
+                    <label class="text">Apartment Name<br><input required name="Name" class="form-control" type='text' id="apartment_name_edit"/></label><br>
+                    <label class="text">Apartment Address<br><input required name="Address" class="form-control" type='text' id="apartment_address_edit"/></label><br>
+                    <label>Room Number<br><input required name="RoomNumber" class="form-control" type='number' id="apartment_room_edit"/></label><br>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary" id="upApartment">Update</button>
+                        </div>
+                        <div class="col" style="text-align: right;">
+                            <button type="button" class="btn btn-primary" id="delApartment" onclick="deleteApartment()">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+    </div>
+</div>
+<script src="js/OfficesAndApartments.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+ <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+ <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+ <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>-->
+</body>
+</html>
+
+

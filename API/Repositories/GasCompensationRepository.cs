@@ -13,7 +13,6 @@ namespace API.Repositories
         {
             this.context = context;
         }
-
         public async Task<GasCompensation> Add(GasCompensation item)
         {
             await context.GasCompensations.AddAsync(item);
