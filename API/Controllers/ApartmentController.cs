@@ -52,7 +52,8 @@ namespace API.Controllers
         }
         
         [HttpDelete]
-        public void DeleteApartment([FromBody]int id)
+        [Route("{id}")]
+        public void DeleteApartment(int id)
         {
             service.DeleteApartment(id);
         }
