@@ -37,7 +37,7 @@ namespace API.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(User.Identity.GetUserName()) + ";" +
-                       (User.IsInRole(Role.Admin) ? Role.Admin : "") + (User.IsInRole(Role.Organiser) ? Role.Organiser : "User");
+                       (User.IsInRole(Role.Admin) ? Role.Admin : User.IsInRole(Role.Organiser) ? Role.Organiser : "User");
             return null;
         }
         
