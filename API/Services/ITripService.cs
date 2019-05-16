@@ -13,5 +13,6 @@ namespace API.Services
         IEnumerable<PlaneTicket> GetPlaneTickets(int id);
         IEnumerable<CarRental> GetCarRentals(int id);
         IEnumerable<GasCompensation> GetGasCompensations(int id);
+        Trip Get(int id);
     }
 }

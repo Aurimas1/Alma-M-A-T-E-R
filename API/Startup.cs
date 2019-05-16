@@ -71,12 +71,19 @@ namespace API
             services.AddScoped<IRepository<Event>, EventRepository>();
             services.AddScoped<IRepository<EmployeeToTrip>, EmployeeToTripRepository>();
             services.AddScoped<TripRepository>();
+            services.AddScoped<IRepository<Reservation>, ReservationRepository>();
+            services.AddScoped<IRepository<CarRental>, CarRentalRepository>();
+            services.AddScoped<IRepository<PlaneTicket>, PlaneTicketRepository>();
+            services.AddScoped<IRepository<Apartment>, ApartmentRepository>();
+            services.AddScoped<IRepository<GasCompensation>, GasCompensationRepository>();
+
 
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<ITripService, TripService>();
             services.AddScoped<IEmployeeToTripService, EmployeeToTripService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IApartmentService, ApartmentService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
