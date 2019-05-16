@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>Trip details</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Page logic JavaScript -->
+    <script src="js/MergeWizard.js"></script>
+</head>
+<body>
+    <header style="margin-bottom: 75px">
+        <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px">
+            <a class="navbar-brand" href="Trips.html">
+                <img src="IMG/logo.png" alt="Logo" style="width: 50px">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="Trips.html">Trips</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+
+            <span class="navbar-text p-2"> Username /</span>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <article>
+        <div class="container-fluid">
+            <div id="dateRow" class="row">
+                <div id="tripDate1" class="col-5">
+                    <div id="events_calendar1">
+
+                    </div>
+                </div>
+                <div id="datePanel" class="col-2">
+                    <h2>Choose date</h1>
+                    <form>
+                        <label>From:</label>
+                        <div class="form-row">
+                            <div class="col-3">
+                                <input class="form-control form-control-sm" id="departureDate" type="text" name="date_from" readonly="">
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control form-control-sm" id="departureTime" name="hour_from">
+                                    <option selected="">00:00</option>
+                                    <option>01:00</option>
+                                    <option>02:00</option>
+                                    <option>03:00</option>
+                                    <option>04:00</option>
+                                    <option>05:00</option>
+                                    <option>06:00</option>
+                                    <option>07:00</option>
+                                    <option>08:00</option>
+                                    <option>09:00</option>
+                                    <option>10:00</option>
+                                    <option>11:00</option>
+                                    <option>12:00</option>
+                                    <option>13:00</option>
+                                    <option>14:00</option>
+                                    <option>15:00</option>
+                                    <option>16:00</option>
+                                    <option>17:00</option>
+                                    <option>18:00</option>
+                                    <option>19:00</option>
+                                    <option>20:00</option>
+                                    <option>21:00</option>
+                                    <option>22:00</option>
+                                    <option>23:00</option>
+                                    <option>24:00</option>
+                                </select>
+                            </div>
+                        </div>
+                        <label>To:</label>
+                        <div class="form-row">
+                            <div class="col-3">
+                                <input class="form-control form-control-sm" id="arrivalDate" type="text" name="date_to" readonly="">
+                            </div>
+                            <div class="col-2">
+                                <select class="form-control form-control-sm" id="arrivalTime" name="hour_to">
+                                    <option>00:00</option>
+                                    <option>01:00</option>
+                                    <option>02:00</option>
+                                    <option>03:00</option>
+                                    <option>04:00</option>
+                                    <option>05:00</option>
+                                    <option>06:00</option>
+                                    <option>07:00</option>
+                                    <option>08:00</option>
+                                    <option>09:00</option>
+                                    <option>10:00</option>
+                                    <option>11:00</option>
+                                    <option>12:00</option>
+                                    <option>13:00</option>
+                                    <option>14:00</option>
+                                    <option>15:00</option>
+                                    <option>16:00</option>
+                                    <option>17:00</option>
+                                    <option>18:00</option>
+                                    <option>19:00</option>
+                                    <option>20:00</option>
+                                    <option>21:00</option>
+                                    <option>22:00</option>
+                                    <option>23:00</option>
+                                    <option selected="">24:00</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="tripDate2" class="col-5">
+                    <div id="events_calendar2">
+                        
+                    </div>
+                </div>
+            </div>
+            <div id="employeeRow" class="row">
+                <div id="tripEmployees1" class="col-5">
+                    <table class="table responsive" id="EmployeeSelected1">
+                        <thead>
+                            <tr>
+                                <th scope="col" id="NrColumn">Nr</th>
+                                <th scope="col">Name and Surname</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTBody1">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div id="employeePanelr" class="col-2">
+                    <h2>Choose employees</h1>
+                </div>
+                <div id="tripEmployees2" class="col-5">
+                    <table class="table responsive" id="EmployeeSelected2">
+                        <thead>
+                            <tr>
+                                <th scope="col" id="NrColumn">Nr</th>
+                                <th scope="col">Name and Surname</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTBody2">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </article>
+</body>
+<style>
+h2{
+text-align: center;
+}
+#tripDate1, #tripDate2{
+    border-style: solid;
+    border-width: 2px;
+    border-color: lightgray;
+}
+</style>
+</html>
