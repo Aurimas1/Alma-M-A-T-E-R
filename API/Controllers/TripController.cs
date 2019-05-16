@@ -21,7 +21,7 @@ namespace API.Controllers
         private readonly ITripService service;
         private readonly IEmployeeToTripService employeeToTripService;
         private readonly IOfficeService officeService;
-        private readonly IApartmentService apartmentService;  
+        private readonly IApartmentService apartmentService;
 
         public TripController(ITripService service, IEmployeeToTripService employeeToTripService, IOfficeService officeService, IApartmentService apartmentService)
         {
@@ -48,7 +48,7 @@ namespace API.Controllers
             };
             var result = await service.Add(trip);
 
-            foreach(var employee in item.Employees)
+            foreach (var employee in item.Employees)
             {
                 var employeeToTrip = new EmployeeToTrip
                 {
@@ -72,9 +72,9 @@ namespace API.Controllers
             trip.IsCarCompensationNeeded = item.IsCarCompensationNeeded;
             trip.IsPlaneNeeded = item.IsPlaneNeeded;
             trip.IsCarRentalNeeded = item.IsCarRentalNeeded;
-            foreach(var employee in item.Employees)
+            foreach (var employee in item.Employees)
             {
-                if(trip.EmployeesToTrip?.Any(x => x.EmployeeID == employee) == false)
+                if (trip.EmployeesToTrip?.Any(x => x.EmployeeID == employee) == false)
                 {
                     var employeeToTrip = new EmployeeToTrip
                     {
@@ -97,14 +97,14 @@ namespace API.Controllers
 
             trip.Reservations = item.Rooms.Select(x => new Reservation
             {
-                ApartmentID = trip.ArrivalOffice.Apartaments.First(a=>a.RoomNumber==x.RoomID).ApartmentID,
+                ApartmentID = trip.ArrivalOffice.Apartaments.First(a => a.RoomNumber == x.RoomID).ApartmentID,
                 EmployeeID = x.EmployeeID,
                 CheckIn = trip.DepartureDate,
-                CheckOut =trip.ReturnDate,
+                CheckOut = trip.ReturnDate,
                 TripID = trip.TripID,
                 ReservationUrl = "-",
             }).ToList();
-            
+
             var result = service.Update(trip);
 
             return Ok();
@@ -121,7 +121,7 @@ namespace API.Controllers
                 EmployeeID = item.EmployeeID,
                 Price = item.Price,
             });
-            
+
             return Ok();
         }
 
@@ -222,55 +222,54 @@ namespace API.Controllers
         {
             var trips = service.GetAll();
 
-            decimal confirmedProcentage = 0;
-            var employees = 0;
-            var employeeCount = "0/0";
-
-            decimal accomodationProcentage = 0;
-            var accomodationCount = "0/0";
-
-            decimal planeTicketProcentage = 0;
-            var planeTicketCount = "0/0";
-
-            decimal carRentalProcentage = 0;
-            var carRentalCount = "0/0";
-
-
             var fullTrips = trips.Select(t =>
             {
 
-            employees = 0;
-            foreach (var i in t.EmployeesToTrip)
-            {
-                if (i.Status == "APPROVED")
-                {
-                    employees++;
-                }
-            }
+                double confirmedProcentage = 0;
+                var employees = 0;
+                var employeeCount = "0/0";
 
-            confirmedProcentage = (employees / t.EmployeesToTrip.Count);
+                double accomodationProcentage = 0;
+                var accomodationCount = "0/0";
+
+                double planeTicketProcentage = 0;
+                var planeTicketCount = "0/0";
+
+                double carRentalProcentage = 0;
+                var carRentalCount = "0/0";
+
+                employees = 0;
+                foreach (var i in t.EmployeesToTrip)
+                {
+                    if (i.Status == "APPROVED")
+                    {
+                        employees++;
+                    }
+                }
+
+                confirmedProcentage = ((double)employees / (double)t.EmployeesToTrip.Count);
                 confirmedProcentage = Math.Round(confirmedProcentage, 1, MidpointRounding.AwayFromZero) * 100;
                 employeeCount = employees + "/" + t.EmployeesToTrip.Count;
 
-            accomodationProcentage = (t.Reservations?.Count ?? 0 / t.EmployeesToTrip.Count);
-                accomodationProcentage = Math.Round(accomodationProcentage, 2, MidpointRounding.AwayFromZero) * 100;
+                accomodationProcentage = (double)(t.Reservations?.Count ?? 0) / (double)t.EmployeesToTrip.Count;
+                accomodationProcentage = Math.Round(accomodationProcentage, 1, MidpointRounding.AwayFromZero) * 100;
 
 
                 accomodationCount = (t.Reservations?.Count ?? 0) + "/" + t.EmployeesToTrip.Count;
 
                 if (t.IsPlaneNeeded)
                 {
-                    planeTicketProcentage = (t.PlaneTickets?.Count ?? 0 / t.EmployeesToTrip.Count);
-                    planeTicketProcentage = Math.Round(planeTicketProcentage, 2, MidpointRounding.AwayFromZero) * 100;
+                    planeTicketProcentage = (double)(t.PlaneTickets?.Count ?? 0) / (double)t.EmployeesToTrip.Count;
+                    planeTicketProcentage = Math.Round(planeTicketProcentage, 1, MidpointRounding.AwayFromZero) * 100;
                     planeTicketCount = (t.PlaneTickets?.Count ?? 0) + "/" + t.EmployeesToTrip.Count;
                 }
                 else planeTicketProcentage = 100;
 
                 if (t.IsCarRentalNeeded)
                 {
-                    carRentalProcentage = (t.CarRentals?.Count ?? 0 / t.EmployeesToTrip.Count);
-                    carRentalProcentage = Math.Round(carRentalProcentage, 2, MidpointRounding.AwayFromZero) * 100; 
-                    carRentalCount = (t.CarRentals?.Count?? 0) + "/" + t.EmployeesToTrip.Count;
+                    carRentalProcentage = (double)(t.CarRentals?.Count ?? 0) / (double)t.EmployeesToTrip.Count;
+                    carRentalProcentage = Math.Round(carRentalProcentage, 1, MidpointRounding.AwayFromZero) * 100;
+                    carRentalCount = (t.CarRentals?.Count ?? 0) + "/" + t.EmployeesToTrip.Count;
                 }
                 else carRentalProcentage = 100;
 
@@ -408,12 +407,12 @@ namespace API.Controllers
             filter.DateTo = Convert.ToDateTime(date[0]);
 
             var trips = Get();
-            
+
             if (filter.TripsAwaitingConfirmation && filter.TripsConfirmed && filter.FullyPlannedTrips && filter.FinishedTrips)
             {
             }
             //THREE PARAMETERS
-            else if(filter.TripsAwaitingConfirmation && filter.TripsConfirmed && filter.FullyPlannedTrips)
+            else if (filter.TripsAwaitingConfirmation && filter.TripsConfirmed && filter.FullyPlannedTrips)
             {
                 trips = trips.Where(s => s.Status == "CREATED" || s.Status == "CONFIRMED" || s.Status == "PLANNED");
             }
@@ -430,7 +429,7 @@ namespace API.Controllers
                 trips = trips.Where(s => s.Status == "FINISHED" || s.Status == "CONFIRMED" || s.Status == "PLANNED");
             }
             //Two parameters
-            else if(filter.TripsAwaitingConfirmation && filter.TripsConfirmed)
+            else if (filter.TripsAwaitingConfirmation && filter.TripsConfirmed)
             {
                 trips = trips.Where(s => s.Status == "CREATED" || s.Status == "CONFIRMED");
             }
@@ -479,18 +478,18 @@ namespace API.Controllers
             var user = User.Claims.First(x => x.Type == ClaimTypes.Email).Value;
 
 
-            if(filter.MyOrganizedTrips && filter.OtherOrganizedTrips)
+            if (filter.MyOrganizedTrips && filter.OtherOrganizedTrips)
             {
                 trips = trips.Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo).OrderByDescending(x => x.DepartureDate);
             }
-            else if(filter.MyOrganizedTrips)
+            else if (filter.MyOrganizedTrips)
             {
                 trips = trips.Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo && s.EmployeeEmailList.Contains(user)).OrderByDescending(x => x.DepartureDate);
             }
             else if (filter.OtherOrganizedTrips)
             {
                 trips = trips.Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo && !s.EmployeeEmailList.Contains(user)).OrderByDescending(x => x.DepartureDate);
-            } 
+            }
             else
             {
                 trips = null;
