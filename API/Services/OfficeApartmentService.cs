@@ -13,9 +13,9 @@ namespace API.Services
         private readonly IRepository<Apartment> apartmentsRepository;
         private readonly IRepository<Office> officeRepository;
         private readonly IRepository<Reservation> reservationRepository;
-        private readonly TripRepository tripRepository;
+        private readonly IRepository<Trip> tripRepository;
 
-        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository, IRepository<Reservation> reservationRepository, TripRepository tripRepository)
+        public OfficeApartmentService(IRepository<Apartment> apartmentsRepository, IRepository<Office> officeRepository, IRepository<Reservation> reservationRepository, IRepository<Trip> tripRepository)
         {
             this.apartmentsRepository = apartmentsRepository;
             this.officeRepository = officeRepository;

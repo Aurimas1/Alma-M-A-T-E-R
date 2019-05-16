@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API.Repositories
 {
-    public class TripRepository
+    public class TripRepository : IRepository<Trip>
     {
         private readonly ApiDbContext context;
 
@@ -34,6 +34,9 @@ namespace API.Repositories
                 .Include(x => x.Reservations)
                 .Include(x => x.ArrivalOffice)
                 .Include(x => x.ArrivalOffice.Apartaments)
+                .Include(x => x.PlaneTickets)
+                .Include(x => x.CarRentals)
+                .Include(x => x.GasCompensations)
                 .FirstOrDefault(x => x.TripID == id);
         }
 
@@ -56,48 +59,6 @@ namespace API.Repositories
         {
             context.Trips.Update(item);
             return context.SaveChanges() == 1 ? item : null;
-        }
-
-        public IEnumerable<Employee> GetEmployees(int id)
-        {
-            List<Employee> employees = context.EmployeeToTrips
-                .Where(x => x.TripId == id)
-                .Select(x => x.Employee)
-                .ToList();
-            return employees;
-        }
-
-        public IEnumerable<Apartment> GetReservedApartments(int id)
-        {
-            List<Apartment> apartments = context.Reservations
-                .Where(x => x.TripID == id)
-                .Select(x => x.Apartment)
-                .ToList();
-            return apartments;
-        }
-
-        public IEnumerable<PlaneTicket> GetPlaneTickets(int id)
-        {
-            List<PlaneTicket> planeTickets = context.PlaneTickets
-                .Where(x => x.TripID == id)
-                .ToList();
-            return planeTickets;
-        }
-
-        public IEnumerable<CarRental> GetCarRentals(int id)
-        {
-            List<CarRental> carRentals = context.CarRentals
-                .Where(x => x.TripID == id)
-                .ToList();
-            return carRentals;
-        }
-
-        public IEnumerable<GasCompensation> GetGasCompensations(int id)
-        {
-            List<GasCompensation> gasCompensations = context.GasCompensations
-                .Where(x => x.TripID == id)
-                .ToList();
-            return gasCompensations;
         }
     }
 }
