@@ -10,6 +10,8 @@ namespace API.Services
         Task<GasCompensation> SaveGasCompensation(GasCompensation item);
         Task<CarRental> SaveCarRental(CarRental item);
         Task<PlaneTicket> SavePlaneTicket(PlaneTicket item);
+        Task<Apartment> SaveHotelorHome(Apartment item);
+        Task<Reservation> SaveReservation(Reservation item);
         Trip GetByID(int id);
         Trip Update(Trip item);
         IEnumerable<Employee> GetEmployees(int id);
