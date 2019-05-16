@@ -47,11 +47,12 @@ namespace API.Repositories
 
         public IEnumerable<Trip> GetAll()
         {
-            return context.Trips.ToList();
+            return context.Trips.ToList(); // need testing
         }
 
         public IEnumerable<Trip> GetAll(Func<Trip, bool> predicate)
         {
+
             return context.Trips.Where(predicate);
         }
 
