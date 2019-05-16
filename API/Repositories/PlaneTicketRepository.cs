@@ -13,7 +13,6 @@ namespace API.Repositories
         {
             this.context = context;
         }
-
         public async Task<PlaneTicket> Add(PlaneTicket item)
         {
             await context.PlaneTickets.AddAsync(item);

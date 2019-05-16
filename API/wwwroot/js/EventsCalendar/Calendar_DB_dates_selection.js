@@ -26,9 +26,9 @@ $(".col.cal, .col.cal-w").click(function(){
         selection_started = false;
         selection_ended = true;
         if (needToFlipDates()) flipDates();
-        setTripDatesFromSelection();
         $(this).addClass("highlighted");
         fillInSelection();
+        setTripDatesFromSelection();
     }
 });
 
@@ -45,11 +45,10 @@ function fillInSelection(){
     
     var startingDate = new Date (trip_start_date);
     var endingDate = new Date (trip_end_date);
-    
     if(isMonthMode()){
 
-        startingDate.setDate(startingDate.getDate()+1);
-        while(startingDate < endingDate){
+        startingDate.setDate(startingDate.getDate());
+        while(startingDate <= endingDate){
             $("#" + startingDate.getFullYear() + "-" + _addZero((startingDate.getMonth()+1)) + "-" + _addZero(startingDate.getDate()) + ".col.cal").addClass("highlighted");
             startingDate.setDate(startingDate.getDate()+1);
         }
@@ -92,6 +91,8 @@ function setTripDatesFromSelection(){
     //set hours
     $("select[name='hour_from']").val(trip_start_hour);
     $("select[name='hour_to']").val(trip_end_hour);
+    
+    if ($("div.event.highlighted").length) pickedDatesWithEvents = true;
 }
 
 function cleanSelection(){
@@ -104,6 +105,7 @@ function cleanSelection(){
     $("select[name='hour_from']").val("00:00");
     $("select[name='hour_to']").val("24:00");   
     _remove_highlights();
+    pickedDatesWithEvents = false;
 }
 
 function needToFlipDates(){
@@ -128,4 +130,11 @@ function fillInSelection_afterCalendarNavigation(currentYear, currentMonth){
             fillInSelection();
         }
     }
+}
+
+function fillInSelectedDates_FinalRegForm(){
+    trip_start_date = $("input[name='date_from']").val();
+    trip_end_date = $("input[name='date_to']").val();
+    trip_start_hour = $("select[name='hour_from']").val();
+    trip_end_hour = $("select[name='hour_to']").val();
 }

@@ -5,12 +5,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="Progress-bar.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+ <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
@@ -25,6 +25,8 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <script src="https://momentjs.com/downloads/moment.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>-->
+
 
 </head>
 
@@ -72,34 +74,6 @@
     <!--page info wrapper-->
     <div id="page-content-wrapper">
 
-      <!--Nav bar-->
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark static-top" style="font-size: 18px">
-        <a class="navbar-brand" href="#">
-          <img src="IMG/logo.png" alt="Logo" style="width: 50px;">
-        </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Trips</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Statistics</a>
-            </li>
-          </ul>
-        </div>
-
-        <span class="navbar-text p-2"> Username /</span>
-        <ul class="nav navbar-nav">
-          <li><a href="#">Logout</a></li>
-        </ul>
-      </nav>
-
-
       <div class="container-fluid p-3">
         <button class="btn btn-dark" id="menu-toggle">
           <i class="fa fa-filter"></i>
@@ -115,7 +89,7 @@
       <footer class="page-footer text-capitalize blue fixed-bottom">
 
         <div class="footer-copyright flex-d text-right py-4 px-5">
-          <a class="btn rounded-circle" href="registrationForm.html"><i class='fas fa-plus-circle' href="#" style='font-size:36px'></i></a>
+          <a class="btn rounded-circle" id="registrationForm" href="javascript:void(0)" onclick="goToTripCreation(this)" ><i class='fas fa-plus-circle' href="#" style='font-size:36px'></i></a>
         </div>
 
       </footer>

@@ -1,6 +1,7 @@
 ﻿using API.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Controllers;
 
 namespace API.Services
 {
@@ -28,6 +29,16 @@ namespace API.Services
             else
             {
                 return exists;
+            }
+        }
+
+        public void UpdateEmployees(IEnumerable<EmployeeRolesDTO> employees)
+        {
+            foreach (EmployeeRolesDTO e in employees)
+            {
+                Employee emp = repository.Get(e.EmployeeId);
+                emp.Role = e.EmployeeRole == "User"?null:e.EmployeeRole;
+                repository.Update(emp);
             }
         }
     }

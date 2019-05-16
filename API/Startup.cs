@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Controllers;
 using API.Repositories;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace API
 {
@@ -70,6 +72,11 @@ namespace API
             services.AddScoped<IRepository<Office>, OfficeRepository>();
             services.AddScoped<IRepository<Event>, EventRepository>();
             services.AddScoped<IRepository<EmployeeToTrip>, EmployeeToTripRepository>();
+            services.AddScoped<IRepository<Apartment>, ApartmentRepository>();
+            services.AddScoped<IRepository<Reservation>, ReservationRepository>();
+            services.AddScoped<IRepository<GasCompensation>, GasCompensationRepository>();
+            services.AddScoped<IRepository<CarRental>, CarRentalRepository>();
+            services.AddScoped<IRepository<PlaneTicket>, PlaneTicketRepository>();
             services.AddScoped<TripRepository>();
             services.AddScoped<IRepository<Reservation>, ReservationRepository>();
             services.AddScoped<IRepository<CarRental>, CarRentalRepository>();
@@ -82,10 +89,13 @@ namespace API
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<ITripService, TripService>();
             services.AddScoped<IEmployeeToTripService, EmployeeToTripService>();
+            services.AddScoped<IOfficeApartmentService, OfficeApartmentService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IApartmentService, ApartmentService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
