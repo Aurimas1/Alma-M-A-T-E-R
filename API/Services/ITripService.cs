@@ -7,6 +7,9 @@ namespace API.Services
     {
         Task<Trip> Add(Trip item);
         IEnumerable<Trip> GetAll();
+        Task<GasCompensation> SaveGasCompensation(GasCompensation item);
+        Task<CarRental> SaveCarRental(CarRental item);
+        Task<PlaneTicket> SavePlaneTicket(PlaneTicket item);
         Trip GetByID(int id);
         Trip Update(Trip item);
         IEnumerable<Employee> GetEmployees(int id);

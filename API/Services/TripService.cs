@@ -7,10 +7,31 @@ namespace API.Services
     public class TripService : ITripService
     {
         private readonly TripRepository repository;
+        private readonly IRepository<GasCompensation> gasCompensationRepository;
+        private readonly IRepository<CarRental> carRentalRepository;
+        private readonly IRepository<PlaneTicket> planeTicketRepository;
 
-        public TripService(TripRepository repository)
+        public TripService(TripRepository repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository)
         {
             this.repository = repository;
+            this.gasCompensationRepository = gasCompensationRepository;
+            this.carRentalRepository = carRentalRepository;
+            this.planeTicketRepository = planeTicketRepository;
+        }
+
+        public async Task<GasCompensation> SaveGasCompensation(GasCompensation item)
+        {
+            return await gasCompensationRepository.Add(item);
+        }
+
+        public async Task<CarRental> SaveCarRental(CarRental item)
+        {
+            return await carRentalRepository.Add(item);
+        }
+
+        public async Task<PlaneTicket> SavePlaneTicket(PlaneTicket item)
+        {
+            return await planeTicketRepository.Add(item);
         }
 
         public async Task<Trip> Add(Trip item)
