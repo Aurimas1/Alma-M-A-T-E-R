@@ -101,5 +101,10 @@ namespace API.Services
         {
             return repository.GetGasCompensations(id);
         }
+
+        public Trip Get(int id)
+        {
+            return repository.Get(id);
+        }
     }
 }

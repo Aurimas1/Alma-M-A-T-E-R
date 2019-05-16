@@ -23,6 +23,8 @@
 
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script src="https://momentjs.com/downloads/moment.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>-->
 
 
@@ -41,12 +43,11 @@
 
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <label class="checkbox-inline"><input class="box" type="checkbox" name="AwaitingConfirmation"> Trips Awaiting
+            <label class="checkbox-inline"><input class="box" type="checkbox" id="1" name="AwaitingConfirmation"> Trips Awaiting
               confirmation</label>
-            <label class="checkbox-inline"><input class="box" type="checkbox" name="Confirmed">Trips Confirmed</label>
-            <label class="checkbox-inline"><input class="box" type="checkbox" name="PlannedTrips"> Fully Planned Trips</label>
-            <label class="checkbox-inline"><input class="box" type="checkbox" name="InProgress"> Trips in progress</label>
-            <label class="checkbox-inline"><input class="box" type="checkbox" name="Finished"> Finished Trips</label>
+            <label class="checkbox-inline"><input class="box" type="checkbox" id="2" name="Confirmed">Trips Confirmed</label>
+            <label class="checkbox-inline"><input class="box" type="checkbox" id="3" name="PlannedTrips"> Fully Planned Trips</label>
+            <label class="checkbox-inline"><input class="box" type="checkbox" id="4" name="Finished"> Finished Trips</label>
           </div>
         </div>
 
@@ -64,7 +65,7 @@
         </div>
 
         <div class="col-sm-offset-2 col-sm-10 text-center">
-          <button class="btn btn-secondary" type="submit">Filtruoti</button>
+          <button id="Filter" type="button" class="btn btn-secondary">Filter</button>
         </div>
 
       </form>
@@ -79,84 +80,10 @@
           <span>Filter</span>
         </button>
       </div>
+        <div id="TripInfo">
 
+        </div>
 
-      <div class="container bg-light rounded-lg p-3" id="trip1">
-        <a class="h3" href="trip_details.html">Vilnius, Lithuania - Warsaw, Poland</a>
-        <div class="row">
-            <div class="col-sm-1 ml-auto">
-              <div class="progress" data-percentage="20">
-                <span class="progress-left">
-                  <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                  <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">
-                  <div>
-                    1/5<br>
-                    <span>Confirmed</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="progress" data-percentage="40">
-                <span class="progress-left">
-                  <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                  <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">
-                  <div>
-                    2/5<br>
-                    <span>Accomodation</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-
-          <div class="col-sm-1">
-              <div class="progress" data-percentage="80">
-                <span class="progress-left">
-                  <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                  <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">
-                  <div>
-                    4/5<br>
-                    <span>Plane tickets</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            
-            <div class="col-sm-2">
-              <div class="progress" data-percentage="100">
-                <span class="progress-left">
-                  <span class="progress-bar"></span>
-                </span>
-                <span class="progress-right">
-                  <span class="progress-bar"></span>
-                </span>
-                <div class="progress-value">
-                  <div>
-                    1/1<br>
-                    <span>Car rental</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-
-        <h5>Departure: 2019-01-25 16:00 Arrival: 2019-02-02 12:00</h5>
-        
-      </div>
     
       <!--Trip creation button-->
       <footer class="page-footer text-capitalize blue fixed-bottom">
