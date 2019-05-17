@@ -1,9 +1,5 @@
-﻿$(document).ready(function () {
-    var queryString = decodeURIComponent(window.location.search);
-    queryString = queryString.substring(1);
-    queryString = queryString.split("=");
-    var ID = Number(queryString[1]);
-
+﻿var ID = window.tripDetailsTripId;
+$(document).ready(function () {
     $.ajax({
         url: 'api/trip/' + ID,
         contentType: "application/json",
@@ -32,6 +28,7 @@
 
                     var addEmployeeInfo = document.getElementById("Employees");
                     addEmployeeInfo.insertAdjacentHTML('afterend', displayEmployeeInfo);
+                    $('#employeeSelect').append($(`<option value="${data.employeeID[i]}" selected>`).text(data.employeeName[i]));
                 }
             }
 
@@ -68,7 +65,7 @@
                         var displayPlaneTicketInfo = '<div class="row"> <div class="col"> <p>' + data.employeeName[i] + '</p></div> <div class="col"> ' +
                             '<p>' + data.flightCompany[i] + '</p></div><div class="col"><p>' + data.airport[i] + '</p></div><div class="col"><p>' + forwardFlight + '</p></div> ' +
                             '<div class="col"><p>' + returnFlight + '</p></div><div class="col"> <a href="' + data.ticketFile[i] + '" class="badge badge-info">Link</a></div>' +
-                            '<div class="col"><button id="adds" type="button" class="btn btn-info">+</button></div></div>';
+                            `<div class="col"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AirplaneModal" onclick="window.planeEmployeeId = ${data.employeeID[i]}">Add ticket</button></div></div>`;
                         var addPlaneInfo = document.getElementById("Flights");
                         addPlaneInfo.insertAdjacentHTML('afterend', displayPlaneTicketInfo);
                     }
@@ -115,7 +112,7 @@
                     var displayAccomodationInfo = '<div class="row"><div class="col"><p>' + data.employeeName[i] + '</p></div><div class="col"><p>' + data.accomodation[i] +
                         '</p></div><div class="col"><p>' + data.address[i] + '</p></div><div class="col"><p>' + data.roomNumber[i] + '</p></div><div class="col"><p>' + checkIn + '</p></div><div class="col">' +
                         '<p>' + checkOut + '</p></div><div class="col"><a href="' + data.accomodationUrl[i] + '" class="badge badge-info">Link</a></div>' +
-                        '<div class="col"><button id="adds" type="button" class="btn btn-info">+</button></div></div>';
+                        `<div class="col"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#HotelModal" onclick="window.hotelEmployeeId = ${data.employeeID[i]}">Add hotel</button></div></div>`;
 
                     var addAccomodationInfo = document.getElementById("Accomodation");
                     addAccomodationInfo.insertAdjacentHTML('afterend', displayAccomodationInfo);
@@ -164,3 +161,8 @@
     });
 
 });
+
+function openFinalRegistration(){
+    window.finalRegistrationTripId = ID;
+    $("div#pageContent").load("../FinalRegistrationForm.html"); 
+}

@@ -7,7 +7,7 @@ namespace API.Extensions
     {
         public static int GetEmpoeeID(this ClaimsPrincipal user)
         {
-            return int.Parse(user.Claims.FirstOrDefault(x => x.Type == CustomClaimTypes.EmpoeeID).Value);
+            return int.Parse(user.Claims.FirstOrDefault(x => x.Type == CustomClaimTypes.EmployeeID).Value);
         }
     }
 }
