@@ -145,11 +145,11 @@
             }
 
             if (data.isCarCompensationNeeded) {
-                if (data.GasCompensation !== undefined) {
-                    for (i = 0; i < data.GasCompensation.length; i++) {
+                if (data.gasCompensation !== undefined) {
+                    for (i = 0; i < data.gasCompensation.length; i++) {
 
-                        var displayGasCompensationInfo = '<div class="row"><div class="col"><p>' + data.GasCompensation[i] + '</p></div>' +
-                            '< div class="col" ><p>' + data.amount[i] + '</p></div></div>';
+                        var displayGasCompensationInfo = '<div class="row"><div class="col"><p>' + data.gasCompensation[i] + '</p></div>' +
+                            '<div class="col"><p>' + data.amount[i] + '</p></div></div>';
 
                         var addGasCompensationInfo = document.getElementById("GasCompensations");
                         addGasCompensationInfo.insertAdjacentHTML('afterend', displayGasCompensationInfo);
