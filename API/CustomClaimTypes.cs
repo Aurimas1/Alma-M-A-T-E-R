@@ -2,6 +2,6 @@
 {
     public static class CustomClaimTypes
     {
-        public const string EmpoeeID = nameof(EmpoeeID);
+        public const string EmployeeID = nameof(EmployeeID);
     }
 }

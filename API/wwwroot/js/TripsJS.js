@@ -133,7 +133,7 @@ $(document).ready(function () {
         var queryString = "?tripID=" + item.id;
         console.log(queryString);
         var myvar = '<div class="container bg-light rounded-lg p-3">' +
-            '        <a class="h3" href="trip_details.html?tripID=' + item.id + '">' + item.departureOffice.city + ', ' + item.departureOffice.country + ' - ' + item.arrivalOffice.city + ', ' + item.arrivalOffice.country + '</a>' +
+            `        <a class="h3" onclick="loadTripDetails(${item.id})" href="javascript:void(0)"` + '">' + item.departureOffice.city + ', ' + item.departureOffice.country + ' - ' + item.arrivalOffice.city + ', ' + item.arrivalOffice.country + '</a>' +
             '        <div class="row">' +
             '            <div class="col-sm-1 ml-auto">' +
             '              <div class="progress" data-percentage="' + item.confirmedProcentage + '">' +
@@ -212,3 +212,8 @@ $(document).ready(function () {
         return myvar;
     }
 });
+
+function loadTripDetails(id){
+    window.tripDetailsTripId = id;
+    $("div#pageContent").load("../trip_details.html"); 
+}

@@ -109,6 +109,10 @@ function saveTrip() {
     })
 }
 
+function calcelTrip(){
+    location.href = "/index.html";
+}
+
 function loadEmployees() {
     return $.ajax({
         type: "GET",

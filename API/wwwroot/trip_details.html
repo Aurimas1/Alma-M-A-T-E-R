@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head lang="en">
     <title>Trip details</title>
     <meta charset="utf-8" />
@@ -8,61 +9,51 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
     <!-- Compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 
     <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="js/EditTrip_saveDocuments.js"></script>
 </head>
+
 <body>
-    <header style="margin-bottom: 75px">
-        <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px">
-            <a class="navbar-brand" href="Trips.html">
-                <img src="IMG/logo.png" alt="Logo" style="width: 50px">
-            </a>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="Trips.html">Trips</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Statistics</a>
-                    </li>
-                </ul>
-            </div>
-
-            <span class="navbar-text p-2"> Username /</span>
-            <ul class="nav navbar-nav">
-                <li><a href="#">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <article>
         <div class="container page-Header">
             <h1 class="d-inline">Trip details</h1>
-            <a id="editBtn" class="btn btn-default ml-2" href="FinalRegistrationForm.html">Edit</a>
+            <a id="editBtn" class="btn btn-default ml-2" href="javascript:void(0)"
+                onclick="openFinalRegistration()">Edit</a>
         </div>
 
         <div class="container mb-5 mt-3">
             <ul class="list-group">
-                <li class="list-group-item"><h4>Travelling from: </h4><p id="Departure" class="d-inline ">Vilnius, Lithuania</p></li>
-                <li class="list-group-item"><h4>Travelling to: </h4><p id="Arrival" class="d-inline">London, England</p></li>
-                <li class="list-group-item"><h4>Trip starts: </h4><p id="DepartureDate" class="d-inline">2019 06 20</p></li>
-                <li class="list-group-item"><h4>Trip ends: </h4><p id="ArrivalDate" class="d-inline">2019 06 26</p></li>
-                <li class="list-group-item"><h4>Trip status: </h4><p id="Status" class="d-inline badge-pill badge-success">Confirmed</p></li>
+                <li class="list-group-item">
+                    <h4>Travelling from: </h4>
+                    <p id="Departure" class="d-inline ">Vilnius, Lithuania</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Travelling to: </h4>
+                    <p id="Arrival" class="d-inline">London, England</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Trip starts: </h4>
+                    <p id="DepartureDate" class="d-inline">2019 06 20</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Trip ends: </h4>
+                    <p id="ArrivalDate" class="d-inline">2019 06 26</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Trip status: </h4>
+                    <p id="Status" class="d-inline badge-pill badge-success">Confirmed</p>
+                </li>
                 <li class="list-group-item">
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseE"
-                    aria-expanded="false" aria-controls="collapseE">Employees</button>
+                        aria-expanded="false" aria-controls="collapseE">Employees</button>
                     <div class="collapse show" id="collapseE">
                         <div id="Employees" class="row">
                             <div class="col-1">
@@ -82,7 +73,77 @@
                 </li>
                 <li id="PlaneTicketList" class="list-group-item">
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapsePT"
-                    aria-expanded="false" aria-controls="collapsePT">Plane tickets</button>
+                        aria-expanded="false" aria-controls="collapsePT">Plane tickets</button>
+                    <div class="modal fade" id="AirplaneModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Plane ticket</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <h4>Please enter the information about flight</h4>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAirplaneFrom">Departure</label>
+                                                <input type="datetime-local" class="form-control" id="airplaneFrom"
+                                                    placeholder="From">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAirplaneTo">Arrival</label>
+                                                <input type="datetime-local" class="form-control" id="airplaneTo"
+                                                    placeholder="To">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAirplaneCompany">Airline</label>
+                                            <input type="text" class="form-control" id="airplaneCompany"
+                                                placeholder="WizzAir">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAirplaneUrl">Ticket link</label>
+                                            <input type="url" class="form-control" id="airplaneUrl"
+                                                placeholder="https://www.wizzairbilietai.lt/?gclid=CjwKCAjwlPTmBRBoEiwAHqpvhRavGE56vMxwPpesFfiPXEwVAAlqfGW5SeXgfHRxt_kwp1nMkoj8aRoCiboQAvD_BwE">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAirplaneAddressFrom">Departure airport</label>
+                                                <input type="text" class="form-control" id="airplaneAddressFrom"
+                                                    placeholder="Vilnius airport">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputAirplaneAddressTo">Arrival airport</label>
+                                                <input type="text" class="form-control" id="airplaneAddressTo"
+                                                    placeholder="Chicago airport">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAriplanePrice">Price</label>
+                                            <div class="form-inline">
+                                                <input type="number" class="form-control" id="airplanePrice"
+                                                    placeholder="100" min="0">
+                                                <select style="margin-left: 10px;" id="airplaneSelect">
+                                                    <option value="EUR" selected>€/Eur</option>
+                                                    <option value="USD">$/USD</option>
+                                                    <option value="GBP">£/GBP</option>
+                                                    <option value="CAD">C$/CAD</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" onclick="saveAirplane()" class="btn btn-primary">Save
+                                        changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="collapse show" id="collapsePT">
                         <div id="Flights" class="row">
                             <div class="col">
@@ -111,7 +172,91 @@
                 </li>
                 <li class="list-group-item">
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
-                            aria-expanded="false" aria-controls="collapseAC">Accomodation</button>
+                        aria-expanded="false" aria-controls="collapseAC">Accomodation</button>
+                    <div class="modal fade" id="HotelModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Hotel information</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputHotelFrom">Check-in</label>
+                                                <input type="datetime-local" class="form-control" id="hotelFrom"
+                                                    placeholder="From">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputHotelTo">Check-out</label>
+                                                <input type="datetime-local" class="form-control" id="hotelTo"
+                                                    placeholder="To">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="radioDiv">
+                                            <label for="inputRadios">Please select your accommodation type:</label>
+                                            <br>
+                                            <input type="radio" name="types" value="HOTEL" onclick="changeToHotel()"
+                                                checked>Hotel
+                                            <br>
+                                            <input type="radio" name="types" value="HOME" onclick="changeToHome()">Home
+                                        </div>
+                                        <div id="hotelDiv">
+                                            <div class="form-group">
+                                                <label for="inputHotelName">Hotel name</label>
+                                                <input type="text" class="form-control" id="hotelName"
+                                                    placeholder="Radisson">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputHotelAddress">Address</label>
+                                                <input type="text" class="form-control" id="hotelAddress"
+                                                    placeholder="1234 Main St">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputHotelRoom">Room number</label>
+                                                <input type="number" class="form-control" id="hotelRoom"
+                                                    placeholder="123">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputHoteluRL">Hotel link</label>
+                                                <input type="URL" class="form-control" id="hotelUrl"
+                                                    placeholder="https://www.radissonblu.com">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputHotelPrice">Price</label>
+                                                <div class="form-inline">
+                                                    <input type="number" class="form-control" id="hotelPrice"
+                                                        placeholder="100" min="0">
+                                                    <select style="margin-left: 10px;" id="hotelSelect">
+                                                        <option value="EUR" selected>€/Eur</option>
+                                                        <option value="USD">$/USD</option>
+                                                        <option value="GBP">£/GBP</option>
+                                                        <option value="CAD">C$/CAD</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="homeDiv" style="display: none;">
+                                            <div class="form-group">
+                                                <label for="inputAddress">Home address</label>
+                                                <input type="text" class="form-control" id="homeAddress"
+                                                    placeholder="1234 Main St">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="saveHotel()">Save
+                                        changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="collapse show" id="collapseAC">
                         <div id="Accomodation" class="row">
                             <div class="col">
@@ -143,8 +288,74 @@
                 </li>
                 <li id="CarRentalList" class="list-group-item">
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
-                            aria-expanded="false" aria-controls="collapseCR">Car rental</button>
-                    <button id="add" type="button" class="btn btn-info col-sm-2 offset-sm-8 ">Add Car Rental</button>
+                        aria-expanded="false" aria-controls="collapseCR">Car rental</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CarRentalModal">
+                        Car rental
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="CarRentalModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Car information</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <h4>Please enter the information rental car.</h4>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputFrom">Start of rent</label>
+                                                <input type="datetime-local" class="form-control" id="carFrom"
+                                                    placeholder="From">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputTo">End of rent</label>
+                                                <input type="datetime-local" class="form-control" id="carTo"
+                                                    placeholder="To">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputCompany">Rental company</label>
+                                            <input type="text" class="form-control" id="carCompany"
+                                                placeholder="CityBee">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAddress">Car pickup address</label>
+                                            <input type="text" class="form-control" id="carAddress"
+                                                placeholder="1 Verkių ST">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputCarUrl">Car rental link</label>
+                                            <input type="url" class="form-control" id="carUrl"
+                                                placeholder="https://www.citybee.lt/lt">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputCarPrice">Price</label>
+                                            <div class="form-inline">
+                                                <input type="number" class="form-control" id="carPrice"
+                                                    placeholder="100" min="0">
+                                                <select style="margin-left: 10px;" id="carSelect">
+                                                    <option value="EUR" selected>€/Eur</option>
+                                                    <option value="USD">$/USD</option>
+                                                    <option value="GBP">£/GBP</option>
+                                                    <option value="CAD">C$/CAD</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" onclick="saveCarRental()" class="btn btn-primary">Save
+                                        changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="collapse show" id="collapseCR">
                         <div id="CarRentals" class="row">
                             <div class="col">
@@ -167,8 +378,13 @@
                 </li>
                 <li id="GasCompensationList" class="list-group-item">
                     <button id="btn" class="btn btn-primary rounded-2" data-toggle="collapse" data-target="#collapseGC"
-                            aria-expanded="false" aria-controls="collapseGC">Gas compensation</button>
-                    <button id="add" type="button" class="btn btn-info col-sm-3 offset-sm-6 ">Add Gas Compensation</button>
+                        aria-expanded="false" aria-controls="collapseGC">Gas compensation</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#GasCompensationModal">
+                        Employee car
+                    </button>
+
+
                     <div class="collapse show" id="collapseGC">
                         <div id="GasCompensations" class="row">
                             <div class="col">
@@ -179,52 +395,98 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="GasCompensationModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Gas compensation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <h4>Please enter the information about owner of the car</h4>
+                                        <div class="form-group">
+                                            <label for="name">Employee</label>
+                                            <select id="employeeSelect" style="margin-left: 10px;">
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Price">Price</label>
+                                            <div class="form-inline">
+                                                <input type="number" id="gasPrice" class="form-control"
+                                                    placeholder="Enter price" min="0">
+                                                <select id="gasSelect" style="margin-left: 10px;">
+                                                    <option value="EUR" selected>€/Eur</option>
+                                                    <option value="USD">$/USD</option>
+                                                    <option value="GBP">£/GBP</option>
+                                                    <option value="CAD">C$/CAD</option>
+                                                </select>
+                                            </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" onclick="saveGasCompensation()" class="btn btn-primary">Save
+                                        changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
     </article>
 
     <script src="js/Trip_DatailJS.js"></script>
-<style>
-    #btn {
-        background-color: white !important;
-        border-color: black !important;
-        color: black !important;
-        font-size: 20px !important;
-        font-weight: bold !important;
-        border-radius: 40px !important;
-        border-width: medium !important;
-    }
-    #adds {
-        height: 40px !important;
-        width: 40px !important;
-        background-color: white !important;
-        border-color: darkseagreen !important;
-        color: darkseagreen !important;
-        font-size: 15px !important;
-        font-weight: 900 !important;
-        border-radius: 100% !important;
-        border-width: medium !important;
-    }
+    <style>
+        #btn {
+            background-color: white !important;
+            border-color: black !important;
+            color: black !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            border-radius: 40px !important;
+            border-width: medium !important;
+        }
 
-    #add {
-        background-color: white !important;
-        border-color: darkseagreen !important;
-        color: black !important;
-        font-size: 20px !important;
-        font-weight: bold !important;
-        border-radius: 40px !important;
-        border-width: medium !important;
-    }
-#editBtn {
-    background-color: #4286f4 !important;
-    border: none !important;
-    color: white !important;
-    font-size: 20px !important;
-    font-weight: bold !important;
-    border-radius: 40px !important;
-    vertical-align: baseline;
-}
-</style>
+        #adds {
+            height: 40px !important;
+            width: 40px !important;
+            background-color: white !important;
+            border-color: darkseagreen !important;
+            color: darkseagreen !important;
+            font-size: 15px !important;
+            font-weight: 900 !important;
+            border-radius: 100% !important;
+            border-width: medium !important;
+        }
+
+        #add {
+            background-color: white !important;
+            border-color: darkseagreen !important;
+            color: black !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            border-radius: 40px !important;
+            border-width: medium !important;
+        }
+
+        #editBtn {
+            background-color: #4286f4 !important;
+            border: none !important;
+            color: white !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            border-radius: 40px !important;
+            vertical-align: baseline;
+        }
+    </style>
 </body>
+
 </html>

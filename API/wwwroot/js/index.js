@@ -1,5 +1,9 @@
 window.onload = function (){
-    getUser();
+    getUser().then(function(user) {
+        if(!user){
+            location = "login.html";
+        }
+    });
 };
 
 function tabChanged(elem){
@@ -14,6 +18,9 @@ function tabChanged(elem){
             $("li.nav-item > a#administration").parent().addClass("active");
         }
     }
+    else{
+        $("div#pageContent").load("../" + elem.id + ".html");
+    }
 }
 
 function goToTripCreation(elem){
@@ -21,7 +28,7 @@ function goToTripCreation(elem){
 }
 
 function getUser(){
-    $.ajax({
+    return $.ajax({
         type: "GET",
         url: "/api/employee/currentUser",
         success: function(data, status){
