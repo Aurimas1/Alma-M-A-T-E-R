@@ -22,8 +22,9 @@ $(document).ready(function () {
         $('input[name="daterange"]').daterangepicker({
             opens: 'left'
         }, function (start, end, label) {
+                
             console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-            dateFrom = start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY');
+            dateFromTo = start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY');
         });
     });
 
@@ -82,6 +83,7 @@ $(document).ready(function () {
         var dates = dateFromTo.split(" - ");
         var dateFrom = new Date(dates[0]);
         var dateTo = new Date(dates[1]);
+        dateTo = new Date(dateTo.getTime() + (24 * 60 * 60 * 1000));
 
         $.ajax({
             url: 'api/trip/filter',
