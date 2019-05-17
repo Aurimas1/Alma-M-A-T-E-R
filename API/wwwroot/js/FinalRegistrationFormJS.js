@@ -1,5 +1,5 @@
 var idToNameMap = {};
-var tripID = location.hash.substr(1);
+var tripID = finalRegistrationTripId;
 $(document).ready(function () {
 
     //load EventsCalendar
@@ -241,7 +241,6 @@ function loadTripEmployees(id) {
                     .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove"))));
                 $("#employeeTBody").append(line);
                 $(`#sort tr:contains(${email})`).prop('disabled', true).css("cssText", "background-color:#D33F49");
-                $('#employeeSelect').append($(`<option value="${entry.employeeID}" selected>`).text(entry.name));/////////////to editPage
             });
         },
         error: function () { alert('Internet error'); },
@@ -336,4 +335,8 @@ function createMap() {
         }
     });
     return map;
+}
+
+function cancelTrip(){
+    location.href = "/index.html";
 }

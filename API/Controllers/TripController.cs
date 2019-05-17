@@ -120,6 +120,7 @@ namespace API.Controllers
                 TripID = item.TripID,
                 EmployeeID = item.EmployeeID,
                 Price = item.Price,
+                Currency = item.Currency,
             });
 
             return Ok();
@@ -139,6 +140,7 @@ namespace API.Controllers
                 CarRentalUrl = item.CarRentalUrl,
                 CarIssueDate = item.CarIssueDate,
                 CarReturnDate = item.CarReturnDate,
+                Currency = item.Currency,
             });
 
             return Ok();
@@ -159,6 +161,7 @@ namespace API.Controllers
                 Airport = item.Airport,
                 FlightCompany = item.FlightCompany,
                 EmployeeID = item.EmployeeID,
+                Currency = item.Currency,
             });
 
             return Ok();
@@ -177,6 +180,7 @@ namespace API.Controllers
                 Price = item.Price,
                 RoomNumber = item.RoomNumber,
                 Type = "HOTEL",
+                Currency = item.Currency,
             });
             await service.SaveReservation(new Reservation()
             {
@@ -203,6 +207,7 @@ namespace API.Controllers
                 Price = 0,
                 RoomNumber = 0,
                 Type = "HOME",
+                Currency = item.Currency,
             });
             await service.SaveReservation(new Reservation()
             {
@@ -314,6 +319,7 @@ namespace API.Controllers
                 Status = trip.Status,
                 EmployeeName = trip.EmployeesToTrip.Select(x => x.Employee.Name),
                 EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
+                EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
 
                 IsPlaneNeeded = trip.IsPlaneNeeded,
                 FlightCompany = trip.PlaneTickets?.Select(x => x.Airport),
