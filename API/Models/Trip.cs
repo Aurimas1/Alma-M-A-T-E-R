@@ -28,6 +28,7 @@ namespace API
         public virtual List<CarRental> CarRentals { get; set; }
         public virtual List<GasCompensation> GasCompensations { get; set; }
         public virtual List<EmployeeToTrip> EmployeesToTrip { get; set; }
+        public int? OrganizerID { get; set; }
 
     }
 }
