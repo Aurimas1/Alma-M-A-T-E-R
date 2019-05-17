@@ -12,13 +12,13 @@ namespace API.Models
         public Office DepartureOffice { get; set; }
         public DateTime ReturnDate { get; set; }
         public DateTime DepartureDate { get; set; }
-        public decimal ConfirmedProcentage { get; set; }
+        public double ConfirmedProcentage { get; set; }
         public string EmployeeCount { get; set; }
-        public decimal AccomodationProcentage { get; set; }
+        public double AccomodationProcentage { get; set; }
         public string AccomodationCount { get; set; }
-        public decimal PlaneTicketProcentage { get; set; }
+        public double PlaneTicketProcentage { get; set; }
         public string PlaneTicketCount { get; set; }
-        public decimal CarRentalProcentage { get; set; }
+        public double CarRentalProcentage { get; set; }
         public string CarRentalCount { get; set; }
         public string Status { get; set; }
         public IEnumerable<string> EmployeeEmailList { get; set; }

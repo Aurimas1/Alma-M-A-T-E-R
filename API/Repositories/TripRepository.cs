@@ -30,13 +30,14 @@ namespace API.Repositories
         public Trip Get(int id)
         {
             return context.Trips
-                .Include(x => x.EmployeesToTrip)
-                .Include(x => x.Reservations)
+                .Include(x => x.EmployeesToTrip).ThenInclude(x => x.Employee)
+                .Include(x => x.Reservations).ThenInclude(x => x.Apartment)
                 .Include(x => x.ArrivalOffice)
                 .Include(x => x.ArrivalOffice.Apartaments)
+                .Include(x => x.DepartureOffice)
                 .Include(x => x.PlaneTickets)
                 .Include(x => x.CarRentals)
-                .Include(x => x.GasCompensations)
+                .Include(x => x.GasCompensations).ThenInclude(x => x.Employee)
                 .FirstOrDefault(x => x.TripID == id);
         }
 
@@ -47,7 +48,14 @@ namespace API.Repositories
 
         public IEnumerable<Trip> GetAll()
         {
-            return context.Trips.ToList(); // need testing
+            return context.Trips
+                .Include(x => x.EmployeesToTrip).ThenInclude(x => x.Employee)
+                .Include(x => x.Reservations)
+                .Include(x => x.ArrivalOffice)
+                .Include(x => x.ArrivalOffice.Apartaments)
+                .Include(x => x.PlaneTickets)
+                .Include(x => x.CarRentals)
+                .ToList();
         }
 
         public IEnumerable<Trip> GetAll(Func<Trip, bool> predicate)
