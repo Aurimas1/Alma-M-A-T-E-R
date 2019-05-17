@@ -13,5 +13,6 @@ namespace API
         public string Address { get; set; }
         public int RoomNumber { get; set; }
         public int Price { get; set; }
+        public string Currency { get; set; }
     }
 }

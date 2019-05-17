@@ -38,7 +38,7 @@ namespace API.Controllers
             await HttpContext.SignOutAsync();
             foreach (var cookie in HttpContext.Request.Cookies) //nice thing to do, but SignOutAsync it is all you need
                 HttpContext.Response.Cookies.Delete(cookie.Key);
-            return Redirect("/login");
+            return Redirect("/login.html");
         }
 
         [Route("cb")]
@@ -72,7 +72,7 @@ namespace API.Controllers
                 var response = await context.Backchannel.SendAsync(req);
                 var result = await response.Content.ReadAsAsync<CallbackResult>();
                 context.Identity.AddClaim(new Claim(ClaimTypes.Role, result.Role));
-                context.Identity.AddClaim(new Claim(CustomClaimTypes.EmpoeeID, result.Id.ToString()));
+                context.Identity.AddClaim(new Claim(CustomClaimTypes.EmployeeID, result.Id.ToString()));
             }
         }
     }
