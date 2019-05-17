@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>Trip details</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+</head>
+<body>
+    <header style="margin-bottom: 75px">
+        <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px">
+            <a class="navbar-brand" href="Trips.html">
+                <img src="IMG/logo.png" alt="Logo" style="width: 50px">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="Trips.html">Trips</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+
+            <span class="navbar-text p-2"> Username /</span>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <article>
+        <div class="container page-Header">
+            <h1 class="d-inline">Trip details</h1>
+            <!--<a id="editBtn" class="btn btn-default ml-2" href="FinalRegistrationForm.html">Edit</a>-->
+        </div>
+
+        <div class="container mb-5 mt-3">
+            <ul class="list-group">
+                <li class="list-group-item"><h4>Travelling from: </h4><p id="Departure" class="d-inline ">Vilnius, Lithuania</p></li>
+                <li class="list-group-item"><h4>Travelling to: </h4><p id="Arrival" class="d-inline">London, England</p></li>
+                <li class="list-group-item"><h4>Trip starts: </h4><p id="DepartureDate" class="d-inline">2019 06 20</p></li>
+                <li class="list-group-item"><h4>Trip ends: </h4><p id="ArrivalDate" class="d-inline">2019 06 26</p></li>
+                <li class="list-group-item"><h4>Trip status: </h4><p id="Status" class="d-inline badge-pill badge-success">Confirmed</p></li>
+                <li id="PlaneTicketList" class="list-group-item">
+                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapsePT"
+                    aria-expanded="false" aria-controls="collapsePT">Plane tickets</button>
+                    <div class="collapse show" id="collapsePT">
+                        <div id="Flights" class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">Employee</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Flight company</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Airports</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Forward flight</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Return flight</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Ticket file</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Add Flight</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
+                            aria-expanded="false" aria-controls="collapseAC">Accomodation</button>
+                    <div class="collapse show" id="collapseAC">
+                        <div id="Accomodation" class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">GuestName</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Hotel name</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Address</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Room number</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Check in</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Check out</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Reservation file</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Add accomodation</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li id="CarRentalList" class="list-group-item">
+                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
+                            aria-expanded="false" aria-controls="collapseCR">Car rental</button>
+                    <button id="add" type="button" class="btn btn-info col-sm-2 offset-sm-8 ">Add Car Rental</button>
+                    <div class="collapse show" id="collapseCR">
+                        <div id="CarRentals" class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">Rental company</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Car pickup address</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Car Issue Date</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Car Return Date</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Rental file</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li id="GasCompensationList" class="list-group-item">
+                    <button id="btn" class="btn btn-primary rounded-2" data-toggle="collapse" data-target="#collapseGC"
+                            aria-expanded="false" aria-controls="collapseGC">Gas compensation</button>
+                    <button id="add" type="button" class="btn btn-info col-sm-3 offset-sm-6 ">Add Gas Compensation</button>
+                    <div class="collapse show" id="collapseGC">
+                        <div id="GasCompensations" class="row">
+                            <div class="col">
+                                <p class="font-weight-bold">Employee</p>
+                            </div>
+                            <div class="col">
+                                <p class="font-weight-bold">Amount</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </article>
+
+    <script src="js/userTripDetails.js"></script>
+<style>
+    #btn {
+        background-color: white !important;
+        border-color: black !important;
+        color: black !important;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        border-radius: 40px !important;
+        border-width: medium !important;
+    }
+    #adds {
+        height: 40px !important;
+        width: 40px !important;
+        background-color: white !important;
+        border-color: darkseagreen !important;
+        color: darkseagreen !important;
+        font-size: 15px !important;
+        font-weight: 900 !important;
+        border-radius: 100% !important;
+        border-width: medium !important;
+    }
+
+    #add {
+        background-color: white !important;
+        border-color: darkseagreen !important;
+        color: black !important;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        border-radius: 40px !important;
+        border-width: medium !important;
+    }
+#editBtn {
+    background-color: #4286f4 !important;
+    border: none !important;
+    color: white !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    border-radius: 40px !important;
+    vertical-align: baseline;
+}
+</style>
+</body>
+</html>
