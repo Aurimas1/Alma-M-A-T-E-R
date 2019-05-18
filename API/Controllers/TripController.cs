@@ -246,29 +246,23 @@ namespace API.Controllers
                 EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
                 EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
 
-                IsPlaneNeeded = trip.IsPlaneNeeded,
-                FlightCompany = trip.PlaneTickets?.Select(x => x.Airport),
-                Airport = trip.PlaneTickets?.Select(x => x.FlightCompany),
-                ForwardFlight = trip.PlaneTickets?.Select(x => x.ForwardFlightDate),
-                ReturnFlight = trip.PlaneTickets?.Select(x => x.ReturnFlightDate),
-                TicketFile = trip.PlaneTickets?.Select(x => x.PlaneTicketUrl),
+                Tickets = trip.PlaneTickets?.ToInfo(),
+
+                trip.IsPlaneNeeded,
                 Accomodation = trip.Reservations?.Select(x => x.Apartment.Name),
                 Address = trip.Reservations?.Select(x => x.Apartment.Address),
                 RoomNumber = trip.Reservations?.Select(x => x.Apartment.RoomNumber),
                 CheckIn = trip.Reservations?.Select(x => x.CheckIn),
                 CheckOut = trip.Reservations?.Select(x => x.CheckOut),
                 AccomodationUrl = trip.Reservations?.Select(x => x.ReservationUrl),
+                Price = trip.Reservations?.Select(x => x.Apartment.Price),
+                Currency = trip.Reservations?.Select(x => x.Apartment.Currency),
 
-                IsCarRentalNeeded = trip.IsCarRentalNeeded,
-                RentalCompany = trip.CarRentals?.Select(x => x.CarRentalCompany),
-                CarPickupAddress = trip.CarRentals?.Select(x => x.CarPickupAddress),
-                CarIssueDate = trip.CarRentals?.Select(x => x.CarIssueDate),
-                CarReturnDate = trip.CarRentals?.Select(x => x.CarReturnDate),
-                CarRentalUrl = trip.CarRentals?.Select(x => x.CarRentalUrl),
+                trip.IsCarRentalNeeded,
+                Rentals = trip.CarRentals?.ToInfo(),
 
-                IsCarCompensationNeeded = trip.IsCarCompensationNeeded,
-                GasCompensation = trip.GasCompensations?.Select(x => x.Employee.Name),
-                Amount = trip.GasCompensations?.Select(x => x.Price),
+                trip.IsCarCompensationNeeded,
+                GasCompensations = trip.GasCompensations?.ToInfo(),
             };
             return tripToBoard;
         }
@@ -422,8 +416,6 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-
-            var user = User.Claims.First(x => x.Type == ClaimTypes.Email).Value;
 
             return Ok(trips.ToTripFilter().OrderByDescending(x => x.DepartureDate));
         }
