@@ -85,13 +85,26 @@ namespace API.Controllers
                 }
             }
 
+            var idsToDelete = new List<int>();
+            var usersInfoToDelete = new List<int>();
             foreach (var e in trip.EmployeesToTrip)
             {
                 if (!item.Employees.Contains(e.EmployeeID))
                 {
-                    employeeToTripService.Remove(e.EmployeeToTripID);
+                    idsToDelete.Add(e.EmployeeToTripID);
+                    usersInfoToDelete.Add(e.EmployeeID);
+                    //employeeToTripService.Remove(e.EmployeeToTripID);
                 }
             }
+
+            foreach (var idToDelete in idsToDelete)
+            {
+                employeeToTripService.Remove(idToDelete);
+            }
+
+            var tickets = trip.PlaneTickets.Where(x => usersInfoToDelete.Contains(x.EmployeeID));
+            var gas = trip.GasCompensations.Where(x => usersInfoToDelete.Contains(x.EmployeeID));
+            var reservations = trip.Reservations.Where(x => usersInfoToDelete.Contains(x.EmployeeID));
 
             trip.Reservations = item.Rooms.Select(x => new Reservation
             {
@@ -102,6 +115,9 @@ namespace API.Controllers
                 TripID = trip.TripID,
                 ReservationUrl = "-",
             }).ToList();
+
+            trip.PlaneTickets = trip.PlaneTickets.Where(x => !tickets.Select(y => y.PlaneTicketID).Contains(x.PlaneTicketID)).ToList();
+            trip.GasCompensations = trip.GasCompensations.Where(x => !gas.Select(y => y.GasCompensationID).Contains(x.GasCompensationID)).ToList();
 
             var result = service.Update(trip);
 
