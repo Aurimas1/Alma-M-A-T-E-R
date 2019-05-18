@@ -1,4 +1,6 @@
-﻿using API.Repositories;
+﻿using API.Extensions;
+using API.Repositories;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,8 +15,9 @@ namespace API.Services
         private readonly IRepository<PlaneTicket> planeTicketRepository;
         private readonly IRepository<Apartment> apartmentRepository;
         private readonly IRepository<Reservation> reservationRepository;
+        private readonly IHttpContextAccessor accessor;
 
-        public TripService(IRepository<Trip> repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository, IRepository<Apartment> apartmentRepository, IRepository<Reservation> reservationRepository)
+        public TripService(IRepository<Trip> repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository, IRepository<Apartment> apartmentRepository, IRepository<Reservation> reservationRepository, IHttpContextAccessor accessor)
         {
             this.repository = repository;
             this.gasCompensationRepository = gasCompensationRepository;
@@ -22,6 +25,7 @@ namespace API.Services
             this.planeTicketRepository = planeTicketRepository;
             this.apartmentRepository = apartmentRepository;
             this.reservationRepository = reservationRepository;
+            this.accessor = accessor;
         }
 
         public async Task<GasCompensation> SaveGasCompensation(GasCompensation item)
@@ -106,6 +110,15 @@ namespace API.Services
         public Trip Get(int id)
         {
             return repository.Get(id);
+        }
+
+        public IEnumerable<Trip> GetYourOrganizedTrips() {
+            return repository.GetAll(x => x.OrganizerID == accessor.HttpContext.User.GetEmpoeeID());
+        }
+
+        public IEnumerable<Trip> GetOtherOrganizedTrips()
+        {
+            return repository.GetAll(x => x.OrganizerID != accessor.HttpContext.User.GetEmpoeeID());
         }
     }
 }
