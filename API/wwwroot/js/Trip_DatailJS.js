@@ -94,7 +94,13 @@ $(document).ready(function () {
                         data.price = ' ';
                         data.currency = ' ';
                     }
-
+                    var a;
+                    if(data.accomodationUrl[i] == "-"){
+                        a = $('<a>').text('Link');
+                    }
+                    else{
+                        a = $('<a>').attr("target","_blank").attr('href', data.accomodationUrl[i]).text('Link');
+                    }
                     $('#AccommodationTable').append(
                         $('<tr>')
                             .append($('<th>').text(data.employeeName[i]))
@@ -104,7 +110,7 @@ $(document).ready(function () {
                             .append($('<th>').text(checkIn))
                             .append($('<th>').text(checkOut))
                             .append($('<th>').text(`${data.price[i]} ${data.currency[i]}`))
-                            .append($('<th>').append($('<a>').attr('href', data.accomodationUrl[i]).text('Link')))
+                            .append($('<th>').append(a))
                             .append($('<th>').append(
                                 $('<button>')
                                     .addClass('btn btn-primary')
@@ -146,7 +152,7 @@ function loadTrips(tickets, employees, employeeIds) {
                 .append($('<th>').text(moment(ticket.forwardFlightDate).format('YYYY-MM-DD HH:mm')))
                 .append($('<th>').text(moment(ticket.returnFlightDate).format('YYYY-MM-DD HH:mm')))
                 .append($('<th>').text(`${ticket.price} ${ticket.currency}`))
-                .append($('<th>').append($('<a>').attr('href', ticket.planeTicketUrl).text('Link')))
+                .append($('<th>').append($('<a>').attr("target","_blank").attr('href', ticket.planeTicketUrl).text('Link')))
                 .append($('<th>').append(
                     $('<button>')
                         .addClass('btn btn-primary')
@@ -191,7 +197,7 @@ function loadRentals(rentals) {
                 .append($('<th>').text(moment(rental.carIssueDate).format('YYYY-MM-DD HH:mm')))
                 .append($('<th>').text(moment(rental.carReturnDate).format('YYYY-MM-DD HH:mm')))
                 .append($('<th>').text(`${rental.price} ${rental.currency}`))
-                .append($('<th>').append($('<a>').attr('href', rental.carRentalUrl).text('Link')))
+                .append($('<th>').append($('<a>').attr("target","_blank").attr('href', rental.carRentalUrl).text('Link')))
         );
     });
 }
