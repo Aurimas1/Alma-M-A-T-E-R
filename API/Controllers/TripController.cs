@@ -245,7 +245,6 @@ namespace API.Controllers
                 EmployeeName = trip.EmployeesToTrip.Select(x => x.Employee.Name),
                 EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
                 EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
-                CurrentUserID = User.GetEmpoeeID(),
 
                 Tickets = trip.PlaneTickets?.ToInfo(),
 
@@ -269,7 +268,7 @@ namespace API.Controllers
         }
 
         // GET api/Trip/getTripForUser/{ID}
-        [Route("getTripForUser/{ID}")]
+        [Route("getTripForUser")]
         [HttpGet]
         public object GetTripForUser(int ID)
         {
@@ -289,29 +288,24 @@ namespace API.Controllers
                 EmployeeEmail = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Email),
                 EmployeeID = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.EmployeeID),
 
-                IsPlaneNeeded = trip.IsPlaneNeeded,
-                FlightCompany = trip.PlaneTickets?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Airport),
-                Airport = trip.PlaneTickets?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.FlightCompany),
-                ForwardFlight = trip.PlaneTickets?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.ForwardFlightDate),
-                ReturnFlight = trip.PlaneTickets?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.ReturnFlightDate),
-                TicketFile = trip.PlaneTickets?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.PlaneTicketUrl),
+                Tickets = trip.PlaneTickets?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
+
+                trip.IsPlaneNeeded,
                 Accomodation = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Name),
                 Address = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Address),
                 RoomNumber = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.RoomNumber),
                 CheckIn = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.CheckIn),
                 CheckOut = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.CheckOut),
                 AccomodationUrl = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.ReservationUrl),
+                Price = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Price),
+                Currency = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Currency),
 
-                IsCarRentalNeeded = trip.IsCarRentalNeeded,
-                RentalCompany = trip.CarRentals?.Select(x => x.CarRentalCompany),
-                CarPickupAddress = trip.CarRentals?.Select(x => x.CarPickupAddress),
-                CarIssueDate = trip.CarRentals?.Select(x => x.CarIssueDate),
-                CarReturnDate = trip.CarRentals?.Select(x => x.CarReturnDate),
-                CarRentalUrl = trip.CarRentals?.Select(x => x.CarRentalUrl),
+                trip.IsCarRentalNeeded,
+                Rentals = trip.CarRentals?.ToInfo(),
 
-                IsCarCompensationNeeded = trip.IsCarCompensationNeeded,
+                trip.IsCarCompensationNeeded,
                 GasCompensation = trip.GasCompensations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Name),
-                Amount = trip.GasCompensations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Price),
+                Amount = trip.GasCompensations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Price)
             };
             return tripToBoard;
         }
