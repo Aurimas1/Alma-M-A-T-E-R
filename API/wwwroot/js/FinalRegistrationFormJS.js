@@ -25,6 +25,7 @@ $(document).ready(function () {
             fillInSelectedDates_FinalRegForm();
             //load
             monthButtonClicked();
+            calendar_dates_selection_is_allowed = false;
             
         });
     });

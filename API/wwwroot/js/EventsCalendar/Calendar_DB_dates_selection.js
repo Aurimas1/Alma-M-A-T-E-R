@@ -1,34 +1,35 @@
 var selection_started = false;
 var selection_ended = false;
+var calendar_dates_selection_is_allowed = true;
 
 var trip_start_date = "";
 var trip_start_hour = "";
 var trip_end_date = "";
 var trip_end_hour = "";
 
-$(".col.cal, .col.cal-w").click(function(){
-    if (!selection_started)
-{
-    //Event starts
-    selection_started = true;
-    selection_ended = false;
-    cleanSelection();
-    var selected_date = $(this).attr("id").split("h");
-    trip_start_date = selected_date[0];
-    selected_date.length == 1 ? trip_start_hour = "00:00" : trip_start_hour =  _addZero(parseInt(selected_date[1]-1)) + ":00";
-    $(this).addClass("highlighted");
-}
-    else {
-        //Event ends
-         var selected_date = $(this).attr("id").split("h");
-        trip_end_date = selected_date[0];
-        selected_date.length == 1 ? trip_end_hour = "24:00" : trip_end_hour =  _addZero(parseInt(selected_date[1])) + ":00";
-        selection_started = false;
-        selection_ended = true;
-        if (needToFlipDates()) flipDates();
-        $(this).addClass("highlighted");
-        fillInSelection();
-        setTripDatesFromSelection();
+$(".col.cal, .col.cal-w").click(function() {
+    if (calendar_dates_selection_is_allowed) {
+        if (!selection_started) {
+            //Event starts
+            selection_started = true;
+            selection_ended = false;
+            cleanSelection();
+            var selected_date = $(this).attr("id").split("h");
+            trip_start_date = selected_date[0];
+            selected_date.length == 1 ? trip_start_hour = "00:00" : trip_start_hour = _addZero(parseInt(selected_date[1] - 1)) + ":00";
+            $(this).addClass("highlighted");
+        } else {
+            //Event ends
+            var selected_date = $(this).attr("id").split("h");
+            trip_end_date = selected_date[0];
+            selected_date.length == 1 ? trip_end_hour = "24:00" : trip_end_hour = _addZero(parseInt(selected_date[1])) + ":00";
+            selection_started = false;
+            selection_ended = true;
+            if (needToFlipDates()) flipDates();
+            $(this).addClass("highlighted");
+            fillInSelection();
+            setTripDatesFromSelection();
+        }
     }
 });
 
