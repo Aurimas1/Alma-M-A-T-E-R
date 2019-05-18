@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <!-- jQuery library -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
 
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -23,13 +23,13 @@
 
 <body>
     <article>
-        <div class="container page-Header">
-            <h1 class="d-inline">Trip details</h1>
-            <a id="editBtn" class="btn btn-default ml-2" href="javascript:void(0)"
+        <div class="container page-Header" style="text-align:center;padding-top:15px;padding-bottom:15px;">
+            <h1 class="d-inline" >Trip details</h1>
+            <a id="editBtn" class="btn btn-default ml-2" href="javascript:void(0)" style="vertical-align:bottom;"
                 onclick="openFinalRegistration()">Edit</a>
         </div>
 
-        <div class="container mb-5 mt-3">
+        <div class="container mb-5 mt-3 main_info">
             <ul class="list-group">
                 <li class="list-group-item">
                     <h4>Travelling from: </h4>
@@ -63,6 +63,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Surname</th>
                                         <th scope="col">Email</th>
+                                        <th scope="col">Confirmation Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="EmployeesTable">
@@ -441,13 +442,13 @@
     <script src="js/Trip_DatailJS.js"></script>
     <style>
         #btn {
-            background-color: white !important;
-            border-color: black !important;
+            background-color: #f1f1f1 !important;
+            width: 100%;
+            border: none;
             color: black !important;
             font-size: 20px !important;
             font-weight: bold !important;
-            border-radius: 40px !important;
-            border-width: medium !important;
+            text-align: left;
         }
 
         #adds {
@@ -480,6 +481,12 @@
             font-weight: bold !important;
             border-radius: 40px !important;
             vertical-align: baseline;
+        }
+        div.main_info h4{
+            font-size: 14pt;
+        }
+        div.main_info p{
+            font-size: 14pt;
         }
     </style>
 </body>

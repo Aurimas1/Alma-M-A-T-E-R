@@ -245,6 +245,7 @@ namespace API.Controllers
                 EmployeeName = trip.EmployeesToTrip.Select(x => x.Employee.Name),
                 EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
                 EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
+                EmployeeConfirmed = trip.EmployeesToTrip.Select(x => x.Status),
 
                 Tickets = trip.PlaneTickets?.ToInfo(),
 

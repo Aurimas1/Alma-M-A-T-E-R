@@ -22,13 +22,16 @@ $(document).ready(function () {
                 for (var i = 0; i < data.employeeName.length; i++) {
                     var fullName = data.employeeName[i].split(" ");
                     var Nr = data.employeeName.length - i;
-
+                    
+                    var color = "red";
+                    if (data.employeeConfirmed[i]=="APPROVED") color="green";
                     $('#EmployeesTable').append(
                         $('<tr>')
                             .append($('<th>').text(Nr))
                             .append($('<th>').text(fullName[0]))
                             .append($('<th>').text(fullName[1]))
                             .append($('<th>').text(data.employeeEmail[i]))
+                            .append($('<th>').text(data.employeeConfirmed[i]).css("color",color))
                     );
 
                     $('#employeeSelect').append($(`<option value="${data.employeeID[i]}" selected>`).text(data.employeeName[i]));
@@ -60,61 +63,60 @@ $(document).ready(function () {
 
             if (data.employeeName !== undefined) {
                 for (i = 0; i < data.employeeName.length; i++) {
+                    if (data.employeeConfirmed == "APPROVED") {
+                        if (data.accomodation !== null) {
+                            if (data.accomodation.length > i) {
+                                if (data.accomodationUrl[i] == null) {
+                                    data.accomodationUrl[i] = "javascript: void(0)";
+                                }
+                                var checkIn = moment(data.checkIn[i]).format('YYYY-MM-DD HH:mm');
+                                var checkOut = moment(data.checkOut[i]).format('YYYY-MM-DD HH:mm');
+                            } else {
 
-                    if (data.accomodation !== null) {
-                        if (data.accomodation.length > i) {
-                            if (data.accomodationUrl[i] == null) {
+                                data.accomodation[i] = " ";
+                                console.log(data.accomodation[i]);
+                                data.address[i] = " ";
+                                data.roomNumber[i] = " ";
+                                checkIn = " ";
+                                checkOut = " ";
                                 data.accomodationUrl[i] = "javascript: void(0)";
+                                data.address[i] = " ";
+                                data.price[i] = ' ';
+                                data.currency[i] = ' ';
                             }
-                            var checkIn = moment(data.checkIn[i]).format('YYYY-MM-DD HH:mm');
-                            var checkOut = moment(data.checkOut[i]).format('YYYY-MM-DD HH:mm');
-                        }
-                        else {
-                            
-                            data.accomodation[i] = " ";
-                            console.log(data.accomodation[i]);
-                            data.address[i] = " ";
-                            data.roomNumber[i] = " ";
+                        } else {
+                            data.accomodation = [" "];
+                            data.address = [" "];
+                            data.roomNumber = [" "];
                             checkIn = " ";
                             checkOut = " ";
-                            data.accomodationUrl[i] = "javascript: void(0)";
-                            data.address[i] = " ";
-                            data.price[i] = ' ';
-                            data.currency[i] = ' ';
+                            data.accomodationUrl = ["javascript: void(0)"];
+                            data.address = [" "];
+                            data.price = ' ';
+                            data.currency = ' ';
                         }
-                    }
-                    else {
-                        data.accomodation = [" "];
-                        data.address = [" "];
-                        data.roomNumber = [" "];
-                        checkIn = " ";
-                        checkOut = " ";
-                        data.accomodationUrl = ["javascript: void(0)"];
-                        data.address = [" "];
-                        data.price = ' ';
-                        data.currency = ' ';
-                    }
 
-                    $('#AccommodationTable').append(
-                        $('<tr>')
-                            .append($('<th>').text(data.employeeName[i]))
-                            .append($('<th>').text(data.accomodation[i]))
-                            .append($('<th>').text(data.address[i]))
-                            .append($('<th>').text(data.roomNumber[i]))
-                            .append($('<th>').text(checkIn))
-                            .append($('<th>').text(checkOut))
-                            .append($('<th>').text(`${data.price[i]} ${data.currency[i]}`))
-                            .append($('<th>').append($('<a>').attr('href', data.accomodationUrl[i]).text('Link')))
-                            .append($('<th>').append(
-                                $('<button>')
-                                    .addClass('btn btn-primary')
-                                    .text('Add hotel')
-                                    .attr('onclick', `window.hotelEmployeeId = ${data.employeeID[i]}`)
-                                    .attr('data-toggle', 'modal')
-                                    .attr('type', 'button')
-                                    .attr('data-target', '#HotelModal')
-                            ))
-                    );
+                        $('#AccommodationTable').append(
+                            $('<tr>')
+                                .append($('<th>').text(data.employeeName[i]))
+                                .append($('<th>').text(data.accomodation[i]))
+                                .append($('<th>').text(data.address[i]))
+                                .append($('<th>').text(data.roomNumber[i]))
+                                .append($('<th>').text(checkIn))
+                                .append($('<th>').text(checkOut))
+                                .append($('<th>').text(`${data.price[i]} ${data.currency[i]}`))
+                                .append($('<th>').append($('<a>').attr('href', data.accomodationUrl[i]).text('Link')))
+                                .append($('<th>').append(
+                                    $('<button>')
+                                        .addClass('btn btn-primary')
+                                        .text('Add hotel')
+                                        .attr('onclick', `window.hotelEmployeeId = ${data.employeeID[i]}`)
+                                        .attr('data-toggle', 'modal')
+                                        .attr('type', 'button')
+                                        .attr('data-target', '#HotelModal')
+                                ))
+                        );
+                    }
                 }
             }
         },
