@@ -21,5 +21,7 @@ namespace API.Services
         IEnumerable<GasCompensation> GetGasCompensations(int id);
         Trip Get(int id);
         Times GetTimes(int id);
+        IEnumerable<Trip> GetYourOrganizedTrips();
+        IEnumerable<Trip> GetOtherOrganizedTrips();
     }
 }
