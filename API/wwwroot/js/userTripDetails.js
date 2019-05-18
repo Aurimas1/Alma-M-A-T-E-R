@@ -65,7 +65,7 @@ $(document).ready(function () {
                         var displayPlaneTicketInfo = '<div class="row"> <div class="col"> <p>' + data.employeeName[i] + '</p></div> <div class="col"> ' +
                             '<p>' + data.flightCompany[i] + '</p></div><div class="col"><p>' + data.airport[i] + '</p></div><div class="col"><p>' + forwardFlight + '</p></div> ' +
                             '<div class="col"><p>' + returnFlight + '</p></div><div class="col"> <a href="' + data.ticketFile[i] + '" class="badge badge-info">Link</a></div>' +
-                            '<div class="col"><button id="adds" type="button" class="btn btn-info">+</button></div></div>';
+                            '</div>';
                         var addPlaneInfo = document.getElementById("Flights");
                         addPlaneInfo.insertAdjacentHTML('afterend', displayPlaneTicketInfo);
                 }
@@ -109,7 +109,7 @@ $(document).ready(function () {
                     var displayAccomodationInfo = '<div class="row"><div class="col"><p>' + data.employeeName[i] + '</p></div><div class="col"><p>' + data.accomodation[i] +
                         '</p></div><div class="col"><p>' + data.address[i] + '</p></div><div class="col"><p>' + data.roomNumber[i] + '</p></div><div class="col"><p>' + checkIn + '</p></div><div class="col">' +
                         '<p>' + checkOut + '</p></div><div class="col"><a href="' + data.accomodationUrl[i] + '" class="badge badge-info">Link</a></div>' +
-                        '<div class="col"><button id="adds" type="button" class="btn btn-info">+</button></div></div>';
+                        '</div>';
 
                     var addAccomodationInfo = document.getElementById("Accomodation");
                     addAccomodationInfo.insertAdjacentHTML('afterend', displayAccomodationInfo);
