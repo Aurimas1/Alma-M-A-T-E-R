@@ -13,5 +13,6 @@ namespace API
         public string CarRentalUrl { get; set; }   
         public int TripID { get; set; }
         public virtual Trip Trip { get; set; }
+        public string Currency { get; set; }
     }
 }

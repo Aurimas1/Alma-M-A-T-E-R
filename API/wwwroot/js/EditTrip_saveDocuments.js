@@ -1,5 +1,4 @@
-var idToNameMap = {};
-var tripID = location.hash.substr(1);
+var tripID = window.tripDetailsTripId;
 
 function changeToHotel() {
     $("#hotelDiv").show();
@@ -13,17 +12,8 @@ function changeToHome() {
 
 function saveGasCompensation() {
     var employeeID = $("#employeeSelect :selected").val();
-    var tel = $("#gasTel").val();
     var price = $("#gasPrice").val();
     var select = $("#gasSelect :selected").val();
-
-    if (tel == "") {
-        $('#gasTel').css('border-color', 'red');
-        return;
-    }
-    else {
-        $('#gasTel').css('border-color', 'black');
-    }
 
     if (price == "") {
         $('#gasPrice').css('border-color', 'red');
@@ -50,6 +40,7 @@ function saveGasCompensation() {
             "TripID": tripID,
             "Price": price,
             "EmployeeID": employeeID,
+            "Currency": select,
         }),
         success: function () {
             alert("The information was saved!");
@@ -59,7 +50,9 @@ function saveGasCompensation() {
             alert(thrownError);
         }
     })
-
+    setTimeout(function(){
+        $("div#pageContent").load("../trip_details.html");
+    }, 1000);  
 }
 
 function saveCarRental() {
@@ -67,7 +60,6 @@ function saveCarRental() {
     var to = $("#carTo").val();
     var company = $("#carCompany").val();
     var address = $("#carAddress").val();
-    var model = $("#carModel").val();
     var price = $("#carPrice").val();
     var url = $("#carUrl").val();
     var select = $("#carSelect :selected").val();
@@ -119,14 +111,6 @@ function saveCarRental() {
         $('#carAddress').css('border-color', 'black');
     }
 
-    if (model == "") {
-        $('#carModel').css('border-color', 'red');
-        return;
-    }
-    else {
-        $('#carModel').css('border-color', 'black');
-    }
-
     if (url == "") {
         $('#carUrl').css('border-color', 'red');
         return;
@@ -164,6 +148,7 @@ function saveCarRental() {
             "CarRentalUrl": url,
             "CarIssueDate": fromDate,
             "CarReturnDate": toDate,
+            "Currency": select,
         }),
         success: function () {
             alert("The information was saved!");
@@ -173,7 +158,9 @@ function saveCarRental() {
             alert(thrownError);
         }
     })
-
+    setTimeout(function(){
+        $("div#pageContent").load("../trip_details.html");
+    }, 1000); 
 }
 
 function saveAirplane() {
@@ -185,7 +172,7 @@ function saveAirplane() {
     var price = $("#airplanePrice").val();
     var url = $("#airplaneUrl").val();
     var select = $("#airplaneSelect :selected").val();
-    var employeeID = 1;//sita reik pakeisti veliau!!!!
+    var employeeID = window.planeEmployeeId;
 
     var today = new Date();
     var fromDate = new Date(from);
@@ -280,6 +267,7 @@ function saveAirplane() {
             "Airport": addressFrom + "-" + addressTo,
             "FlightCompany": company,
             "EmployeeID": employeeID,
+            "Currency": select,
         }),
         success: function () {
             alert("The information was saved!");
@@ -289,6 +277,9 @@ function saveAirplane() {
             alert(thrownError);
         }
     })
+    setTimeout(function(){
+        $("div#pageContent").load("../trip_details.html");
+    }, 1000); 
 }
 
 function saveHotel() {
@@ -398,6 +389,7 @@ function saveHotel() {
                 "Name": company,
                 "Address": address,
                 "RoomNumber": room,
+                "Currency": select,
             }),
             success: function () {
                 alert("The information was saved!");
@@ -407,6 +399,9 @@ function saveHotel() {
                 alert(thrownError);
             }
         })
+        setTimeout(function(){
+            $("div#pageContent").load("../trip_details.html");
+        }, 1000); 
     }
     else {
         var homeAddress = $("#homeAddress").val();
@@ -432,6 +427,7 @@ function saveHotel() {
                 "CheckIn": new Date(from),
                 "CheckOut": new Date(to),
                 "Address": homeAddress,
+                "Currency": select,
             }),
             success: function () {
                 alert("The information was saved!");
@@ -441,6 +437,9 @@ function saveHotel() {
                 alert(thrownError);
             }
         })
+        setTimeout(function(){
+            $("div#pageContent").load("../trip_details.html");
+        }, 1000); 
     }
 
 }

@@ -53,6 +53,7 @@ namespace API.Repositories
                 .Include(x => x.Reservations)
                 .Include(x => x.ArrivalOffice)
                 .Include(x => x.ArrivalOffice.Apartaments)
+                .Include(x => x.DepartureOffice)
                 .Include(x => x.PlaneTickets)
                 .Include(x => x.CarRentals)
                 .ToList();
