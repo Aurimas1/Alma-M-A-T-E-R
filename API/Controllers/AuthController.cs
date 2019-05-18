@@ -38,7 +38,7 @@ namespace API.Controllers
             await HttpContext.SignOutAsync();
             foreach (var cookie in HttpContext.Request.Cookies) //nice thing to do, but SignOutAsync it is all you need
                 HttpContext.Response.Cookies.Delete(cookie.Key);
-            return Redirect("/login");
+            return Redirect("/login.html");
         }
 
         [Route("cb")]
@@ -51,7 +51,11 @@ namespace API.Controllers
 
             //await eventService.SaveEventsForEmployee(events.Items.ToEvents(user.EmployeeID));
 
-            return Ok(user.Role);
+            return Ok(new CallbackResult
+            {
+                Role = user.Role,
+                Id = user.EmployeeID,
+            });
         }
 
         public static async Task Callback(OAuthCreatingTicketContext context)
@@ -66,7 +70,9 @@ namespace API.Controllers
             {
                 req.Content = new ObjectContent<EnsureParams>(data, new JsonMediaTypeFormatter());
                 var response = await context.Backchannel.SendAsync(req);
-                context.Identity.AddClaim(new Claim(ClaimTypes.Role, await response.Content.ReadAsStringAsync()));
+                var result = await response.Content.ReadAsAsync<CallbackResult>();
+                context.Identity.AddClaim(new Claim(ClaimTypes.Role, result.Role));
+                context.Identity.AddClaim(new Claim(CustomClaimTypes.EmployeeID, result.Id.ToString()));
             }
         }
     }
@@ -76,5 +82,11 @@ namespace API.Controllers
         public string Name { get; set; }
         public string Email { get; set; }
         public string AccessToken { get; set; }
+    }
+
+    public class CallbackResult
+    {
+        public string Role { get; set; }
+        public int Id { get; set; }
     }
 }

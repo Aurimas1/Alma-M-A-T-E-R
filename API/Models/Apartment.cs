@@ -18,5 +18,6 @@ namespace API
         [ForeignKey("OfficeId")]
         public Office Office { get; set; }
         public virtual List<Reservation> Reservations { get; set; }
+        public string Currency { get; set; }
     }
 }
