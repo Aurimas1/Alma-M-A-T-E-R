@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     //load EventsCalendar
     $("div.events_calendar").load("../Calendar_DB.html", function () {
-        loadTripTime().then(function (times) {
+        loadTripTimeAndTransport().then(function (times) {
             var departureParts = times.departureDate.split("T");
             $("#departureDate").val(departureParts[0]);
             departureParts[1] = departureParts[1].substr(0, 5);
@@ -15,6 +15,16 @@ $(document).ready(function () {
             arrivalParts[1] = arrivalParts[1].substr(0, 5);
             $(`#arrivalTime option:contains(${arrivalParts[1]})`).attr('selected', 'selected');
             $('#arrivalTime').attr('disabled', true);
+
+            if(times.isPlaneNeeded){
+                $("#airplaneRadios").prop("checked", true);
+            }
+            if(times.isCarCompensationNeeded){
+                $("#employeeCarRadios").prop("checked", true);
+            }
+            if(times.isCarRentalNeeded){
+                $("#carRadios").prop("checked", true);
+            }
             
             //load events
             selectedEployeesForEvents = $('table#sort tbody tr td#NrColumn').map(function(){
@@ -199,10 +209,10 @@ function clickAccomodation() {
     });
 }
 
-function loadTripTime() {
+function loadTripTimeAndTransport() {
     return $.ajax({
         type: "GET",
-        url: `/api/trip/time/${tripID}`,
+        url: `/api/trip/timeAndTransport/${tripID}`,
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
@@ -314,7 +324,7 @@ function saveTrip() {
             }),
         }),
         success: function () {
-            alert("The trip was successfully created!");
+            alert("The trip was edited!");
             window.location.href = "/index.html";
         },
         error: function (xhr, ajaxOptions, thrownError) {

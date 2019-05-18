@@ -291,12 +291,13 @@ namespace API.Controllers
             return service.GetEmployees(id);
         }
 
-        // GET api/Trip/Time/{id}
-        [Route("time/{id}")]
+        // GET api/Trip/timeAndTransport/{id}
+        [Route("timeAndTransport/{id}")]
         [HttpGet]
-        public Times GetTimes(int id)
+        public TimeAndTransport GetTimeAndTransport(int id)
         {
-            return service.GetTimes(id);
+
+            return service.GetTimeAndTransport(id);
         }
 
         // GET api/Trip/reservedApartments
