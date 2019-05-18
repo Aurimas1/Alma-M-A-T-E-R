@@ -3,7 +3,7 @@ $(document).ready(function () {
     queryString = queryString.substring(1);
     queryString = queryString.split("=");
     var ID = Number(queryString[1]);
-    var userEmail = "tomaskiziela@gmail.com"; //need to fetch current user email here
+    var userID;
     var userName; //needed to filter gas compensation
 
     $.ajax({
@@ -17,6 +17,7 @@ $(document).ready(function () {
             console.error('Error');
         },
         success: function (data) {
+            userID = data.currentUserID;
             var departure = moment(data.departureDate).format('YYYY-MM-DD kk:mm');
             var arrival = moment(data.returnDate).format('YYYY-MM-DD HH:mm');
             $("#Arrival").text(data.arrivalCity + ', ' + data.arrivalCountry);
@@ -25,9 +26,9 @@ $(document).ready(function () {
             $("#ArrivalDate").text(arrival);
             $("#Status").text(data.status);
 
-            for(i = 0; i < data.employeeEmail.length; i++)  //find out user index by matching email
+            for(i = 0; i < data.employeeID.length; i++)  //find out user index by matching ID
             {
-                if(data.employeeEmail[i] == userEmail)
+                if(data.employeeID[i] == userID)
                 {
                     userName = data.employeeName[i]; //hacky
                     break;
