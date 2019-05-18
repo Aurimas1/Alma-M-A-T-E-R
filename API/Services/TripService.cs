@@ -72,13 +72,16 @@ namespace API.Services
             return repository.Get(id);
         }
 
-        public Times GetTimes(int id)
+        public TimeAndTransport GetTimeAndTransport(int id)
         {
             var trip = repository.Get(id);
-            return new Times()
+            return new TimeAndTransport()
             {
                 DepartureDate = trip.DepartureDate,
                 ReturnDate = trip.ReturnDate,
+                IsCarCompensationNeeded = trip.IsCarCompensationNeeded,
+                IsCarRentalNeeded = trip.IsCarRentalNeeded,
+                IsPlaneNeeded = trip.IsPlaneNeeded,
             };
         }
 

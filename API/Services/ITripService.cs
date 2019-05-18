@@ -20,7 +20,7 @@ namespace API.Services
         IEnumerable<CarRental> GetCarRentals(int id);
         IEnumerable<GasCompensation> GetGasCompensations(int id);
         Trip Get(int id);
-        Times GetTimes(int id);
+        TimeAndTransport GetTimeAndTransport(int id);
         IEnumerable<Trip> GetYourOrganizedTrips();
         IEnumerable<Trip> GetOtherOrganizedTrips();
     }
