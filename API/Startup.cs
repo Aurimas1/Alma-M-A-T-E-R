@@ -9,12 +9,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using API.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using API.Controllers;
 using API.Repositories;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace API
 {
