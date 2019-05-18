@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
+using API.Extensions;
 using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -20,20 +19,18 @@ namespace API.Controllers
     {
         private readonly ITripService service;
         private readonly IEmployeeToTripService employeeToTripService;
-        private readonly IOfficeService officeService;
         private readonly IApartmentService apartmentService;
 
-        public TripController(ITripService service, IEmployeeToTripService employeeToTripService, IOfficeService officeService, IApartmentService apartmentService)
+        public TripController(ITripService service, IEmployeeToTripService employeeToTripService, IApartmentService apartmentService)
         {
             this.service = service;
             this.employeeToTripService = employeeToTripService;
-            this.officeService = officeService;
             this.apartmentService = apartmentService;
         }
 
         // POST api/Trip
         [HttpPost]
-        public async Task<OkResult> Add([FromBody]CreateTrip item)
+        public async Task<ActionResult> Add([FromBody]CreateTrip item)
         {
             var trip = new Trip
             {
@@ -45,6 +42,7 @@ namespace API.Controllers
                 IsCarRentalNeeded = item.IsCarRentalNeeded,
                 ReturnDate = item.ReturnDate,
                 Status = "CREATED",
+                OrganizerID = User.GetEmpoeeID(),
             };
             var result = await service.Add(trip);
 
@@ -66,7 +64,7 @@ namespace API.Controllers
         // PUT api/Trip/{id}
         [HttpPut]
         [Route("{id}")]
-        public async Task<OkResult> Update([FromBody]UpdateTrip item, int id)
+        public async Task<ActionResult> Update([FromBody]UpdateTrip item, int id)
         {
             Trip trip = service.GetByID(id);
             trip.IsCarCompensationNeeded = item.IsCarCompensationNeeded;
@@ -113,7 +111,7 @@ namespace API.Controllers
         // Post api/Trip/gasCompensation
         [Route("gasCompensation")]
         [HttpPost]
-        public async Task<OkResult> AddGasCompensation([FromBody]GasCompensation item)
+        public async Task<ActionResult> AddGasCompensation([FromBody]GasCompensation item)
         {
             await service.SaveGasCompensation(new GasCompensation()
             {
@@ -129,7 +127,7 @@ namespace API.Controllers
         // Post api/Trip/carRental
         [Route("carRental")]
         [HttpPost]
-        public async Task<OkResult> AddCarRental([FromBody]CarRental item)
+        public async Task<ActionResult> AddCarRental([FromBody]CarRental item)
         {
             await service.SaveCarRental(new CarRental()
             {
@@ -149,7 +147,7 @@ namespace API.Controllers
         // Post api/Trip/planeTicket
         [Route("planeTicket")]
         [HttpPost]
-        public async Task<OkResult> AddPlaneTicket([FromBody]PlaneTicket item)
+        public async Task<ActionResult> AddPlaneTicket([FromBody]PlaneTicket item)
         {
             await service.SavePlaneTicket(new PlaneTicket()
             {
@@ -170,7 +168,7 @@ namespace API.Controllers
         // Post api/Trip/hotel
         [Route("hotel")]
         [HttpPost]
-        public async Task<OkResult> AddHouse([FromBody]Hotel item)
+        public async Task<ActionResult> AddHouse([FromBody]Hotel item)
         {
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
@@ -197,7 +195,7 @@ namespace API.Controllers
         // Post api/Trip/home
         [Route("home")]
         [HttpPost]
-        public async Task<OkResult> AddHome([FromBody]Home item)
+        public async Task<ActionResult> AddHome([FromBody]Home item)
         {
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
@@ -225,80 +223,7 @@ namespace API.Controllers
         [HttpGet]
         public IEnumerable<TripFilter> Get()
         {
-            var trips = service.GetAll();
-
-            var fullTrips = trips.Select(t =>
-            {
-
-                double confirmedProcentage = 0;
-                var employees = 0;
-                var employeeCount = "0/0";
-
-                double accomodationProcentage = 0;
-                var accomodationCount = "0/0";
-
-                double planeTicketProcentage = 0;
-                var planeTicketCount = "0/0";
-
-                double carRentalProcentage = 0;
-                var carRentalCount = "0/0";
-
-                employees = 0;
-                foreach (var i in t.EmployeesToTrip)
-                {
-                    if (i.Status == "APPROVED")
-                    {
-                        employees++;
-                    }
-                }
-
-                confirmedProcentage = ((double)employees / (double)t.EmployeesToTrip.Count);
-                confirmedProcentage = Math.Round(confirmedProcentage, 1, MidpointRounding.AwayFromZero) * 100;
-                employeeCount = employees + "/" + t.EmployeesToTrip.Count;
-
-                accomodationProcentage = (double)(t.Reservations?.Count ?? 0) / (double)t.EmployeesToTrip.Count;
-                accomodationProcentage = Math.Round(accomodationProcentage, 1, MidpointRounding.AwayFromZero) * 100;
-
-
-                accomodationCount = (t.Reservations?.Count ?? 0) + "/" + t.EmployeesToTrip.Count;
-
-                if (t.IsPlaneNeeded)
-                {
-                    planeTicketProcentage = (double)(t.PlaneTickets?.Count ?? 0) / (double)t.EmployeesToTrip.Count;
-                    planeTicketProcentage = Math.Round(planeTicketProcentage, 1, MidpointRounding.AwayFromZero) * 100;
-                    planeTicketCount = (t.PlaneTickets?.Count ?? 0) + "/" + t.EmployeesToTrip.Count;
-                }
-                else planeTicketProcentage = 100;
-
-                if (t.IsCarRentalNeeded)
-                {
-                    carRentalProcentage = (double)(t.CarRentals?.Count ?? 0) / (double)t.EmployeesToTrip.Count;
-                    carRentalProcentage = Math.Round(carRentalProcentage, 1, MidpointRounding.AwayFromZero) * 100;
-                    carRentalCount = (t.CarRentals?.Count ?? 0) + "/" + t.EmployeesToTrip.Count;
-                }
-                else carRentalProcentage = 100;
-
-                return new TripFilter
-                {
-                    ID = t.TripID,
-                    ArrivalOffice = t.ArrivalOffice,
-                    DepartureOffice = t.DepartureOffice,
-                    ReturnDate = t.ReturnDate,
-                    DepartureDate = t.DepartureDate,
-                    ConfirmedProcentage = confirmedProcentage,
-                    EmployeeCount = employeeCount,
-                    AccomodationProcentage = accomodationProcentage,
-                    AccomodationCount = accomodationCount,
-                    PlaneTicketProcentage = planeTicketProcentage,
-                    PlaneTicketCount = planeTicketCount,
-                    CarRentalProcentage = carRentalProcentage,
-                    CarRentalCount = carRentalCount,
-                    Status = t.Status,
-                    EmployeeEmailList = t.EmployeesToTrip.Select(x => x.Employee.Email),
-                };
-            });
-
-            return fullTrips;
+            return service.GetAll().ToTripFilter();
         }
 
         // GET api/Trip
@@ -398,7 +323,7 @@ namespace API.Controllers
 
         // GET api/Trip/
         [HttpGet("filter")]
-        public IEnumerable<TripFilter> Get(bool tripsAwaitingConfirmation, bool tripsConfirmed, bool fullyPlannedTrips, bool finishedTrips, bool myOrganizedTrips, bool otherOrganizedTrips, string dateFrom, string dateTo)
+        public ActionResult<IEnumerable<TripFilter>> Get(bool tripsAwaitingConfirmation, bool tripsConfirmed, bool fullyPlannedTrips, bool finishedTrips, bool myOrganizedTrips, bool otherOrganizedTrips, string dateFrom, string dateTo)
         {
             var filter = new Filter();
             filter.TripsAwaitingConfirmation = tripsAwaitingConfirmation;
@@ -412,7 +337,24 @@ namespace API.Controllers
             date = dateTo.Split("GMT");
             filter.DateTo = Convert.ToDateTime(date[0]);
 
-            var trips = Get();
+            IEnumerable<Trip> trips;
+
+            if (filter.MyOrganizedTrips && filter.OtherOrganizedTrips)
+            {
+                trips = service.GetAll().Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo);
+            }
+            else if (filter.MyOrganizedTrips)
+            {
+                trips = service.GetYourOrganizedTrips().Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo);
+            }
+            else if (filter.OtherOrganizedTrips)
+            {
+                trips = service.GetOtherOrganizedTrips().Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo);
+            }
+            else
+            {
+                return NotFound();
+            }
 
             if (filter.TripsAwaitingConfirmation && filter.TripsConfirmed && filter.FullyPlannedTrips && filter.FinishedTrips)
             {
@@ -478,30 +420,12 @@ namespace API.Controllers
             }
             else
             {
-                return trips = null;
+                return NotFound();
             }
 
             var user = User.Claims.First(x => x.Type == ClaimTypes.Email).Value;
 
-
-            if (filter.MyOrganizedTrips && filter.OtherOrganizedTrips)
-            {
-                trips = trips.Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo).OrderByDescending(x => x.DepartureDate);
-            }
-            else if (filter.MyOrganizedTrips)
-            {
-                trips = trips.Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo && s.EmployeeEmailList.Contains(user)).OrderByDescending(x => x.DepartureDate);
-            }
-            else if (filter.OtherOrganizedTrips)
-            {
-                trips = trips.Where(s => s.DepartureDate >= filter.DateFrom && s.ReturnDate <= filter.DateTo && !s.EmployeeEmailList.Contains(user)).OrderByDescending(x => x.DepartureDate);
-            }
-            else
-            {
-                trips = null;
-            }
-
-            return trips;
+            return Ok(trips.ToTripFilter().OrderByDescending(x => x.DepartureDate));
         }
     }
 }
