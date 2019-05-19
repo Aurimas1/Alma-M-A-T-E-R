@@ -325,7 +325,8 @@ function saveTrip() {
         }),
         success: function () {
             alert("The trip was edited!");
-            window.location.href = "/index.html";
+            window.tripDetailsTripId = tripID;
+            $("div#pageContent").load("../trip_details.html"); 
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
