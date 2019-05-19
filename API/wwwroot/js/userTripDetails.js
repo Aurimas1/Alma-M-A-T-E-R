@@ -20,7 +20,7 @@ $(document).ready(function () {
             $("#statusPill").text(data.employeeStatus);
             if(data.employeeStatus == "APPROVED") {
                 $("#statusPill").css("background-color", "#23a94c");
-                $("#confirmBtn").css("display", "none");
+                $("#confirmBtn").hide();
             }
 
             var departure = moment(data.departureDate).format('YYYY-MM-DD kk:mm');
@@ -39,7 +39,7 @@ $(document).ready(function () {
 
 
             if (data.isPlaneNeeded) {
-                if (data.employeeName !== null) {
+                if (data.tickets[0] !== undefined) {
                         if (data.tickets[0].flightCompany !== null) {
                                 if (data.ticketFile == null) {
                                     data.tickets[0].planeTicketUrl = "javascript: void(0)";
@@ -68,27 +68,27 @@ $(document).ready(function () {
             }
 
 
-            if (data.employeeName !== undefined) {
-                    if (data.accomodation !== null){
+            if (data.accomodation[0] !== undefined) {
+                    if (data.accomodation[0] !== null){
                             if (data.accomodationUrl[0] == null) {
-                                data.accomodationUrl[0] = "javascript: void(0)";
+                                data.accomodationUrl = "javascript: void(0)";
                             }
                             var checkIn = moment(data.checkIn[0]).format('YYYY-MM-DD kk:mm');
                             var checkOut = moment(data.checkOut[0]).format('YYYY-MM-DD kk:mm');
                         }
                         else {
-                            
                             data.accomodation = " ";
                             data.address = " ";
                             data.roomNumber = " ";
                             checkIn = " ";
                             checkOut = " ";
                             data.address = " ";
+                            data.accomodationUrl = "javascript: void(0)";
                         }
 
                     var displayAccomodationInfo = '<div class="row"><div class="col"><p>' + data.employeeName + '</p></div><div class="col"><p>' + data.accomodation +
                         '</p></div><div class="col"><p>' + data.address + '</p></div><div class="col"><p>' + data.roomNumber + '</p></div><div class="col"><p>' + checkIn + '</p></div><div class="col">' +
-                        '<p>' + checkOut + '</p></div><div class="col"><a href="' + data.accomodationUrl[0] + '" class="badge badge-info">Link</a></div>' +
+                        '<p>' + checkOut + '</p></div><div class="col"><a href="' + data.accomodationUrl + '" class="badge badge-info">Link</a></div>' +
                         '</div>';
 
                     var addAccomodationInfo = document.getElementById("Accomodation");
@@ -96,7 +96,7 @@ $(document).ready(function () {
             }
 
             if (data.isCarRentalNeeded) {
-                if (data.rentals !== undefined) {
+                if (data.rentals[0] !== undefined) {
                     for (i = 0; i < data.rentals.length; i++) {
                         var carIssueDate = moment(data.rentals[i].carIssueDate).format('YYYY-MM-DD kk:mm');
                         var carReturnDate = moment(data.rentals[i].carReturnDate).format('YYYY-MM-DD kk:mm');
@@ -118,7 +118,7 @@ $(document).ready(function () {
             }
 
             if (data.isCarCompensationNeeded) {
-                if (data.gasCompensation !== undefined) {
+                if (data.gasCompensation[0] !== undefined) {
 
                             var displayGasCompensationInfo = '<div class="row"><div class="col"><p>' + data.gasCompensation + '</p></div>' +
                                 '<div class="col"><p>' + data.amount + ' ' + data.currency + '</p></div></div>';
