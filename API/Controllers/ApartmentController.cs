@@ -81,13 +81,6 @@ namespace API.Controllers
             reservation.CheckOut = item.CheckOut;
             return apartmentService.Update(g);
         }
-
-        [HttpDelete]
-        [Route("{id}")]
-        public void DeleteApartment(int id)
-        {
-            service.DeleteApartment(id);
-        }
         
         [HttpPost]
         public async Task<IActionResult> CreateApartment([FromBody]Apartment apartment)
