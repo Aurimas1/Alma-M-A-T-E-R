@@ -24,5 +24,15 @@ namespace API.Services
         {
             return repository.Delete(id);
         }
+
+        public EmployeeToTrip Update(EmployeeToTrip item)
+        {
+            return repository.Update(item);
+        }
+
+        public EmployeeToTrip GetByID(int id)
+        {
+            return repository.Get(id);
+        }
     }
 }

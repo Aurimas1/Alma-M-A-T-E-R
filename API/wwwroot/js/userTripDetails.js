@@ -1,3 +1,4 @@
+var employeeToTrip;
 $(document).ready(function () {
     var queryString = decodeURIComponent(window.location.search);
     queryString = queryString.substring(1);
@@ -6,7 +7,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "GET",
-        url: 'api/trip/getTripForUser/?id=' + ID,
+        url: 'api/trip/user/' + ID,
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
@@ -15,6 +16,13 @@ $(document).ready(function () {
             console.error('Error');
         },
         success: function (data) {
+            employeeToTrip = data.employeeToTrip;
+            $("#statusPill").text(data.employeeStatus);
+            if(data.employeeStatus == "APPROVED") {
+                $("#statusPill").css("background-color", "#23a94c");
+                $("#confirmBtn").css("display", "none");
+            }
+
             var departure = moment(data.departureDate).format('YYYY-MM-DD kk:mm');
             var arrival = moment(data.returnDate).format('YYYY-MM-DD HH:mm');
             $("#Arrival").text(data.arrivalCity + ', ' + data.arrivalCountry);
@@ -22,6 +30,12 @@ $(document).ready(function () {
             $("#DepartureDate").text(departure);
             $("#ArrivalDate").text(arrival);
             $("#Status").text(data.status);
+            if(data.status == "APPROVED") {
+                $("#Status").css("background-color", "#23a94c");
+            }
+            else if(data.status == "COMPLETED") {
+                $("#Status").css("background-color", "#3f3f3f");
+            }
 
 
             if (data.isPlaneNeeded) {
@@ -121,3 +135,21 @@ $(document).ready(function () {
     });
 
 });
+
+function clickApprove() {
+    $.ajax({
+        type: "PATCH",
+        url: '/api/trip/status/' + employeeToTrip,
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function () {
+            location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    })
+}

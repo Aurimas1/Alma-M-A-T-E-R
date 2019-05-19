@@ -108,6 +108,25 @@ namespace API.Controllers
             return Ok();
         }
 
+        // PATCH api/trip/status/{id}
+        [HttpPatch]
+        [Route("status/{id}")]
+        public ActionResult ApproveTrip(int id)
+        {
+            EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
+            employeeToTrip.Status = "APPROVED";
+            employeeToTripService.Update(employeeToTrip);
+
+            Trip trip = service.Get(employeeToTrip.TripId);
+            if (trip.Status == "CREATED")
+            {
+                trip.Status = "APPROVED";
+                service.Update(trip);
+            }
+
+            return Ok();
+        }
+
         // Post api/Trip/gasCompensation
         [Route("gasCompensation")]
         [HttpPost]
@@ -267,8 +286,8 @@ namespace API.Controllers
             return tripToBoard;
         }
 
-        // GET api/Trip/getTripForUser/{ID}
-        [Route("getTripForUser")]
+        // GET api/trip/user/{ID}
+        [Route("user/{ID}")]
         [HttpGet]
         public object GetTripForUser(int ID)
         {
@@ -286,7 +305,8 @@ namespace API.Controllers
                 Status = trip.Status,
                 EmployeeName = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Name),
                 EmployeeEmail = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Email),
-                EmployeeID = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.EmployeeID),
+                EmployeeStatus = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Status),
+                EmployeeToTrip = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.EmployeeToTripID),
 
                 Tickets = trip.PlaneTickets?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
 
