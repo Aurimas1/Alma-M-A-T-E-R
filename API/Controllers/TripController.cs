@@ -261,6 +261,7 @@ namespace API.Controllers
                 EmployeeName = trip.EmployeesToTrip.Select(x => x.Employee.Name),
                 EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
                 EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
+                EmployeeStatus = trip.EmployeesToTrip.Select(x => x.Status),
 
                 Tickets = trip.PlaneTickets?.ToInfo(),
 
