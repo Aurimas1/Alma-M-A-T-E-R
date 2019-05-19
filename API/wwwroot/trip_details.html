@@ -27,6 +27,8 @@
             <h1 class="d-inline">Trip details</h1>
             <a id="editBtn" class="btn btn-default ml-2" href="javascript:void(0)"
                 onclick="openFinalRegistration()">Edit</a>
+            <a id="deleteBtn" class="btn btn-default ml-2" href="javascript:void(0)"
+                onclick="deleteTrip()">Delete</a>
         </div>
 
         <div class="container mb-5 mt-3">
@@ -281,10 +283,9 @@
                 <li id="CarRentalList" class="list-group-item">
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
                         aria-expanded="false" aria-controls="collapseCR">Car rental</button>
-                    <a data-toggle="modal" data-target="#CarRentalModal"
-                        onclick="window.carEdit = false; $('#carFrom').val('');$('#carTo').val('');$('#carCompany').val('');$('#carAddress').val('');$('#carPrice').val('');
+                    <a data-toggle="modal" data-target="#CarRentalModal" onclick="window.carEdit = false; $('#carFrom').val('');$('#carTo').val('');$('#carCompany').val('');$('#carAddress').val('');$('#carPrice').val('');
                     $('#carUrl').val('');" style="cursor: pointer;"><i class="material-icons"
-                                style="color: #E34724; position: relative; top: 14px; font-size: 40px;">&#xE147;</i></a>
+                            style="color: #E34724; position: relative; top: 14px; font-size: 40px;">&#xE147;</i></a>
                     <!-- Modal -->
                     <div class="modal fade" id="CarRentalModal" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -376,9 +377,10 @@
                             data-target="#collapseGC" aria-expanded="false" aria-controls="collapseGC">Gas
                             compensation</button>
                         <a data-toggle="modal" data-target="#GasCompensationModal" style="cursor: pointer;"
-                            onclick="window.gasEdit = false; $('#gasPrice').val('');" class="hideButtons"><i class="material-icons"
+                            onclick="window.gasEdit = false; $('#gasPrice').val('');" class="hideButtons"><i
+                                class="material-icons"
                                 style="color: #E34724; position: relative; top: 14px; font-size: 40px;">&#xE147;</i>
-                    </a>
+                        </a>
                     </div>
 
                     <div class="collapse show" id="collapseGC">
@@ -480,7 +482,7 @@
             border-width: medium !important;
         }
 
-        #editBtn {
+        #editBtn, #deleteBtn {
             background-color: #4286f4 !important;
             border: none !important;
             color: white !important;
@@ -488,6 +490,10 @@
             font-weight: bold !important;
             border-radius: 40px !important;
             vertical-align: baseline;
+        }
+
+        #deleteBtn{
+            background-color: #E34724 !important;
         }
     </style>
 </body>

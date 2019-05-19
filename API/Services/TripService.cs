@@ -48,6 +48,11 @@ namespace API.Services
             return await apartmentRepository.Add(item);
         }
 
+        public bool Delete(int id)
+        {
+            return repository.Delete(id);
+        }
+
         public async Task<Reservation> SaveReservation(Reservation item)
         {
             return await reservationRepository.Add(item);

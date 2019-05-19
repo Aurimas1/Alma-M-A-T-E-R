@@ -14,6 +14,7 @@ namespace API.Services
         Task<Reservation> SaveReservation(Reservation item);
         Trip GetByID(int id);
         Trip Update(Trip item);
+        bool Delete(int id);
         IEnumerable<Employee> GetEmployees(int id);
         IEnumerable<Apartment> GetReservedApartments(int id);
         IEnumerable<PlaneTicket> GetPlaneTickets(int id);
