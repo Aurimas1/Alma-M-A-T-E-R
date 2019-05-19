@@ -258,10 +258,13 @@ namespace API.Controllers
                 ReturnDate = trip.ReturnDate,
                 DepartureDate = trip.DepartureDate,
                 Status = trip.Status,
-                EmployeeName = trip.EmployeesToTrip.Select(x => x.Employee.Name),
-                EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
-                EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
-                EmployeeStatus = trip.EmployeesToTrip.Select(x => x.Status),
+
+                Employees = trip.EmployeesToTrip.ToInfo(),
+
+                //EmployeeName = trip.EmployeesToTrip.Select(x => x.Employee.Name),
+                //EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
+                //EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
+                //EmployeeStatus = trip.EmployeesToTrip.Select(x => x.Status),
 
                 Tickets = trip.PlaneTickets?.ToInfo(),
 

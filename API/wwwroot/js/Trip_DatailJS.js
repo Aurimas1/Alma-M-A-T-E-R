@@ -18,26 +18,30 @@ $(document).ready(function () {
             $("#ArrivalDate").text(arrival);
             $("#Status").text(data.status);
 
-            if (data.employeeName !== undefined) {
-                for (var i = 0; i < data.employeeName.length; i++) {
-                    var fullName = data.employeeName[i].split(" ");
-                    var Nr = data.employeeName.length - i;
+            for (const e of data.employees) {
+                if (e.employeeStatus !== "PENDING") {
+                    $('#employeeSelect').append($(`<option value="${e.employeeID}" selected>`).text(e.employeeName));
+                }
+            }
+
+            if (data.employees !== undefined) {
+                for (var i = 0; i < data.employees.length; i++) {
+                    var fullName = data.employees[i].employeeName.split(" ");
+                    var Nr = data.employees.length - i;
 
                     $('#EmployeesTable').append(
                         $('<tr>')
                             .append($('<td>').text(Nr))
                             .append($('<td>').text(fullName[0]))
                             .append($('<td>').text(fullName[1]))
-                            .append($('<td>').text(data.employeeEmail[i]))
-                            .append($('<td>').text(data.employeeStatus[i]))
+                            .append($('<td>').text(data.employees[i].employeeEmail))
+                            .append($('<td>').text(data.employees[i].employeeStatus))
                     );
-
-                    $('#employeeSelect').append($(`<option value="${data.employeeID[i]}" selected>`).text(data.employeeName[i]));
                 }
             }
 
             if (data.isPlaneNeeded) {
-                loadTrips(data.tickets, data.employeeName, data.employeeID);
+                loadTrips(data.tickets, data.employees);
             } else {
                 $('#PlaneTicketList').hide();
             }
@@ -59,8 +63,8 @@ $(document).ready(function () {
             }
 
 
-            if (data.employeeName !== undefined) {
-                for (i = 0; i < data.employeeName.length; i++) {
+            if (data.employees !== undefined) {
+                for (i = 0; i < data.employees.length; i++) {
                     var td = $('<td class="hideColumns">');
                     if (data.accomodation !== null) {
                         if (data.accomodation.length > i) {
@@ -131,7 +135,7 @@ $(document).ready(function () {
                         else {
                             td.append(
                                 $('<a>')
-                                    .attr('onclick', `window.hotelEmployeeId = ${data.employeeID[i]}`)
+                                    .attr('onclick', `window.hotelEmployeeId = ${data.employees[i].employeeID}`)
                                     .attr('data-toggle', 'modal')
                                     .css("cursor", "pointer")
                                     .attr('data-target', '#HotelModal')
@@ -176,18 +180,21 @@ $(document).ready(function () {
                     else {
                         a = $('<a>').attr("target", "_blank").attr('href', data.accomodationUrl[i]).text('Link');
                     }
-                    $('#AccommodationTable').append(
-                        $('<tr>')
-                            .append($('<td>').text(data.employeeName[i]))
-                            .append($('<td>').text(data.accomodation[i]))
-                            .append($('<td>').text(data.address[i]))
-                            .append($('<td>').text(data.apartmentType[i] == "HOME" ? "" : data.roomNumber[i]))
-                            .append($('<td>').text(checkIn))
-                            .append($('<td>').text(checkOut))
-                            .append($('<td>').text(data.apartmentType[i] == "HOME" ? "" : `${data.price[i]} ${data.currency[i]}`))
-                            .append($('<td>').append(a))
-                            .append(td)
-                    );
+
+                    
+                    if(data.employees[i].employeeStatus !== "PENDING")
+                        $('#AccommodationTable').append(
+                            $('<tr>')
+                                .append($('<td>').text(data.employees[i].employeeName))
+                                .append($('<td>').text(data.accomodation[i]))
+                                .append($('<td>').text(data.address[i]))
+                                .append($('<td>').text(data.apartmentType[i] == "HOME" ? "" : data.roomNumber[i]))
+                                .append($('<td>').text(checkIn))
+                                .append($('<td>').text(checkOut))
+                                .append($('<td>').text(data.apartmentType[i] == "HOME" ? "" : `${data.price[i]} ${data.currency[i]}`))
+                                .append($('<td>').append(a))
+                                .append(td)
+                        );
                 }
             }
             if ("COMPLETED" == data.status) {
@@ -207,15 +214,15 @@ function openFinalRegistration() {
     $("div#pageContent").load("../FinalRegistrationForm.html");
 }
 
-function loadTrips(tickets, employees, employeeIds) {
-    const arr = [...employees];
-    const ids = [...employeeIds];
+function loadTrips(tickets, employees) {
+    const arr = employees.filter(function(el) {
+        return el.employeeStatus !== "PENDING";
+    });
 
     tickets.forEach(function (ticket) {
-        const index = arr.indexOf(ticket.employeeName);
+        const index = arr.map(x => x.employeeName).indexOf(ticket.employeeName);
         if (index !== -1) {
             arr.splice(index, 1);
-            ids.splice(index, 1);
         }
 
         var td = $('<td class="hideColumns">').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#AirplaneModal">').css("cursor", "pointer").click(function () {
@@ -261,9 +268,9 @@ function loadTrips(tickets, employees, employeeIds) {
         $('#FlightsTable').append(row);
     });
 
-    arr.forEach(function (emp, index) {
+    arr.forEach(function (emp) {
         const row = $('<tr>')
-            .append($('<td>').text(emp))
+            .append($('<td>').text(emp.employeeName))
             .append($('<td>'))
             .append($('<td>'))
             .append($('<td>'))
@@ -272,7 +279,7 @@ function loadTrips(tickets, employees, employeeIds) {
             .append($('<td>'))
             .append($('<td class="hideColumns">').append(
                 $('<a>')
-                    .attr('onclick', `window.planeEmployeeId = ${ids[index]}`)
+                    .attr('onclick', `window.planeEmployeeId = ${emp.employeeID}`)
                     .attr('data-toggle', 'modal')
                     .css("cursor", "pointer")
                     .attr('data-target', '#AirplaneModal')
