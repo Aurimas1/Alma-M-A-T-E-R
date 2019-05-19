@@ -50,7 +50,8 @@
     <article>
         <div class="container page-Header">
             <h1 class="d-inline">Trip details</h1>
-            <!--<a id="editBtn" class="btn btn-default ml-2" href="FinalRegistrationForm.html">Edit</a>-->
+            <label id="statusPill" class="badge-pill">Pending</label>
+            <button id="confirmBtn" class="btn btn-default ml-2" onclick="clickApprove()">Approve</button>
         </div>
 
         <div class="container mb-5 mt-3">
@@ -159,44 +160,39 @@
     <script src="js/userTripDetails.js"></script>
 <style>
     #btn {
-        background-color: white !important;
-        border-color: black !important;
-        color: black !important;
-        font-size: 20px !important;
-        font-weight: bold !important;
-        border-radius: 40px !important;
-        border-width: medium !important;
-    }
-    #adds {
-        height: 40px !important;
-        width: 40px !important;
-        background-color: white !important;
-        border-color: darkseagreen !important;
-        color: darkseagreen !important;
-        font-size: 15px !important;
-        font-weight: 900 !important;
-        border-radius: 100% !important;
-        border-width: medium !important;
+        background-color: white;
+        border-color: black;
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 40px;
+        border-width: medium;
     }
 
-    #add {
-        background-color: white !important;
-        border-color: darkseagreen !important;
-        color: black !important;
-        font-size: 20px !important;
-        font-weight: bold !important;
-        border-radius: 40px !important;
-        border-width: medium !important;
+    #statusPill {
+        background-color: #ff7b00;
+        border: solid;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 40px;
+        vertical-align: baseline;
     }
-#editBtn {
-    background-color: #4286f4 !important;
-    border: none !important;
-    color: white !important;
-    font-size: 20px !important;
-    font-weight: bold !important;
-    border-radius: 40px !important;
-    vertical-align: baseline;
-}
+
+    #confirmBtn {
+        background-color: #23a94c;
+        border: solid black;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 40px;
+        vertical-align: baseline;
+    }
+
+    #Status {
+        background-color: #ff7b00;
+        font-size: 16px;
+    }
 </style>
 </body>
 </html>
