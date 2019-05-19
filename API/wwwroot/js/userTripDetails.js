@@ -130,6 +130,9 @@ $(document).ready(function () {
             else {
                 $('#GasCompensationList').hide();
             }
+            if (!data.employeeRead[0]) {
+                markRead();
+            }
         },
     });
 
@@ -145,6 +148,21 @@ function clickApprove() {
         },
         success: function () {
             location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    })
+}
+
+function markRead() {
+    $.ajax({
+        type: "PATCH",
+        url: '/api/trip/read/' + employeeToTrip,
+        contentType: "application/json",
+        xhrFields: {
+            withCredentials: true
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
