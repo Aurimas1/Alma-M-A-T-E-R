@@ -29,6 +29,7 @@ $(document).ready(function () {
                             .append($('<td>').text(fullName[0]))
                             .append($('<td>').text(fullName[1]))
                             .append($('<td>').text(data.employeeEmail[i]))
+                            .append($('<td>').text(data.employeeStatus[i]))
                     );
 
                     $('#employeeSelect').append($(`<option value="${data.employeeID[i]}" selected>`).text(data.employeeName[i]));
