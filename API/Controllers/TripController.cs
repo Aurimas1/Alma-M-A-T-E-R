@@ -127,6 +127,18 @@ namespace API.Controllers
             return Ok();
         }
 
+        // PATCH api/trip/read/{id}
+        [HttpPatch]
+        [Route("read/{id}")]
+        public ActionResult ReadTrip(int id)
+        {
+            EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
+            employeeToTrip.WasRead = true;
+            employeeToTripService.Update(employeeToTrip);
+
+            return Ok();
+        }
+
         // Post api/Trip/gasCompensation
         [Route("gasCompensation")]
         [HttpPost]
@@ -306,6 +318,7 @@ namespace API.Controllers
                 EmployeeName = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Name),
                 EmployeeEmail = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Email),
                 EmployeeStatus = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Status),
+                EmployeeRead = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.WasRead),
                 EmployeeToTrip = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.EmployeeToTripID),
 
                 Tickets = trip.PlaneTickets?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
