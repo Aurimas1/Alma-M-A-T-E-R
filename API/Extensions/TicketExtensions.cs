@@ -10,6 +10,7 @@ namespace API.Extensions
         {
             return ticket.Select(t => new TicketInfo
             {
+                Id = t.PlaneTicketID,
                 Airport = t.Airport,
                 Currency = t.Currency,
                 EmployeeID = t.EmployeeID,

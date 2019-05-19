@@ -20,5 +20,15 @@ namespace API.Services
             return repository.GetAll();
         }
 
+        public Apartment Get(int id)
+        {
+            return repository.Get(id);
+        }
+
+        public Apartment Update(Apartment item)
+        {
+            return repository.Update(item);
+        }
+
     }
 }

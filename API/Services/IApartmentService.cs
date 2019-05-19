@@ -8,5 +8,7 @@ namespace API.Services
     public interface IApartmentService
     {
         IEnumerable<Apartment> GetAll();
+        Apartment Get(int id);
+        Apartment Update(Apartment item);
     }
 }

@@ -184,7 +184,7 @@ namespace API.Controllers
         // Post api/Trip/hotel
         [Route("hotel")]
         [HttpPost]
-        public async Task<ActionResult> AddHouse([FromBody]Hotel item)
+        public async Task<ActionResult> AddHotel([FromBody]Hotel item)
         {
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
@@ -221,7 +221,7 @@ namespace API.Controllers
                 Price = 0,
                 RoomNumber = 0,
                 Type = "HOME",
-                Currency = item.Currency,
+                Currency = "",
             });
             await service.SaveReservation(new Reservation()
             {
@@ -265,6 +265,8 @@ namespace API.Controllers
                 Tickets = trip.PlaneTickets?.ToInfo(),
 
                 trip.IsPlaneNeeded,
+                ApartmentId = trip.Reservations?.Select(x => x.ApartmentID),
+                ApartmentType = trip.Reservations?.Select(x => x.Apartment.Type),
                 Accomodation = trip.Reservations?.Select(x => x.Apartment.Name),
                 Address = trip.Reservations?.Select(x => x.Apartment.Address),
                 RoomNumber = trip.Reservations?.Select(x => x.Apartment.RoomNumber),
