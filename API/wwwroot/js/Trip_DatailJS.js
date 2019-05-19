@@ -60,7 +60,7 @@ $(document).ready(function () {
 
             if (data.employeeName !== undefined) {
                 for (i = 0; i < data.employeeName.length; i++) {
-                    var td = $('<td>');
+                    var td = $('<td class="hideColumns">');
                     if (data.accomodation !== null) {
                         if (data.accomodation.length > i) {
                             if (data.accomodationUrl[i] == null) {
@@ -77,7 +77,7 @@ $(document).ready(function () {
                             const price = data.price[i];
                             const accomodationUrl = data.accomodationUrl[i];
                             const currency = data.currency[i];
-                            
+
                             if (data.apartmentType[i] == "HOTEL") {
                                 td.append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#HotelModal">').css("cursor", "pointer").click(function () {
                                     $("#radioDiv").hide();
@@ -94,7 +94,7 @@ $(document).ready(function () {
                                 }).append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
                             }
 
-                            if(data.apartmentType[i] == "HOME"){
+                            if (data.apartmentType[i] == "HOME") {
                                 td.append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#HotelModal">').css("cursor", "pointer").click(function () {
                                     $("#radioDiv").hide();
                                     window.apartmentEdit = true;
@@ -106,7 +106,7 @@ $(document).ready(function () {
                                     $("#homeDiv").show();
                                 }).append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
                             }
-                            
+
 
                             td.append($('<a class="delete" title="Delete" data-toggle="tooltip">').click(function () {
                                 if (confirm("Are you sure you want to delete this data?"))
@@ -189,9 +189,15 @@ $(document).ready(function () {
                     );
                 }
             }
+            if ("COMPLETED" == data.status) {
+                $("#editBtn").hide();
+                $(".hideColumns").hide();
+                $(".hideButtons").hide();
+            }
         },
         type: 'GET'
     });
+
 
 });
 
@@ -211,7 +217,7 @@ function loadTrips(tickets, employees, employeeIds) {
             ids.splice(index, 1);
         }
 
-        var td = $('<td>').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#AirplaneModal">').css("cursor", "pointer").click(function () {
+        var td = $('<td class="hideColumns">').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#AirplaneModal">').css("cursor", "pointer").click(function () {
             window.airplaneEdit = true;
             window.airplaneId = ticket.id;
             var address = ticket.airport.split('-');
@@ -263,7 +269,7 @@ function loadTrips(tickets, employees, employeeIds) {
             .append($('<td>'))
             .append($('<td>'))
             .append($('<td>'))
-            .append($('<td>').append(
+            .append($('<td class="hideColumns">').append(
                 $('<a>')
                     .attr('onclick', `window.planeEmployeeId = ${ids[index]}`)
                     .attr('data-toggle', 'modal')
@@ -287,7 +293,7 @@ function loadTrips(tickets, employees, employeeIds) {
 
 function loadRentals(rentals) {
     rentals.forEach(function (rental) {
-        var td = $('<td>').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#CarRentalModal">').css("cursor", "pointer").click(function () {
+        var td = $('<td class="hideColumns">').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#CarRentalModal">').css("cursor", "pointer").click(function () {
             window.carEdit = true;
             window.carId = rental.id;
             $("#carFrom").val(rental.carIssueDate);
@@ -329,7 +335,7 @@ function loadRentals(rentals) {
 
 function loadGasCompensations(compensations) {
     compensations.forEach(function (c) {
-        var td = $('<td>').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#GasCompensationModal">').click(function () {
+        var td = $('<td class="hideColumns">').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#GasCompensationModal">').click(function () {
             window.gasEdit = true;
             window.gasId = c.id;
             $('#gasPrice').val(c.price);
