@@ -151,8 +151,7 @@ $(document).ready(function () {
                 }
 
                 const empsWithReservation = data.reservations.map(x => x.employeeName);
-                const empsWithoutReservation = data.employees.filter(x => x.employeeStatus !== "PENDING").filter(x => empsWithReservation.indexOf(x => x.employeeName) === -1);
-                debugger
+                const empsWithoutReservation = data.employees.filter(x => x.employeeStatus !== "PENDING").filter(y => empsWithReservation.indexOf(y.employeeName) === -1);
                 for (const emp of empsWithoutReservation) {
                     var td = $('<td class="hideColumns">');
                     td.append($('<a>')
