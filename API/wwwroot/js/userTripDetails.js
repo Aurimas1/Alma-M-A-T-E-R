@@ -79,7 +79,6 @@ $(document).ready(function () {
                         else {
                             
                             data.accomodation = " ";
-                            console.log(data.accomodation[0]);
                             data.address = " ";
                             data.roomNumber = " ";
                             checkIn = " ";
