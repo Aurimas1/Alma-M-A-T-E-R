@@ -365,3 +365,21 @@ function loadGasCompensations(compensations) {
         $('#GasCompensationTable').append(row);
     });
 }
+
+function deleteTrip(){
+    if(confirm("Are you sure you want to delete this trip?")){
+        return $.ajax({
+            type: "DELETE",
+            url: '/api/trip/' + ID,
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function () {
+                alert("The trip was sucesfully deleted");
+                $("div#pageContent").load("../trips.html");
+            },
+            error: function () { alert('Internet error'); },
+        })
+    }
+}

@@ -326,6 +326,14 @@ namespace API.Controllers
             return service.GetCarRentals(id);
         }
 
+        // DELETE api/Trip/{id}
+        [Route("{id}")]
+        [HttpDelete]
+        public bool Delete(int id)
+        {
+            return service.Delete(id);
+        }
+
         // GET api/Trip/gasCompensations
         [Route("gasCompensations")]
         [HttpGet]
