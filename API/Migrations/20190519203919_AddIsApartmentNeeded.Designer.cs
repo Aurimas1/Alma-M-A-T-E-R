@@ -4,14 +4,16 @@ using API;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190519203919_AddIsApartmentNeeded")]
+    partial class AddIsApartmentNeeded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,6 +28,8 @@ namespace API.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address");
+
+                    b.Property<string>("Currency");
 
                     b.Property<string>("Name");
 
@@ -63,6 +67,8 @@ namespace API.Migrations
                     b.Property<string>("CarRentalUrl");
 
                     b.Property<DateTime>("CarReturnDate");
+
+                    b.Property<string>("Currency");
 
                     b.Property<int>("Price");
 
@@ -144,6 +150,8 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Currency");
+
                     b.Property<int>("EmployeeID");
 
                     b.Property<int>("Price");
@@ -183,6 +191,8 @@ namespace API.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Airport");
+
+                    b.Property<string>("Currency");
 
                     b.Property<int>("EmployeeID");
 
@@ -253,6 +263,8 @@ namespace API.Migrations
                     b.Property<bool>("IsCarRentalNeeded");
 
                     b.Property<bool>("IsPlaneNeeded");
+
+                    b.Property<int?>("OrganizerID");
 
                     b.Property<DateTime>("ReturnDate");
 
