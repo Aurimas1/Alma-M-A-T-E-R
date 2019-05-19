@@ -108,7 +108,7 @@ $(document).ready(function () {
                 if (data.gasCompensation !== undefined) {
 
                             var displayGasCompensationInfo = '<div class="row"><div class="col"><p>' + data.gasCompensation + '</p></div>' +
-                                '<div class="col"><p>' + data.amount + '</p></div></div>';
+                                '<div class="col"><p>' + data.amount + ' ' + data.currency + '</p></div></div>';
 
                             var addGasCompensationInfo = document.getElementById("GasCompensations");
                             addGasCompensationInfo.insertAdjacentHTML('afterend', displayGasCompensationInfo);
