@@ -4,6 +4,7 @@ namespace API.Models
 {
     public class TicketInfo
     {
+        public int Id { get; set; }
         public string EmployeeName { get; set; }
         public string FlightCompany { get; set; }
         public string Airport { get; set; }

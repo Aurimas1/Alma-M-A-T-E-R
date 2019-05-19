@@ -6,6 +6,7 @@ using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -15,10 +16,12 @@ namespace API.Controllers
     public class ApartmentController : ControllerBase
     {
         private readonly IOfficeApartmentService service;
+        private readonly IApartmentService apartmentService;
 
-        public ApartmentController(IOfficeApartmentService service)
+        public ApartmentController(IOfficeApartmentService service, IApartmentService apartmentService)
         {
             this.service = service;
+            this.apartmentService = apartmentService;
         }
         
         // GET api/apartment
@@ -50,7 +53,35 @@ namespace API.Controllers
             }
             return Ok();
         }
-        
+
+        // put api/apartment/hotel/{id}
+        [HttpPut("hotel/{id}")]
+        public Apartment Put([FromBody]Hotel item, int id)
+        {
+            var g = apartmentService.Get(id);
+            g.Currency = item.Currency;
+            g.Price = item.Price;
+            g.Address = item.Address;
+            g.Name = item.Name;
+            g.RoomNumber = item.RoomNumber;
+            var reservation = g.Reservations.FirstOrDefault();
+            reservation.CheckIn = item.CheckIn;
+            reservation.CheckOut = item.CheckOut;
+            return apartmentService.Update(g);
+        }
+
+        // put api/apartment/home/{id}
+        [HttpPut("home/{id}")]
+        public Apartment Put([FromBody]Home item, int id)
+        {
+            var g = apartmentService.Get(id);
+            g.Address = item.Address;
+            var reservation = g.Reservations.FirstOrDefault();
+            reservation.CheckIn = item.CheckIn;
+            reservation.CheckOut = item.CheckOut;
+            return apartmentService.Update(g);
+        }
+
         [HttpDelete]
         [Route("{id}")]
         public void DeleteApartment(int id)
