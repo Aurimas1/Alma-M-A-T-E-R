@@ -27,8 +27,6 @@ namespace API.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("Currency");
-
                     b.Property<string>("Name");
 
                     b.Property<int?>("OfficeId");
@@ -65,8 +63,6 @@ namespace API.Migrations
                     b.Property<string>("CarRentalUrl");
 
                     b.Property<DateTime>("CarReturnDate");
-
-                    b.Property<string>("Currency");
 
                     b.Property<int>("Price");
 
@@ -148,8 +144,6 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Currency");
-
                     b.Property<int>("EmployeeID");
 
                     b.Property<int>("Price");
@@ -187,8 +181,6 @@ namespace API.Migrations
                     b.Property<int>("PlaneTicketID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Currency");
 
                     b.Property<string>("Airport");
 
@@ -277,8 +269,6 @@ namespace API.Migrations
                     b.HasIndex("DepartureOfficeID");
 
                     b.ToTable("Trips");
-
-                    b.Property<int?>("OrganizerID");
                 });
 
             modelBuilder.Entity("API.Apartment", b =>
