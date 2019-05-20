@@ -108,12 +108,13 @@ namespace API.Controllers
             return Ok();
         }
 
-        // PATCH api/trip/status/{id}
-        [HttpPatch]
-        [Route("status/{id}")]
-        public ActionResult ApproveTrip(int id)
+        // POST api/trip/approve/{id}/{needRoom}
+        [HttpPost]
+        [Route("approve/{id}/{needRoom}")]
+        public async Task<ActionResult> ApproveTrip(int id, bool needRoom)
         {
             EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
+            var UserID = User.GetEmpoeeID();
             employeeToTrip.Status = "APPROVED";
             employeeToTripService.Update(employeeToTrip);
 
@@ -122,6 +123,28 @@ namespace API.Controllers
             {
                 trip.Status = "APPROVED";
                 service.Update(trip);
+            }
+
+            if (!needRoom)
+            {
+                var apartment = new Apartment
+                {
+                    Name = "HOME",
+                    RoomNumber = 1,
+                    Price = 0,
+                    Currency = "EUR",
+                    OfficeId = trip.ArrivalOfficeID
+                };
+                apartment = await service.SaveHotelorHome(apartment);
+                var reservation = new Reservation
+                {
+                    TripID = trip.TripID,
+                    EmployeeID = UserID,
+                    ApartmentID = apartment.ApartmentID,
+                    CheckIn = trip.DepartureDate,
+                    CheckOut = trip.ReturnDate
+                };
+                await service.SaveReservation(reservation);
             }
 
             return Ok();
@@ -134,18 +157,6 @@ namespace API.Controllers
         {
             EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
             employeeToTrip.WasRead = true;
-            employeeToTripService.Update(employeeToTrip);
-
-            return Ok();
-        }
-
-        // PATCH api/trip/apartment/{id}
-        [HttpPatch]
-        [Route("apartment/{id}")]
-        public ActionResult RefuseApartment(int id)
-        {
-            EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
-            employeeToTrip.IsApartmentNeeded = false;
             employeeToTripService.Update(employeeToTrip);
 
             return Ok();
@@ -331,7 +342,6 @@ namespace API.Controllers
                 EmployeeEmail = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Email),
                 EmployeeStatus = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Status),
                 EmployeeRead = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.WasRead),
-                EmployeeIsApartmentNeeded = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.IsApartmentNeeded),
                 EmployeeToTrip = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.EmployeeToTripID),
 
                 Tickets = trip.PlaneTickets?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),

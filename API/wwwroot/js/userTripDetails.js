@@ -1,4 +1,5 @@
 var employeeToTrip;
+var needRoom = true;
 $(document).ready(function () {
     var queryString = decodeURIComponent(window.location.search);
     queryString = queryString.substring(1);
@@ -17,12 +18,14 @@ $(document).ready(function () {
         },
         success: function (data) {
             employeeToTrip = data.employeeToTrip;
+            accomodation = data.accomodation;
             $("#statusPill").text(data.employeeStatus);
             if(data.employeeStatus == "APPROVED") {
                 $("#statusPill").css("background-color", "#23a94c");
                 $("#confirmBtn").hide();
+                $("#refuseApartmentBtn").hide();
             }
-            if (!data.employeeIsApartmentNeeded[0]) {
+            if (!data.accomodation == "HOME") {
                 $("#refuseApartmentBtn").hide();
                 $("#AccomodationList").hide();
             }
@@ -66,13 +69,17 @@ $(document).ready(function () {
                         var addPlaneInfo = document.getElementById("Flights");
                         addPlaneInfo.insertAdjacentHTML('afterend', displayPlaneTicketInfo);
                 }
+                else {
+                    $('#PlaneTicketBtn').prop('disabled', true);
+                    $('#Flights').hide();
+                }
             }
             else {
                 $('#PlaneTicketList').hide();
             }
 
 
-            if (data.accomodation[0] !== undefined) {
+            if (data.accomodation[0] !== undefined && data.accomodation[0] !== "HOME") {
                     if (data.accomodation[0] !== null){
                             if (data.accomodationUrl[0] == null) {
                                 data.accomodationUrl = "javascript: void(0)";
@@ -98,6 +105,10 @@ $(document).ready(function () {
                     var addAccomodationInfo = document.getElementById("Accomodation");
                     addAccomodationInfo.insertAdjacentHTML('afterend', displayAccomodationInfo);
             }
+            else {
+                $('#AccomodationBtn').prop('disabled', true);
+                $('#Accomodation').hide();
+            }
 
             if (data.isCarRentalNeeded) {
                 if (data.rentals[0] !== undefined) {
@@ -116,6 +127,10 @@ $(document).ready(function () {
                         addCarRentalInfo.insertAdjacentHTML('afterend', displayCarRentalInfo);
                     }
                 }
+                else {
+                    $('#CarRentalBtn').prop('disabled', true);
+                    $('#CarRentals').hide();
+                }
             }
             else {
                 $('#CarRentalList').hide();
@@ -129,6 +144,10 @@ $(document).ready(function () {
 
                             var addGasCompensationInfo = document.getElementById("GasCompensations");
                             addGasCompensationInfo.insertAdjacentHTML('afterend', displayGasCompensationInfo);
+                }
+                else {
+                    $('#GasCompensationBtn').prop('disabled', true);
+                    $('#GasCompensations').hide();
                 }
             }
             else {
@@ -146,8 +165,8 @@ function clickApprove() {
     var result = confirm("Are you sure you want to approve trip?");
     if (result) {
         $.ajax({
-            type: "PATCH",
-            url: '/api/trip/status/' + employeeToTrip,
+            type: "POST",
+            url: '/api/trip/approve/' + employeeToTrip + '/' + needRoom,
             contentType: "application/json",
             xhrFields: {
                 withCredentials: true
@@ -166,21 +185,8 @@ function clickApprove() {
 function clickRefuse() {
     var result = confirm("Are you sure you don't need accomodation?");
     if (result) {
-        $.ajax({
-            type: "PATCH",
-            url: '/api/trip/apartment/' + employeeToTrip,
-            contentType: "application/json",
-            xhrFields: {
-                withCredentials: true
-            },
-            success: function () {
-                location.reload();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            }
-        })
+        needRoom = false;
+        $("#AccomodationList").hide();
     }
     
 }
