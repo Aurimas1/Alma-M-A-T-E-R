@@ -22,6 +22,10 @@ $(document).ready(function () {
                 $("#statusPill").css("background-color", "#23a94c");
                 $("#confirmBtn").hide();
             }
+            if (!data.employeeIsApartmentNeeded[0]) {
+                $("#refuseApartmentBtn").hide();
+                $("#AccomodationList").hide();
+            }
 
             var departure = moment(data.departureDate).format('YYYY-MM-DD kk:mm');
             var arrival = moment(data.returnDate).format('YYYY-MM-DD HH:mm');
@@ -139,21 +143,46 @@ $(document).ready(function () {
 });
 
 function clickApprove() {
-    $.ajax({
-        type: "PATCH",
-        url: '/api/trip/status/' + employeeToTrip,
-        contentType: "application/json",
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function () {
-            location.reload();
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-        }
-    })
+    var result = confirm("Are you sure you want to approve trip?");
+    if (result) {
+        $.ajax({
+            type: "PATCH",
+            url: '/api/trip/status/' + employeeToTrip,
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function () {
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        })
+    }
+}
+
+function clickRefuse() {
+    var result = confirm("Are you sure you don't need accomodation?");
+    if (result) {
+        $.ajax({
+            type: "PATCH",
+            url: '/api/trip/apartment/' + employeeToTrip,
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function () {
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        })
+    }
+    
 }
 
 function markRead() {
