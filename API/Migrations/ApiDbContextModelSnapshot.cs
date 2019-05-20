@@ -188,9 +188,9 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Airport");
-
                     b.Property<string>("Currency");
+
+                    b.Property<string>("Airport");
 
                     b.Property<int>("EmployeeID");
 
@@ -262,8 +262,6 @@ namespace API.Migrations
 
                     b.Property<bool>("IsPlaneNeeded");
 
-                    b.Property<int?>("OrganizerID");
-
                     b.Property<DateTime>("ReturnDate");
 
                     b.Property<byte[]>("RowVersion")
@@ -279,6 +277,8 @@ namespace API.Migrations
                     b.HasIndex("DepartureOfficeID");
 
                     b.ToTable("Trips");
+
+                    b.Property<int?>("OrganizerID");
                 });
 
             modelBuilder.Entity("API.Apartment", b =>
