@@ -14,13 +14,14 @@ namespace API.Services
         Task<Reservation> SaveReservation(Reservation item);
         Trip GetByID(int id);
         Trip Update(Trip item);
+        bool Delete(int id);
         IEnumerable<Employee> GetEmployees(int id);
         IEnumerable<Apartment> GetReservedApartments(int id);
         IEnumerable<PlaneTicket> GetPlaneTickets(int id);
         IEnumerable<CarRental> GetCarRentals(int id);
         IEnumerable<GasCompensation> GetGasCompensations(int id);
         Trip Get(int id);
-        Times GetTimes(int id);
+        TimeAndTransport GetTimeAndTransport(int id);
         IEnumerable<Trip> GetYourOrganizedTrips();
         IEnumerable<Trip> GetOtherOrganizedTrips();
     }

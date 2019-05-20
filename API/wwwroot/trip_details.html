@@ -27,6 +27,8 @@
             <h1 class="d-inline">Trip details</h1>
             <a id="editBtn" class="btn btn-default ml-2" href="javascript:void(0)"
                 onclick="openFinalRegistration()">Edit</a>
+            <a id="deleteBtn" class="btn btn-default ml-2" href="javascript:void(0)"
+                onclick="deleteTrip()">Delete</a>
         </div>
 
         <div class="container mb-5 mt-3">
@@ -59,10 +61,10 @@
                             <table class="table responsive">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Nr</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Surname</th>
                                         <th scope="col">Email</th>
+                                        <th scope="col">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="EmployeesTable">
@@ -157,7 +159,7 @@
                                         <th scope="col">Return flight</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Ticket file</th>
-                                        <th scope="col">Add Flight</th>
+                                        <th scope="col" class="hideColumns">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="FlightsTable">
@@ -267,7 +269,7 @@
                                         <th scope="col">Check out</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Reservation file</th>
-                                        <th scope="col">Add accommodation</th>
+                                        <th scope="col" class="hideColumns">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="AccommodationTable">
@@ -277,12 +279,13 @@
                         </div>
                     </div>
                 </li>
+
                 <li id="CarRentalList" class="list-group-item">
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
                         aria-expanded="false" aria-controls="collapseCR">Car rental</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CarRentalModal">
-                        Car rental
-                    </button>
+                    <a data-toggle="modal" data-target="#CarRentalModal" onclick="window.carEdit = false; $('#carFrom').val('');$('#carTo').val('');$('#carCompany').val('');$('#carAddress').val('');$('#carPrice').val('');
+                    $('#carUrl').val('');" style="cursor: pointer;"><i class="material-icons"
+                            style="color: #E34724; position: relative; top: 14px; font-size: 40px;">&#xE147;</i></a>
                     <!-- Modal -->
                     <div class="modal fade" id="CarRentalModal" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -358,6 +361,7 @@
                                         <th scope="col">Car Return Date</th>
                                         <th scope="col">Price</th>
                                         <th scope="col">Rental file</th>
+                                        <th scope="col" class="hideColumns">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="CarRentalTable">
@@ -368,13 +372,16 @@
                     </div>
                 </li>
                 <li id="GasCompensationList" class="list-group-item">
-                    <button id="btn" class="btn btn-primary rounded-2" data-toggle="collapse" data-target="#collapseGC"
-                        aria-expanded="false" aria-controls="collapseGC">Gas compensation</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#GasCompensationModal">
-                        Employee car
-                    </button>
-
+                    <div>
+                        <button id="btn" class="btn btn-primary rounded-2" data-toggle="collapse"
+                            data-target="#collapseGC" aria-expanded="false" aria-controls="collapseGC">Gas
+                            compensation</button>
+                        <a data-toggle="modal" data-target="#GasCompensationModal" style="cursor: pointer;"
+                            onclick="window.gasEdit = false; $('#gasPrice').val('');" class="hideButtons"><i
+                                class="material-icons"
+                                style="color: #E34724; position: relative; top: 14px; font-size: 40px;">&#xE147;</i>
+                        </a>
+                    </div>
 
                     <div class="collapse show" id="collapseGC">
                         <div id="GasCompensations" class="row">
@@ -383,56 +390,59 @@
                                     <tr>
                                         <th scope="col">Employee</th>
                                         <th scope="col">Amount</th>
+                                        <th scope="col" class="hideColumns">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="GasCompensationTable">
 
                                 </tbody>
                             </table>
-                    </div>
+                        </div>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="GasCompensationModal" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Gas compensation</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <h4>Please enter the information about owner of the car</h4>
-                                        <div class="form-group">
-                                            <label for="name">Employee</label>
-                                            <select id="employeeSelect" style="margin-left: 10px;">
+                        <!-- Modal -->
+                        <div class="modal fade" id="GasCompensationModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Gas compensation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <h4>Please enter the information about owner of the car</h4>
+                                            <div class="form-group">
+                                                <label for="name">Employee</label>
+                                                <select id="employeeSelect" style="margin-left: 10px;">
 
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="Price">Price</label>
-                                            <div class="form-inline">
-                                                <input type="number" id="gasPrice" class="form-control"
-                                                    placeholder="Enter price" min="0">
-                                                <select id="gasSelect" style="margin-left: 10px;">
-                                                    <option value="EUR" selected>€/Eur</option>
-                                                    <option value="USD">$/USD</option>
-                                                    <option value="GBP">£/GBP</option>
-                                                    <option value="CAD">C$/CAD</option>
                                                 </select>
                                             </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" onclick="saveGasCompensation()" class="btn btn-primary">Save
-                                        changes</button>
+                                            <div class="form-group">
+                                                <label for="Price">Price</label>
+                                                <div class="form-inline">
+                                                    <input type="number" id="gasPrice" class="form-control"
+                                                        placeholder="Enter price" min="0">
+                                                    <select id="gasSelect" style="margin-left: 10px;">
+                                                        <option value="EUR" selected>€/Eur</option>
+                                                        <option value="USD">$/USD</option>
+                                                        <option value="GBP">£/GBP</option>
+                                                        <option value="CAD">C$/CAD</option>
+                                                    </select>
+                                                </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" onclick="saveGasCompensation()"
+                                            class="btn btn-primary">Save
+                                            changes</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </li>
             </ul>
         </div>
@@ -472,7 +482,7 @@
             border-width: medium !important;
         }
 
-        #editBtn {
+        #editBtn, #deleteBtn {
             background-color: #4286f4 !important;
             border: none !important;
             color: white !important;
@@ -480,6 +490,10 @@
             font-weight: bold !important;
             border-radius: 40px !important;
             vertical-align: baseline;
+        }
+
+        #deleteBtn{
+            background-color: #E34724 !important;
         }
     </style>
 </body>

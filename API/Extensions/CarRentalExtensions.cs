@@ -10,6 +10,7 @@ namespace API.Extensions
         {
             return rentals.Select(r => new CarRentalInfo
             {
+                Id = r.CarRentalID,
                 CarIssueDate = r.CarIssueDate,
                 CarPickupAddress = r.CarPickupAddress,
                 CarRentalCompany = r.CarRentalCompany,

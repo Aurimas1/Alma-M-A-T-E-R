@@ -4,6 +4,7 @@ namespace API.Models
 {
     public class CarRentalInfo
     {
+        public int Id { get; set; }
         public string CarRentalCompany { get; set; }
         public string CarPickupAddress { get; set; }
         public DateTime CarIssueDate { get; set; }

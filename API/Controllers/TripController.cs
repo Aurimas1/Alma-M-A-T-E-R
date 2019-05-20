@@ -184,7 +184,7 @@ namespace API.Controllers
         // Post api/Trip/hotel
         [Route("hotel")]
         [HttpPost]
-        public async Task<ActionResult> AddHouse([FromBody]Hotel item)
+        public async Task<ActionResult> AddHotel([FromBody]Hotel item)
         {
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
@@ -221,7 +221,7 @@ namespace API.Controllers
                 Price = 0,
                 RoomNumber = 0,
                 Type = "HOME",
-                Currency = item.Currency,
+                Currency = "",
             });
             await service.SaveReservation(new Reservation()
             {
@@ -258,21 +258,25 @@ namespace API.Controllers
                 ReturnDate = trip.ReturnDate,
                 DepartureDate = trip.DepartureDate,
                 Status = trip.Status,
-                EmployeeName = trip.EmployeesToTrip.Select(x => x.Employee.Name),
-                EmployeeEmail = trip.EmployeesToTrip.Select(x => x.Employee.Email),
-                EmployeeID = trip.EmployeesToTrip.Select(x => x.Employee.EmployeeID),
+
+                Employees = trip.EmployeesToTrip.ToInfo(),
 
                 Tickets = trip.PlaneTickets?.ToInfo(),
 
                 trip.IsPlaneNeeded,
-                Accomodation = trip.Reservations?.Select(x => x.Apartment.Name),
-                Address = trip.Reservations?.Select(x => x.Apartment.Address),
-                RoomNumber = trip.Reservations?.Select(x => x.Apartment.RoomNumber),
-                CheckIn = trip.Reservations?.Select(x => x.CheckIn),
-                CheckOut = trip.Reservations?.Select(x => x.CheckOut),
-                AccomodationUrl = trip.Reservations?.Select(x => x.ReservationUrl),
-                Price = trip.Reservations?.Select(x => x.Apartment.Price),
-                Currency = trip.Reservations?.Select(x => x.Apartment.Currency),
+
+                Reservations = trip.Reservations?.ToInfo(),
+                //ReservationId = trip.Reservations?.Select(x => x.ReservationID),
+                //ApartmentId = trip.Reservations?.Select(x => x.ApartmentID),
+                //ApartmentType = trip.Reservations?.Select(x => x.Apartment.Type),
+                //Accomodation = trip.Reservations?.Select(x => x.Apartment.Name),
+                //Address = trip.Reservations?.Select(x => x.Apartment.Address),
+                //RoomNumber = trip.Reservations?.Select(x => x.Apartment.RoomNumber),
+                //CheckIn = trip.Reservations?.Select(x => x.CheckIn),
+                //CheckOut = trip.Reservations?.Select(x => x.CheckOut),
+                //AccomodationUrl = trip.Reservations?.Select(x => x.ReservationUrl),
+                //Price = trip.Reservations?.Select(x => x.Apartment.Price),
+                //Currency = trip.Reservations?.Select(x => x.Apartment.Currency),
 
                 trip.IsCarRentalNeeded,
                 Rentals = trip.CarRentals?.ToInfo(),
@@ -291,12 +295,13 @@ namespace API.Controllers
             return service.GetEmployees(id);
         }
 
-        // GET api/Trip/Time/{id}
-        [Route("time/{id}")]
+        // GET api/Trip/timeAndTransport/{id}
+        [Route("timeAndTransport/{id}")]
         [HttpGet]
-        public Times GetTimes(int id)
+        public TimeAndTransport GetTimeAndTransport(int id)
         {
-            return service.GetTimes(id);
+
+            return service.GetTimeAndTransport(id);
         }
 
         // GET api/Trip/reservedApartments
@@ -321,6 +326,14 @@ namespace API.Controllers
         public IEnumerable<CarRental> GetCarRentals(int id)
         {
             return service.GetCarRentals(id);
+        }
+
+        // DELETE api/Trip/{id}
+        [Route("{id}")]
+        [HttpDelete]
+        public bool Delete(int id)
+        {
+            return service.Delete(id);
         }
 
         // GET api/Trip/gasCompensations

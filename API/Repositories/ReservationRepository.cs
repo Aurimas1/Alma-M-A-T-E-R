@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace API.Repositories
 
         public Reservation Get(int id)
         {
-            return context.Reservations.FirstOrDefault(x => x.ReservationID == id);
+            return context.Reservations.Include(x => x.Apartment).FirstOrDefault(x => x.ReservationID == id);
         }
 
         public Reservation Get(Func<Reservation, bool> predicate)
