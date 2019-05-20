@@ -62,7 +62,7 @@
                 <li class="list-group-item"><h4>Trip ends: </h4><p id="ArrivalDate" class="d-inline">2019 06 26</p></li>
                 <li class="list-group-item"><h4>Trip status: </h4><p id="Status" class="d-inline badge-pill badge-success">Confirmed</p></li>
                 <li id="PlaneTicketList" class="list-group-item">
-                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapsePT"
+                    <button id="PlaneTicketBtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapsePT"
                     aria-expanded="false" aria-controls="collapsePT">Plane tickets</button>
                     <div class="collapse show" id="collapsePT">
                         <div id="Flights" class="row">
@@ -88,7 +88,7 @@
                     </div>
                 </li>
                 <li id="AccomodationList" class="list-group-item">
-                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
+                    <button id="AccomodationBtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
                             aria-expanded="false" aria-controls="collapseAC">Accomodation</button>
                     <button id="refuseApartmentBtn" class="btn btn-default ml-2 float-right" onclick="clickRefuse()">Refuse apartment</button>
                     <div class="collapse show" id="collapseAC">
@@ -118,7 +118,7 @@
                     </div>
                 </li>
                 <li id="CarRentalList" class="list-group-item">
-                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
+                    <button id="CarRentalBtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
                             aria-expanded="false" aria-controls="collapseCR">Car rental</button>
                     <div class="collapse show" id="collapseCR">
                         <div id="CarRentals" class="row">
@@ -141,7 +141,7 @@
                     </div>
                 </li>
                 <li id="GasCompensationList" class="list-group-item">
-                    <button id="btn" class="btn btn-primary rounded-2" data-toggle="collapse" data-target="#collapseGC"
+                    <button id="GasCompensationBtn" class="btn btn-primary rounded-2" data-toggle="collapse" data-target="#collapseGC"
                             aria-expanded="false" aria-controls="collapseGC">Gas compensation</button>
                     <div class="collapse show" id="collapseGC">
                         <div id="GasCompensations" class="row">
@@ -204,6 +204,16 @@
         background-color: #ff7b00;
         font-size: 16px;
     }
+
+    .collapsed {
+        background-color: aquamarine;
+    }
+
+    .btn.btn-primary:disabled {
+        border: 1px solid #999999;
+        background-color: #cccccc;
+        color: #666666;
+}
 </style>
 </body>
 </html>
