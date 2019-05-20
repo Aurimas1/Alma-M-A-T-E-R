@@ -139,6 +139,18 @@ namespace API.Controllers
             return Ok();
         }
 
+        // PATCH api/trip/apartment/{id}
+        [HttpPatch]
+        [Route("apartment/{id}")]
+        public ActionResult RefuseApartment(int id)
+        {
+            EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
+            employeeToTrip.IsApartmentNeeded = false;
+            employeeToTripService.Update(employeeToTrip);
+
+            return Ok();
+        }
+
         // Post api/Trip/gasCompensation
         [Route("gasCompensation")]
         [HttpPost]
