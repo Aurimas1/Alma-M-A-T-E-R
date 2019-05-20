@@ -87,9 +87,10 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item">
+                <li id="AccomodationList" class="list-group-item">
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
                             aria-expanded="false" aria-controls="collapseAC">Accomodation</button>
+                    <button id="refuseApartmentBtn" class="btn btn-default ml-2 float-right" onclick="clickRefuse()">Refuse apartment</button>
                     <div class="collapse show" id="collapseAC">
                         <div id="Accomodation" class="row">
                             <div class="col">
@@ -181,6 +182,16 @@
 
     #confirmBtn {
         background-color: #23a94c;
+        border: solid black;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 40px;
+        vertical-align: baseline;
+    }
+
+    #refuseApartmentBtn {
+        background-color: #ff7b00;
         border: solid black;
         color: white;
         font-size: 20px;

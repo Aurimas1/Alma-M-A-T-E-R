@@ -331,6 +331,7 @@ namespace API.Controllers
                 EmployeeEmail = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Email),
                 EmployeeStatus = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Status),
                 EmployeeRead = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.WasRead),
+                EmployeeIsApartmentNeeded = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.IsApartmentNeeded),
                 EmployeeToTrip = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.EmployeeToTripID),
 
                 Tickets = trip.PlaneTickets?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
