@@ -30,14 +30,15 @@ function saveGasCompensation() {
 
     $('#GasCompensationModal').modal('toggle');
     $.ajax({
-        type: "POST",
-        url: '/api/trip/gasCompensation',
+        type: window.gasEdit ? "PUT" : "POST",
+        url: window.gasEdit ? '/api/gas' : '/api/trip/gasCompensation',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
         data: JSON.stringify({
-            "TripID": tripID,
+            "TripID": window.gasEdit ? undefined : tripID,
+            "GasCompensationID": window.gasEdit ? window.gasId : undefined,
             "Price": price,
             "EmployeeID": employeeID,
             "Currency": select,
@@ -134,14 +135,15 @@ function saveCarRental() {
 
     $('#CarRentalModal').modal('toggle');
     $.ajax({
-        type: "POST",
-        url: '/api/trip/carRental',
+        type: window.carEdit ? "PUT" : "POST",
+        url: window.carEdit ? '/api/car' : '/api/trip/carRental',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
         data: JSON.stringify({
-            "TripID": tripID,
+            "TripID": window.carEdit ? undefined : tripID,
+            "CarRentalID": window.carEdit ? window.carId : undefined,
             "Price": price,
             "CarRentalCompany": company,
             "CarPickupAddress": address,
@@ -252,14 +254,15 @@ function saveAirplane() {
 
     $('#AirplaneModal').modal('toggle');
     $.ajax({
-        type: "POST",
-        url: '/api/trip/planeTicket',
+        type: window.airplaneEdit ? "PUT" : "POST",
+        url: window.airplaneEdit ? '/api/airplane' : '/api/trip/planeTicket',
         contentType: "application/json",
         xhrFields: {
             withCredentials: true
         },
         data: JSON.stringify({
-            "TripID": tripID,
+            "TripID": window.airplaneEdit ? undefined : tripID,
+            "PlaneTicketID": window.airplaneEdit ? window.airplaneId : undefined,
             "Price": price,
             "PlaneTicketUrl": url,
             "ForwardFlightDate": fromDate,
@@ -285,7 +288,7 @@ function saveAirplane() {
 function saveHotel() {
     var from = $("#hotelFrom").val();
     var to = $("#hotelTo").val();
-    var employeeID = 1;//sita reik pakeisti veliau!!!!
+    var employeeID = window.hotelEmployeeId;
 
     var today = new Date();
     var fromDate = new Date(from);
@@ -373,14 +376,14 @@ function saveHotel() {
 
         $('#HotelModal').modal('toggle');
         $.ajax({
-            type: "POST",
-            url: '/api/trip/hotel',
+            type: window.apartmentEdit ? "PUT" : "POST",
+            url:  window.apartmentEdit ? '/api/apartment/hotel/' + window.apartmentId : '/api/trip/hotel',
             contentType: "application/json",
             xhrFields: {
                 withCredentials: true
             },
             data: JSON.stringify({
-                "TripID": tripID,
+                "TripID": window.apartmentEdit ? undefined : tripID,
                 "Price": price,
                 "EmployeeID": employeeID,
                 "CheckIn": new Date(from),
@@ -415,19 +418,18 @@ function saveHotel() {
 
         $('#HotelModal').modal('toggle');
         $.ajax({
-            type: "POST",
-            url: '/api/trip/home',
+            type: window.apartmentEdit ? "PUT" : "POST",
+            url: window.apartmentEdit ? '/api/apartment/home/' + window.apartmentId :'/api/trip/home',
             contentType: "application/json",
             xhrFields: {
                 withCredentials: true
             },
             data: JSON.stringify({
-                "TripID": tripID,
+                "TripID": window.apartmentEdit ? undefined : tripID,
                 "EmployeeID": employeeID,
                 "CheckIn": new Date(from),
                 "CheckOut": new Date(to),
                 "Address": homeAddress,
-                "Currency": select,
             }),
             success: function () {
                 alert("The information was saved!");

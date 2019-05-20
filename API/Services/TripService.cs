@@ -48,6 +48,11 @@ namespace API.Services
             return await apartmentRepository.Add(item);
         }
 
+        public bool Delete(int id)
+        {
+            return repository.Delete(id);
+        }
+
         public async Task<Reservation> SaveReservation(Reservation item)
         {
             return await reservationRepository.Add(item);
@@ -72,13 +77,16 @@ namespace API.Services
             return repository.Get(id);
         }
 
-        public Times GetTimes(int id)
+        public TimeAndTransport GetTimeAndTransport(int id)
         {
             var trip = repository.Get(id);
-            return new Times()
+            return new TimeAndTransport()
             {
                 DepartureDate = trip.DepartureDate,
                 ReturnDate = trip.ReturnDate,
+                IsCarCompensationNeeded = trip.IsCarCompensationNeeded,
+                IsCarRentalNeeded = trip.IsCarRentalNeeded,
+                IsPlaneNeeded = trip.IsPlaneNeeded,
             };
         }
 

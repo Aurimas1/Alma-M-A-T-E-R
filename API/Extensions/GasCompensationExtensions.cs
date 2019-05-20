@@ -10,6 +10,7 @@ namespace API.Extensions
         {
             return gas.Select(x => new GasCompensationInfo
             {
+                Id = x.GasCompensationID,
                 Name = x.Employee.Name,
                 Currency = x.Currency,
                 Price = x.Price,

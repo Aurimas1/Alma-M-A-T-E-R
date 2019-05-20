@@ -54,7 +54,7 @@ namespace API.Services
         {
             apartmentsRepository.Delete(id);
         }
-        
+
         public async Task<Apartment> CreateApartment(Apartment apartment)
         {
             return await apartmentsRepository.Add(apartment);

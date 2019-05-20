@@ -18,25 +18,28 @@ $(document).ready(function () {
             $("#ArrivalDate").text(arrival);
             $("#Status").text(data.status);
 
-            if (data.employeeName !== undefined) {
-                for (var i = 0; i < data.employeeName.length; i++) {
-                    var fullName = data.employeeName[i].split(" ");
-                    var Nr = data.employeeName.length - i;
+            for (const e of data.employees) {
+                if (e.employeeStatus !== "PENDING") {
+                    $('#employeeSelect').append($(`<option value="${e.employeeID}" selected>`).text(e.employeeName));
+                }
+            }
+
+            if (data.employees !== undefined) {
+                for (var i = 0; i < data.employees.length; i++) {
+                    var fullName = data.employees[i].employeeName.split(" ");
 
                     $('#EmployeesTable').append(
                         $('<tr>')
-                            .append($('<th>').text(Nr))
-                            .append($('<th>').text(fullName[0]))
-                            .append($('<th>').text(fullName[1]))
-                            .append($('<th>').text(data.employeeEmail[i]))
+                            .append($('<td>').text(fullName[0]))
+                            .append($('<td>').text(fullName[1]))
+                            .append($('<td>').text(data.employees[i].employeeEmail))
+                            .append($('<td>').text(data.employees[i].employeeStatus))
                     );
-
-                    $('#employeeSelect').append($(`<option value="${data.employeeID[i]}" selected>`).text(data.employeeName[i]));
                 }
             }
 
             if (data.isPlaneNeeded) {
-                loadTrips(data.tickets, data.employeeName, data.employeeID);
+                loadTrips(data.tickets, data.employees);
             } else {
                 $('#PlaneTicketList').hide();
             }
@@ -50,7 +53,7 @@ $(document).ready(function () {
             }
 
             if (data.isCarCompensationNeeded) {
-                if(data.gasCompensations)
+                if (data.gasCompensations)
                     loadGasCompensations(data.gasCompensations);
             }
             else {
@@ -58,29 +61,148 @@ $(document).ready(function () {
             }
 
 
-            if (data.employeeName !== undefined) {
-                for (i = 0; i < data.employeeName.length; i++) {
+            if (data.employees !== undefined) {
+                for (const res of data.reservations) {
+                    var td = $('<td class="hideColumns">');
+                    if (res.reservationUrl == null) {
+                        res.reservationUrl = "javascript: void(0)";
+                    }
+                    var checkIn = moment(res.checkIn).format('YYYY-MM-DD HH:mm');
+                    var checkOut = moment(res.checkOut).format('YYYY-MM-DD HH:mm');
+                    const checkFrom = res.checkIn;
+                    const checkTo = res.checkOut;
+                    const idx = res.apartmentID;
+                    const reservationId = res.reservationID;
+                    const accomodation = res.name;
+                    const address = res.address;
+                    const roomNumber = res.roomNumber;
+                    const price = res.price;
+                    const accomodationUrl = res.reservationUrl;
+                    const currency = res.currency;
 
-                    if (data.accomodation !== null) {
-                        if (data.accomodation.length > i) {
-                            if (data.accomodationUrl[i] == null) {
-                                data.accomodationUrl[i] = "javascript: void(0)";
-                            }
-                            var checkIn = moment(data.checkIn[i]).format('YYYY-MM-DD HH:mm');
-                            var checkOut = moment(data.checkOut[i]).format('YYYY-MM-DD HH:mm');
+                    if (res.type == "HOTEL") {
+                        td.append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#HotelModal">').css("cursor", "pointer").click(function () {
+                            $("#radioDiv").hide();
+                            window.apartmentEdit = true;
+                            window.apartmentId = idx;
+                            $("#hotelFrom").val(checkFrom);
+                            $("#hotelTo").val(checkTo);
+                            $("#hotelName").val(accomodation);
+                            $("#hotelAddress").val(address);
+                            $("#hotelRoom").val(roomNumber);
+                            $("#hotelPrice").val(price);
+                            $("#hotelUrl").val(accomodationUrl);
+                            $("#hotelSelect :selected").val(currency);
+                        }).append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
+                    }
+
+                    if (res.type == "HOME") {
+                        td.append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#HotelModal">').css("cursor", "pointer").click(function () {
+                            $("#radioDiv").hide();
+                            window.apartmentEdit = true;
+                            window.apartmentId = idx;
+                            $("#hotelFrom").val(checkFrom);
+                            $("#hotelTo").val(checkTo);
+                            $("#homeAddress").val(address);
+                            $("#hotelDiv").hide();
+                            $("#homeDiv").show();
+                        }).append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
+                    }
+
+                    td.append($('<a class="delete" title="Delete" data-toggle="tooltip">').click(function () {
+                        if (confirm("Are you sure you want to delete this data?"))
+                            return $.ajax({
+                                type: "DELETE",
+                                url: '/api/reservation/' + reservationId,
+                                contentType: "application/json",
+                                xhrFields: {
+                                    withCredentials: true
+                                },
+                                success: function () {
+                                    alert("The item was succesfully deleted");
+                                    setTimeout(function () {
+                                        $("div#pageContent").load("../trip_details.html");
+                                    }, 1000);
+                                },
+                                error: function () { alert('Internet error'); },
+                            })
+                    }).css("cursor", "pointer").append('<i class="material-icons" style="color: #E34724;">&#xE872;</i>'));
+
+                    if (res.reservationUrl == "-") {
+                        a = $('<a>').text('Link');
+                    }
+                    else {
+                        a = $('<a>').attr("target", "_blank").attr('href', res.reservationUrl).text('Link');
+                    }
+
+                    if (data.employees.find(x => x.employeeName === res.employeeName).employeeStatus !== "PENDING")
+                        $('#AccommodationTable').append(
+                            $('<tr>')
+                                .append($('<td>').text(res.employeeName))
+                                .append($('<td>').text(res.name))
+                                .append($('<td>').text(res.address))
+                                .append($('<td>').text(res.type == "HOME" ? "" : res.roomNumber))
+                                .append($('<td>').text(checkIn))
+                                .append($('<td>').text(checkOut))
+                                .append($('<td>').text(res.type == "HOME" ? "" : `${res.price} ${res.currency}`))
+                                .append($('<td>').append(a))
+                                .append(td)
+                        );
+                }
+
+                const empsWithReservation = data.reservations.map(x => x.employeeName);
+                const empsWithoutReservation = data.employees.filter(x => x.employeeStatus !== "PENDING").filter(y => empsWithReservation.indexOf(y.employeeName) === -1);
+                for (const emp of empsWithoutReservation) {
+                    var td = $('<td class="hideColumns">');
+                    td.append($('<a>')
+                        .attr('onclick', `window.hotelEmployeeId = ${emp.employeeID}`)
+                        .attr('data-toggle', 'modal')
+                        .css("cursor", "pointer")
+                        .attr('data-target', '#HotelModal')
+                        .append("<i class='material-icons' style='color: #E34724;'>&#xE147;</i>")
+                    ).click(function () {
+                        window.apartmentEdit = false;
+                        $("#hotelFrom").val("");
+                        $("#hotelTo").val("");
+                        $("#hotelName").val("");
+                        $("#hotelAddress").val("");
+                        $("#hotelRoom").val("");
+                        $("#hotelPrice").val("");
+                        $("#hotelUrl").val("");
+                    });
+                    $('#AccommodationTable').append(
+                        $('<tr>')
+                            .append($('<td>').text(emp.employeeName))
+                            .append($('<td>'))
+                            .append($('<td>'))
+                            .append($('<td>'))
+                            .append($('<td>'))
+                            .append($('<td>'))
+                            .append($('<td>'))
+                            .append($('<td>'))
+                            .append(td)
+                    );
+                }
+
+
+                /*for (i = 0; i < data.employees.length; i++) {
+                    var td = $('<td class="hideColumns">');
+                    if (data.reservations !== null) {
+                        if (data.reservations.length > i) {
+
                         }
                         else {
                             
-                            data.accomodation[i] = " ";
-                            console.log(data.accomodation[i]);
-                            data.address[i] = " ";
-                            data.roomNumber[i] = " ";
+                            debugger;
+                            data.reservations[i].name = " ";
+                            data.reservations[i].address = " ";
+                            data.reservations[i].roomNumber = " ";
                             checkIn = " ";
                             checkOut = " ";
-                            data.accomodationUrl[i] = "javascript: void(0)";
-                            data.address[i] = " ";
-                            data.price[i] = ' ';
-                            data.currency[i] = ' ';
+                            data.reservations[i].reservationUrl = "javascript: void(0)";
+                            data.reservations[i].address = " ";
+                            data.reservations[i].price = ' ';
+                            data.reservations[i].currency = ' ';
                         }
                     }
                     else {
@@ -94,114 +216,204 @@ $(document).ready(function () {
                         data.price = ' ';
                         data.currency = ' ';
                     }
+                    var a;
+                    
 
-                    $('#AccommodationTable').append(
-                        $('<tr>')
-                            .append($('<th>').text(data.employeeName[i]))
-                            .append($('<th>').text(data.accomodation[i]))
-                            .append($('<th>').text(data.address[i]))
-                            .append($('<th>').text(data.roomNumber[i]))
-                            .append($('<th>').text(checkIn))
-                            .append($('<th>').text(checkOut))
-                            .append($('<th>').text(`${data.price[i]} ${data.currency[i]}`))
-                            .append($('<th>').append($('<a>').attr('href', data.accomodationUrl[i]).text('Link')))
-                            .append($('<th>').append(
-                                $('<button>')
-                                    .addClass('btn btn-primary')
-                                    .text('Add hotel')
-                                    .attr('onclick', `window.hotelEmployeeId = ${data.employeeID[i]}`)
-                                    .attr('data-toggle', 'modal')
-                                    .attr('type', 'button')
-                                    .attr('data-target', '#HotelModal')
-                            ))
-                    );
-                }
+                    
+                    
+                }*/
+            }
+            if ("COMPLETED" == data.status) {
+                $("#editBtn").hide();
+                $(".hideColumns").hide();
+                $(".hideButtons").hide();
             }
         },
         type: 'GET'
     });
 
+
 });
 
-function openFinalRegistration(){
+function openFinalRegistration() {
     window.finalRegistrationTripId = ID;
-    $("div#pageContent").load("../FinalRegistrationForm.html"); 
+    $("div#pageContent").load("../FinalRegistrationForm.html");
 }
 
-function loadTrips(tickets, employees, employeeIds) {
-    const arr = [...employees];
-    const ids = [...employeeIds];
-    tickets.forEach(function(ticket) {
-        const index = arr.indexOf(ticket.employeeName);
-        if (index !== -1) {
-            arr.splice(index, 1);
-            arr.splice(ids, 1);
-        }
-
-        $('#FlightsTable').append(
-            $('<tr>')
-                .append($('<th>').text(ticket.employeeName))
-                .append($('<th>').text(ticket.flightCompany))
-                .append($('<th>').text(ticket.airport))
-                .append($('<th>').text(moment(ticket.forwardFlightDate).format('YYYY-MM-DD HH:mm')))
-                .append($('<th>').text(moment(ticket.returnFlightDate).format('YYYY-MM-DD HH:mm')))
-                .append($('<th>').text(`${ticket.price} ${ticket.currency}`))
-                .append($('<th>').append($('<a>').attr('href', ticket.planeTicketUrl).text('Link')))
-                .append($('<th>').append(
-                    $('<button>')
-                        .addClass('btn btn-primary')
-                        .text('Add ticket')
-                        .attr('onclick', `window.planeEmployeeId = ${ticket.employeeID}`)
-                        .attr('data-toggle', 'modal')
-                        .attr('type', 'button')
-                        .attr('data-target', '#AirplaneModal')
-                ))
-        );
+function loadTrips(tickets, employees) {
+    const arr = employees.filter(function (el) {
+        return el.employeeStatus !== "PENDING";
     });
 
-    arr.forEach(function(emp, index) {
-        $('#FlightsTable').append(
-            $('<tr>')
-                .append($('<th>').text(emp))
-                .append($('<th>'))
-                .append($('<th>'))
-                .append($('<th>'))
-                .append($('<th>'))
-                .append($('<th>'))
-                .append($('<th>'))
-                .append($('<th>').append(
-                    $('<button>')
-                        .addClass('btn btn-primary')
-                        .text('Add ticket')
-                        .attr('onclick', `window.planeEmployeeId = ${ids[index]}`)
-                        .attr('data-toggle', 'modal')
-                        .attr('type', 'button')
-                        .attr('data-target', '#AirplaneModal')
-                ))
-        );
+    tickets.forEach(function (ticket) {
+        const index = arr.map(x => x.employeeName).indexOf(ticket.employeeName);
+        if (index !== -1) {
+            arr.splice(index, 1);
+        }
+
+        var td = $('<td class="hideColumns">').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#AirplaneModal">').css("cursor", "pointer").click(function () {
+            window.airplaneEdit = true;
+            window.airplaneId = ticket.id;
+            var address = ticket.airport.split('-');
+            from = $("#airplaneFrom").val(ticket.forwardFlightDate);
+            $("#airplaneTo").val(ticket.returnFlightDate);
+            $("#airplaneCompany").val(ticket.flightCompany);
+            $("#airplaneAddressFrom").val(address[0]);
+            $("#airplaneAddressTo").val(address[1]);
+            $("#airplanePrice").val(ticket.price);
+            $("#airplaneUrl").val(ticket.planeTicketUrl);
+            $("#airplaneSelect :selected").val(ticket.currency);
+        }).append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
+
+        td.append($('<a class="delete" title="Delete" data-toggle="tooltip">').click(function () {
+            if (confirm("Are you sure you want to delete this data?"))
+                return $.ajax({
+                    type: "DELETE",
+                    url: '/api/airplane/' + ticket.id,
+                    contentType: "application/json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function () {
+                        setTimeout(function () {
+                            $("div#pageContent").load("../trip_details.html");
+                        }, 1000);
+                    },
+                    error: function () { alert('Internet error'); },
+                })
+        }).css("cursor", "pointer").append('<i class="material-icons" style="color: #E34724;">&#xE872;</i>'));
+
+        const row = $('<tr>').append($('<td>').text(ticket.employeeName))
+            .append($('<td>').text(ticket.flightCompany))
+            .append($('<td>').text(ticket.airport))
+            .append($('<td>').text(moment(ticket.forwardFlightDate).format('YYYY-MM-DD HH:mm')))
+            .append($('<td>').text(moment(ticket.returnFlightDate).format('YYYY-MM-DD HH:mm')))
+            .append($('<td>').text(`${ticket.price} ${ticket.currency}`))
+            .append($('<td>').append($('<a>').attr("target", "_blank").attr('href', ticket.planeTicketUrl).text('Link')))
+            .append(td);
+        $('#FlightsTable').append(row);
+    });
+
+    arr.forEach(function (emp) {
+        const row = $('<tr>')
+            .append($('<td>').text(emp.employeeName))
+            .append($('<td>'))
+            .append($('<td>'))
+            .append($('<td>'))
+            .append($('<td>'))
+            .append($('<td>'))
+            .append($('<td>'))
+            .append($('<td class="hideColumns">').append(
+                $('<a>')
+                    .attr('onclick', `window.planeEmployeeId = ${emp.employeeID}`)
+                    .attr('data-toggle', 'modal')
+                    .css("cursor", "pointer")
+                    .attr('data-target', '#AirplaneModal')
+                    .append("<i class='material-icons' style='color: #E34724;'>&#xE147;</i>")
+                    .click(function () {
+                        window.airplaneEdit = false;
+                        $("#airplaneFrom").val("");
+                        $("#airplaneTo").val("");
+                        $("#airplaneCompany").val("");
+                        $("#airplaneAddressFrom").val("");
+                        $("#airplaneAddressTo").val("");
+                        $("#airplanePrice").val("");
+                        $("#airplaneUrl").val("");
+                    })
+            ));
+        $('#FlightsTable').append(row);
     });
 }
 
 function loadRentals(rentals) {
-    rentals.forEach(function(rental) {
-        $('#CarRentalTable').append(
-            $('<tr>')
-                .append($('<th>').text(rental.carRentalCompany))
-                .append($('<th>').text(rental.carPickupAddress))
-                .append($('<th>').text(moment(rental.carIssueDate).format('YYYY-MM-DD HH:mm')))
-                .append($('<th>').text(moment(rental.carReturnDate).format('YYYY-MM-DD HH:mm')))
-                .append($('<th>').text(`${rental.price} ${rental.currency}`))
-                .append($('<th>').append($('<a>').attr('href', rental.carRentalUrl).text('Link')))
-        );
+    rentals.forEach(function (rental) {
+        var td = $('<td class="hideColumns">').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#CarRentalModal">').css("cursor", "pointer").click(function () {
+            window.carEdit = true;
+            window.carId = rental.id;
+            $("#carFrom").val(rental.carIssueDate);
+            $("#carTo").val(rental.carReturnDate);
+            $("#carCompany").val(rental.carRentalCompany);
+            $("#carAddress").val(rental.carPickupAddress);
+            $("#carPrice").val(rental.price);
+            $("#carUrl").val(rental.carRentalUrl);
+            $("#carSelect :selected").val(rental.currency);
+        }).append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
+
+        td.append($('<a class="delete" title="Delete" data-toggle="tooltip">').click(function () {
+            if (confirm("Are you sure you want to delete this data?"))
+                return $.ajax({
+                    type: "DELETE",
+                    url: '/api/car/' + rental.id,
+                    contentType: "application/json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function () {
+                        row.remove();
+                    },
+                    error: function () { alert('Internet error'); },
+                })
+        }).css("cursor", "pointer").append('<i class="material-icons" style="color: #E34724;">&#xE872;</i>'));
+
+        const row = $('<tr>')
+            .append($('<td>').text(rental.carRentalCompany))
+            .append($('<td>').text(rental.carPickupAddress))
+            .append($('<td>').text(moment(rental.carIssueDate).format('YYYY-MM-DD HH:mm')))
+            .append($('<td>').text(moment(rental.carReturnDate).format('YYYY-MM-DD HH:mm')))
+            .append($('<td>').text(`${rental.price} ${rental.currency}`))
+            .append($('<td>').append($('<a>').attr("target", "_blank").attr('href', rental.carRentalUrl).text('Link')))
+            .append(td)
+        $('#CarRentalTable').append(row);
     });
 }
 
 function loadGasCompensations(compensations) {
-    compensations.forEach(function(c) {
-        $('#GasCompensationTable').append(
-            $('<tr>')
-                .append($('<th>').text(c.name))
-                .append($('<th>').text(`${c.price} ${c.currency}`))
-        );
+    compensations.forEach(function (c) {
+        var td = $('<td class="hideColumns">').append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#GasCompensationModal">').click(function () {
+            window.gasEdit = true;
+            window.gasId = c.id;
+            $('#gasPrice').val(c.price);
+            $('#employeeSelect').val($(`#employeeSelect option:contains('${c.name}')`).val())
+            $('#gasSelect').val(c.currency);
+        }).css("cursor", "pointer").append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
+
+        td.append($('<a class="delete" title="Delete" data-toggle="tooltip">').click(function () {
+            if (confirm("Are you sure you want to delete this data?"))
+                return $.ajax({
+                    type: "DELETE",
+                    url: '/api/gas/' + c.id,
+                    contentType: "application/json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function () {
+                        row.remove();
+                    },
+                    error: function () { alert('Internet error'); },
+                })
+        }).css("cursor", "pointer").append('<i class="material-icons" style="color: #E34724;">&#xE872;</i>'));
+        const row = $('<tr>')
+            .append($('<td>').text(c.name))
+            .append($('<td>').text(`${c.price} ${c.currency}`))
+            .append(td);
+        $('#GasCompensationTable').append(row);
     });
+}
+
+function deleteTrip() {
+    if (confirm("Are you sure you want to delete this trip?")) {
+        return $.ajax({
+            type: "DELETE",
+            url: '/api/trip/' + ID,
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function () {
+                alert("The trip was sucesfully deleted");
+                $("div#pageContent").load("../trips.html");
+            },
+            error: function () { alert('Internet error'); },
+        })
+    }
 }
