@@ -23,15 +23,15 @@
 
 <body>
     <article>
-        <div class="container page-Header">
+        <div class="container page-Header" style="text-align:center;padding-top:15px;padding-bottom:15px;">
             <h1 class="d-inline">Trip details</h1>
-            <a id="editBtn" class="btn btn-default ml-2" href="javascript:void(0)"
+            <a id="editBtn" style="vertical-align:bottom;" class="btn btn-default ml-2" href="javascript:void(0)"
                 onclick="openFinalRegistration()">Edit</a>
-            <a id="deleteBtn" class="btn btn-default ml-2" href="javascript:void(0)"
+            <a id="deleteBtn" style="vertical-align:bottom;" class="btn btn-default ml-2" href="javascript:void(0)"
                 onclick="deleteTrip()">Delete</a>
         </div>
 
-        <div class="container mb-5 mt-3">
+        <div class="container mb-5 mt-3 main_info">
             <ul class="list-group">
                 <li class="list-group-item">
                     <h4>Travelling from: </h4>
@@ -64,7 +64,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Surname</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Confirmation Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="EmployeesTable">
@@ -285,7 +285,7 @@
                         aria-expanded="false" aria-controls="collapseCR">Car rental</button>
                     <a data-toggle="modal" data-target="#CarRentalModal" onclick="window.carEdit = false; $('#carFrom').val('');$('#carTo').val('');$('#carCompany').val('');$('#carAddress').val('');$('#carPrice').val('');
                     $('#carUrl').val('');" style="cursor: pointer;"><i class="material-icons"
-                            style="color: #E34724; position: relative; top: 14px; font-size: 40px;">&#xE147;</i></a>
+                            style="color: #E34724; top: 14px; font-size: 40px;">&#xE147;</i></a>
                     <!-- Modal -->
                     <div class="modal fade" id="CarRentalModal" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -379,7 +379,7 @@
                         <a data-toggle="modal" data-target="#GasCompensationModal" style="cursor: pointer;"
                             onclick="window.gasEdit = false; $('#gasPrice').val('');" class="hideButtons"><i
                                 class="material-icons"
-                                style="color: #E34724; position: relative; top: 14px; font-size: 40px;">&#xE147;</i>
+                                style="color: #E34724; top: 14px; font-size: 40px;">&#xE147;</i>
                         </a>
                     </div>
 
@@ -451,13 +451,13 @@
     <script src="js/Trip_DatailJS.js"></script>
     <style>
         #btn {
-            background-color: white !important;
-            border-color: black !important;
+            background-color: #f1f1f1 !important;
+            width: 100%;
+            border: none;
             color: black !important;
             font-size: 20px !important;
             font-weight: bold !important;
-            border-radius: 40px !important;
-            border-width: medium !important;
+            text-align: left;
         }
 
         #adds {
@@ -494,6 +494,13 @@
 
         #deleteBtn{
             background-color: #E34724 !important;
+        }
+
+        div.main_info h4{
+            font-size: 14pt;
+        }
+        div.main_info p{
+            font-size: 14pt;
         }
     </style>
 </body>
