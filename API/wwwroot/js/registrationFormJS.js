@@ -68,18 +68,25 @@ function saveTrip() {
         alert("You didn't choose departure and arrival date");
         return;
     }
-    
+    if(new Date($("#arrivalDate").val()) <= new Date() || new Date($("#departureDate").val()) <= new Date()){
+        alert("Your chosen departure and/or arrival dates are invalid, as they are starting or finishing earlier than today.");
+        return;
+    }
     if (pickedDatesWithEvents) {
         if(!confirm("The employees have some events reserved during the dates you picked for the trip. Do you want to proceed with the trip creation?"))
         return;
     }
     var dateDeparture = $("#departureDate").val().replace("/","-");
     var departure = dateDeparture + " " + $("#departureTime").val()+ ":00";
+    departure = new Date(departure);
+    departure.setHours(departure.getHours()+3);
    
 
     var dateArrival = $("#arrivalDate").val().replace("/","-");
     var arrival = dateArrival + " " + $("#arrivalTime").val() + ":00";
-
+    arrival = new Date(arrival);
+    arrival.setHours(arrival.getHours()+3);
+    
     console.log(table.rows('.selected').data().toArray().map(x => +x[0]));
     $.ajax({
         type: "POST",
@@ -89,8 +96,8 @@ function saveTrip() {
             withCredentials: true
         },
         data: JSON.stringify({
-            "DepartureDate": new Date(departure),
-            "ReturnDate": new Date(arrival),
+            "DepartureDate": departure,
+            "ReturnDate": arrival,
             "IsPlaneNeeded": $("#airplaneRadios").is(':checked'),
             "IsCarRentalNeeded":$("#carRadios").is(':checked'),
             "IsCarCompensationNeeded":$("#employeeCarRadios").is(':checked'),
