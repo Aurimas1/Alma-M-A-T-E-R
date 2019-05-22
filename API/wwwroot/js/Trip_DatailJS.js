@@ -28,12 +28,17 @@ $(document).ready(function () {
                 for (var i = 0; i < data.employees.length; i++) {
                     var fullName = data.employees[i].employeeName.split(" ");
 
+                    var cl = "green";
+                    if (data.employees[i].employeeStatus === "PENDING") cl = "red";
                     $('#EmployeesTable').append(
                         $('<tr>')
                             .append($('<td>').text(fullName[0]))
                             .append($('<td>').text(fullName[1]))
                             .append($('<td>').text(data.employees[i].employeeEmail))
-                            .append($('<td>').text(data.employees[i].employeeStatus))
+                            .append($('<td>').text(data.employees[i].employeeStatus).css({
+                                "color": cl,
+                                "font-weight": 600
+                            }))
                     );
                 }
             }
