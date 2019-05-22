@@ -82,6 +82,13 @@ namespace API.Controllers
             return apartmentService.Update(g);
         }
         
+        [HttpDelete]
+        [Route("{id}")]
+        public void DeleteApartment(int id)
+        {
+            service.DeleteApartment(id);
+        }
+        
         [HttpPost]
         public async Task<IActionResult> CreateApartment([FromBody]Apartment apartment)
         {

@@ -71,7 +71,10 @@ namespace API.Controllers
                 req.Content = new ObjectContent<EnsureParams>(data, new JsonMediaTypeFormatter());
                 var response = await context.Backchannel.SendAsync(req);
                 var result = await response.Content.ReadAsAsync<CallbackResult>();
-                context.Identity.AddClaim(new Claim(ClaimTypes.Role, result.Role));
+                if (result.Role != null)
+                {
+                    context.Identity.AddClaim(new Claim(ClaimTypes.Role, result.Role));
+                }
                 context.Identity.AddClaim(new Claim(CustomClaimTypes.EmployeeID, result.Id.ToString()));
             }
         }
