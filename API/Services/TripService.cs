@@ -72,6 +72,12 @@ namespace API.Services
         {
             return repository.GetAll();
         }
+
+        public IEnumerable<Trip> GetAllMyTrips()
+        {
+            return repository.GetAll(x => x.EmployeesToTrip.Select(a => a.EmployeeID == accessor.HttpContext.User.GetEmpoeeID()).Contains(true));
+        }
+
         public Trip GetByID(int id)
         {
             return repository.Get(id);
