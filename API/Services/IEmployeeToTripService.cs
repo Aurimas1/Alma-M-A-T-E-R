@@ -9,5 +9,7 @@ namespace API.Services
     {
         Task<EmployeeToTrip> Add(EmployeeToTrip item);
         bool Remove(int id);
+        EmployeeToTrip Update(EmployeeToTrip item);
+        EmployeeToTrip GetByID(int id);
     }
 }
