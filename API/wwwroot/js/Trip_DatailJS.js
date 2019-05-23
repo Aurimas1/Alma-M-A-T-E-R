@@ -1,4 +1,11 @@
-﻿var ID = window.tripDetailsTripId;
+﻿const countryToCurrencyMap = {
+    "USA": "USD",
+    "Canada": "CAD",
+    "Lithuania": "EUR",
+    "United Kingdom": "GBP",
+};
+
+var ID = window.tripDetailsTripId;
 $(document).ready(function () {
     $.ajax({
         url: 'api/trip/' + ID,
@@ -10,6 +17,8 @@ $(document).ready(function () {
             console.error('Error');
         },
         success: function (data) {
+            window.tripCurrency = countryToCurrencyMap[data.departureCountry];
+
             var departure = moment(data.departureDate).format('YYYY-MM-DD HH:mm');
             var arrival = moment(data.returnDate).format('YYYY-MM-DD HH:mm');
             $("#Arrival").text(data.arrivalCity + ', ' + data.arrivalCountry);
@@ -97,7 +106,7 @@ $(document).ready(function () {
                             $("#hotelRoom").val(roomNumber);
                             $("#hotelPrice").val(price);
                             $("#hotelUrl").val(accomodationUrl);
-                            $("#hotelSelect :selected").val(currency);
+                            $("#hotelSelect").val(currency);
                         }).append('<i class="material-icons" style="color: #FFC107;">&#xE254;</i>'));
                     }
 
@@ -164,7 +173,9 @@ $(document).ready(function () {
                         .attr('data-toggle', 'modal')
                         .css("cursor", "pointer")
                         .attr('data-target', '#HotelModal')
-                        .append("<i class='material-icons' style='color: #E34724;'>&#xE147;</i>")
+                        .append($("<i class='material-icons' style='color: #E34724;'>&#xE147;</i>").click(() => {
+                            $('#hotelSelect').val(window.tripCurrency);
+                        }))
                     ).click(function () {
                         window.apartmentEdit = false;
                         $("#hotelFrom").val("");
@@ -188,45 +199,6 @@ $(document).ready(function () {
                             .append(td)
                     );
                 }
-
-
-                /*for (i = 0; i < data.employees.length; i++) {
-                    var td = $('<td class="hideColumns">');
-                    if (data.reservations !== null) {
-                        if (data.reservations.length > i) {
-
-                        }
-                        else {
-                            
-                            debugger;
-                            data.reservations[i].name = " ";
-                            data.reservations[i].address = " ";
-                            data.reservations[i].roomNumber = " ";
-                            checkIn = " ";
-                            checkOut = " ";
-                            data.reservations[i].reservationUrl = "javascript: void(0)";
-                            data.reservations[i].address = " ";
-                            data.reservations[i].price = ' ';
-                            data.reservations[i].currency = ' ';
-                        }
-                    }
-                    else {
-                        data.accomodation = [" "];
-                        data.address = [" "];
-                        data.roomNumber = [" "];
-                        checkIn = " ";
-                        checkOut = " ";
-                        data.accomodationUrl = ["javascript: void(0)"];
-                        data.address = [" "];
-                        data.price = ' ';
-                        data.currency = ' ';
-                    }
-                    var a;
-                    
-
-                    
-                    
-                }*/
             }
             if ("COMPLETED" == data.status) {
                 $("#editBtn").hide();
