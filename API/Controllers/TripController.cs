@@ -344,7 +344,30 @@ namespace API.Controllers
             return service.GetGasCompensations(id);
         }
 
-        // GET api/Trip/
+        // GET api/trip/myTrips
+        [HttpGet("myTrips")]
+        public IEnumerable<object> GetMyTrips()
+        {
+            var currentUserID = User.GetEmpoeeID();
+            var myTrips = service.GetAllMyTrips();
+            myTrips.OrderBy(x => x.Status.Equals("CREATED") ? 4 : x.Status.Equals("CONFIRMED") ? 3 : x.Status.Equals("PLANNED") ? 2 : 1).ThenByDescending(a => a.DepartureDate);
+
+            IEnumerable<object> trips = myTrips.Select(x =>
+            {
+                return new
+                {
+                    ID = x.TripID,
+                    ArrivalOffice = x.ArrivalOffice,
+                    DepartureOffice = x.DepartureOffice,
+                    ReturnDate = x.ReturnDate,
+                    DepartureDate = x.DepartureDate,
+                    Status = x.EmployeesToTrip.Where(a => a.EmployeeID == currentUserID).Select(t => t.Status),
+                };
+            });
+            return trips;
+        }
+
+        // GET api/Trip/filter
         [HttpGet("filter")]
         public ActionResult<IEnumerable<TripFilter>> Get(bool tripsAwaitingConfirmation, bool tripsConfirmed, bool fullyPlannedTrips, bool finishedTrips, bool myOrganizedTrips, bool otherOrganizedTrips, string dateFrom, string dateTo)
         {
