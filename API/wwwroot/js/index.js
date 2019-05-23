@@ -57,6 +57,6 @@ function hideTabs(role){
         }
     }
     else {
-        //load MyTrips tab
+        tabChanged($("li.nav-item > a#MyTrips").get(0));
     }
 }
