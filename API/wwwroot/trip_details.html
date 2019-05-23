@@ -284,7 +284,7 @@
                     <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
                         aria-expanded="false" aria-controls="collapseCR">Car rental</button>
                     <a data-toggle="modal" data-target="#CarRentalModal" onclick="window.carEdit = false; $('#carFrom').val('');$('#carTo').val('');$('#carCompany').val('');$('#carAddress').val('');$('#carPrice').val('');
-                    $('#carUrl').val('');" style="cursor: pointer;"><i class="material-icons"
+                    $('#carUrl').val(''); $('#carSelect').val(window.tripCurrency);" style="cursor: pointer;"><i class="material-icons"
                             style="color: #E34724; top: 14px; font-size: 40px;">&#xE147;</i></a>
                     <!-- Modal -->
                     <div class="modal fade" id="CarRentalModal" tabindex="-1" role="dialog"
@@ -377,7 +377,7 @@
                             data-target="#collapseGC" aria-expanded="false" aria-controls="collapseGC">Gas
                             compensation</button>
                         <a data-toggle="modal" data-target="#GasCompensationModal" style="cursor: pointer;"
-                            onclick="window.gasEdit = false; $('#gasPrice').val('');" class="hideButtons"><i
+                            onclick="window.gasEdit = false; $('#gasPrice').val(''); $('#gasSelect').val(window.tripCurrency);" class="hideButtons"><i
                                 class="material-icons"
                                 style="color: #E34724; top: 14px; font-size: 40px;">&#xE147;</i>
                         </a>
