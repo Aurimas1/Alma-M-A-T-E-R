@@ -104,7 +104,7 @@ function clickAccomodation() {
             let accommodation = a[roomNr];
 
             if (accommodation.isRoomIsOccupied && accommodation.employeeID) {
-                withoutRoom.splice(indexOf(accommodation.employeeID), 1); //indexof is not defined
+                withoutRoom.splice(withoutRoom.indexOf(accommodation.employeeID), 1);
                 $(`#employeeList li:contains(${idToNameMap[accommodation.employeeID]})`).text(idToNameMap[accommodation.employeeID] + '    - ' + roomNr + ' room');
                 td2.append(createAccommodationDropdown(roomNr).val(accommodation.employeeID));
             } else if (accommodation.isRoomIsOccupied && !accommodation.employeeID) {
