@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using API.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -16,7 +17,7 @@ namespace API.Services
         Trip GetByID(int id);
         Trip Update(Trip item);
         bool Delete(int id);
-        IEnumerable<Employee> GetEmployees(int id);
+        IEnumerable<EmployeeWithStatus> GetEmployees(int id);
         IEnumerable<Apartment> GetReservedApartments(int id);
         IEnumerable<PlaneTicket> GetPlaneTickets(int id);
         IEnumerable<CarRental> GetCarRentals(int id);
