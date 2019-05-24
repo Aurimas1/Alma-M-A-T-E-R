@@ -19,6 +19,11 @@ namespace API.Services
             return repository.GetAll();
         }
 
+        public Employee Get(int id)
+        {
+            return repository.Get(id);
+        }
+
         public async Task<Employee> Ensure(string email, string name)
         {
             var exists = repository.Get(e => e.Email == email);

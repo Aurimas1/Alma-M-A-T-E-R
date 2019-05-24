@@ -9,5 +9,6 @@ namespace API.Services
         IEnumerable<Employee> GetAll();
         Task<Employee> Ensure(string email, string name);
         void UpdateEmployees(IEnumerable<EmployeeRolesDTO> employees);
+        Employee Get(int id);
     }
 }
