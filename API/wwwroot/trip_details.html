@@ -29,6 +29,8 @@
                 onclick="openFinalRegistration()">Edit</a>
             <a id="deleteBtn" style="vertical-align:bottom;" class="btn btn-default ml-2" href="javascript:void(0)"
                 onclick="deleteTrip()">Delete</a>
+            <a id="mergeTrip" style="vertical-align:bottom;display:none;" class="btn btn-default ml-2" href="javascript:void(0)"
+               onclick="offerTripMerging()"><img src="IMG/exclamation_mark.png" />Trip merging is available</a>
         </div>
 
         <div class="container mb-5 mt-3 main_info">
@@ -448,6 +450,7 @@
         </div>
     </article>
 
+    <script src="js/Trip_merge.js"></script>
     <script src="js/Trip_DatailJS.js"></script>
     <style>
         #btn {
@@ -490,6 +493,21 @@
             font-weight: bold !important;
             border-radius: 40px !important;
             vertical-align: baseline;
+        }
+        
+        #mergeTrip{
+            background-color: #f4c620 !important;
+            border: none !important;
+            color: white !important;
+            font-size: 18px !important;
+            border-radius: 10px !important;
+            vertical-align: baseline;
+        }
+
+        #mergeTrip img{
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
         }
 
         #deleteBtn{
