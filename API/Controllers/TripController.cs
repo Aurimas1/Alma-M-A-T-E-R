@@ -389,7 +389,7 @@ namespace API.Controllers
         // GET api/Trip/employees/{id}
         [Route("employees/{id}")]
         [HttpGet]
-        public IEnumerable<Employee> GetEmployees(int id)
+        public IEnumerable<EmployeeWithStatus> GetEmployees(int id)
         {
             return service.GetEmployees(id);
         }

@@ -1,4 +1,4 @@
-﻿const countryToCurrencyMap = {
+﻿let countryToCurrencyMap = {
     "USA": "USD",
     "Canada": "CAD",
     "Lithuania": "EUR",
@@ -27,7 +27,7 @@ $(document).ready(function () {
             $("#ArrivalDate").text(arrival);
             $("#Status").text(data.status);
 
-            for (const e of data.employees) {
+            for (let e of data.employees) {
                 if (e.employeeStatus !== "PENDING") {
                     $('#employeeSelect').append($(`<option value="${e.employeeID}" selected>`).text(e.employeeName));
                 }
@@ -76,23 +76,23 @@ $(document).ready(function () {
 
 
             if (data.employees !== undefined) {
-                for (const res of data.reservations) {
+                for (let res of data.reservations) {
                     var td = $('<td class="hideColumns">');
                     if (res.reservationUrl == null) {
                         res.reservationUrl = "javascript: void(0)";
                     }
                     var checkIn = moment(res.checkIn).format('YYYY-MM-DD HH:mm');
                     var checkOut = moment(res.checkOut).format('YYYY-MM-DD HH:mm');
-                    const checkFrom = res.checkIn;
-                    const checkTo = res.checkOut;
-                    const idx = res.apartmentID;
-                    const reservationId = res.reservationID;
-                    const accomodation = res.name;
-                    const address = res.address;
-                    const roomNumber = res.roomNumber;
-                    const price = res.price;
-                    const accomodationUrl = res.reservationUrl;
-                    const currency = res.currency;
+                    let checkFrom = res.checkIn;
+                    let checkTo = res.checkOut;
+                    let idx = res.apartmentID;
+                    let reservationId = res.reservationID;
+                    let accomodation = res.name;
+                    let address = res.address;
+                    let roomNumber = res.roomNumber;
+                    let price = res.price;
+                    let accomodationUrl = res.reservationUrl;
+                    let currency = res.currency;
 
                     if (res.type == "HOTEL") {
                         td.append($('<a class="edit" title="Edit" data-toggle="modal" data-target="#HotelModal">').css("cursor", "pointer").click(function () {
@@ -164,9 +164,9 @@ $(document).ready(function () {
                         );
                 }
 
-                const empsWithReservation = data.reservations.map(x => x.employeeName);
-                const empsWithoutReservation = data.employees.filter(x => x.employeeStatus !== "PENDING").filter(y => empsWithReservation.indexOf(y.employeeName) === -1);
-                for (const emp of empsWithoutReservation) {
+                let empsWithReservation = data.reservations.map(x => x.employeeName);
+                let empsWithoutReservation = data.employees.filter(x => x.employeeStatus !== "PENDING").filter(y => empsWithReservation.indexOf(y.employeeName) === -1);
+                for (let emp of empsWithoutReservation) {
                     var td = $('<td class="hideColumns">');
                     td.append($('<a>')
                         .attr('onclick', `window.hotelEmployeeId = ${emp.employeeID}`)
@@ -218,12 +218,12 @@ function openFinalRegistration() {
 }
 
 function loadTrips(tickets, employees) {
-    const arr = employees.filter(function (el) {
+    let arr = employees.filter(function (el) {
         return el.employeeStatus !== "PENDING";
     });
 
     tickets.forEach(function (ticket) {
-        const index = arr.map(x => x.employeeName).indexOf(ticket.employeeName);
+        let index = arr.map(x => x.employeeName).indexOf(ticket.employeeName);
         if (index !== -1) {
             arr.splice(index, 1);
         }
@@ -260,7 +260,7 @@ function loadTrips(tickets, employees) {
                 })
         }).css("cursor", "pointer").append('<i class="material-icons" style="color: #E34724;">&#xE872;</i>'));
 
-        const row = $('<tr>').append($('<td>').text(ticket.employeeName))
+        let row = $('<tr>').append($('<td>').text(ticket.employeeName))
             .append($('<td>').text(ticket.flightCompany))
             .append($('<td>').text(ticket.airport))
             .append($('<td>').text(moment(ticket.forwardFlightDate).format('YYYY-MM-DD HH:mm')))
@@ -272,7 +272,7 @@ function loadTrips(tickets, employees) {
     });
 
     arr.forEach(function (emp) {
-        const row = $('<tr>')
+        let row = $('<tr>')
             .append($('<td>').text(emp.employeeName))
             .append($('<td>'))
             .append($('<td>'))
@@ -332,7 +332,7 @@ function loadRentals(rentals) {
                 })
         }).css("cursor", "pointer").append('<i class="material-icons" style="color: #E34724;">&#xE872;</i>'));
 
-        const row = $('<tr>')
+        let row = $('<tr>')
             .append($('<td>').text(rental.carRentalCompany))
             .append($('<td>').text(rental.carPickupAddress))
             .append($('<td>').text(moment(rental.carIssueDate).format('YYYY-MM-DD HH:mm')))
@@ -369,7 +369,7 @@ function loadGasCompensations(compensations) {
                     error: function () { alert('Internet error'); },
                 })
         }).css("cursor", "pointer").append('<i class="material-icons" style="color: #E34724;">&#xE872;</i>'));
-        const row = $('<tr>')
+        let row = $('<tr>')
             .append($('<td>').text(c.name))
             .append($('<td>').text(`${c.price} ${c.currency}`))
             .append(td);

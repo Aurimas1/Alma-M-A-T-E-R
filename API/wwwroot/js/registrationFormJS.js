@@ -16,7 +16,7 @@ $(document).ready(function () {
 });
 
 function CheckEmployees() {
-    const table = $('#sort').DataTable();
+    let table = $('#sort').DataTable();
     if (table.rows('.selected').data().length == '0') {
         if ($('#oneButton').attr("aria-expanded") == "true") {
             $('#EmployeeNotification').text("Please select at least one employee!").css({ "color": "red", "visibility": "visible" });
@@ -43,7 +43,7 @@ function CheckEmployees() {
 }
 
 function saveTrip() {
-    const table = $('#sort').DataTable();
+    let table = $('#sort').DataTable();
     
     if($('input[name="exampleRadios"]:checked').val() == undefined)
     {
