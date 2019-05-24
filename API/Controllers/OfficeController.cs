@@ -7,8 +7,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
-    //[Authorize(Roles = "Kebab")]
+    [Authorize(Roles = "Admin,Organiser")]
     public class OfficeController : ControllerBase
     {
         private readonly IOfficeService service;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Extensions;
 using API.Models;
@@ -13,8 +12,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
-    //[Authorize(Roles = "Kebab")]
+    [Authorize]
     public class TripController : ControllerBase
     {
         private readonly ITripService service;
@@ -30,6 +28,7 @@ namespace API.Controllers
 
         // POST api/Trip
         [HttpPost]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> Add([FromBody]CreateTrip item)
         {
             var trip = new Trip
@@ -64,6 +63,7 @@ namespace API.Controllers
         // PUT api/Trip/{id}
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> Update([FromBody]UpdateTrip item, int id)
         {
             Trip trip = service.GetByID(id);
@@ -181,6 +181,7 @@ namespace API.Controllers
         // Post api/Trip/gasCompensation
         [Route("gasCompensation")]
         [HttpPost]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddGasCompensation([FromBody]GasCompensation item)
         {
             await service.SaveGasCompensation(new GasCompensation()
@@ -197,6 +198,7 @@ namespace API.Controllers
         // Post api/Trip/carRental
         [Route("carRental")]
         [HttpPost]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddCarRental([FromBody]CarRental item)
         {
             await service.SaveCarRental(new CarRental()
@@ -217,6 +219,7 @@ namespace API.Controllers
         // Post api/Trip/planeTicket
         [Route("planeTicket")]
         [HttpPost]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddPlaneTicket([FromBody]PlaneTicket item)
         {
             await service.SavePlaneTicket(new PlaneTicket()
@@ -238,6 +241,7 @@ namespace API.Controllers
         // Post api/Trip/hotel
         [Route("hotel")]
         [HttpPost]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddHotel([FromBody]Hotel item)
         {
             var apartament = await service.SaveHotelorHome(new Apartment()
@@ -265,6 +269,7 @@ namespace API.Controllers
         // Post api/Trip/home
         [Route("home")]
         [HttpPost]
+        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddHome([FromBody]Home item)
         {
             var apartament = await service.SaveHotelorHome(new Apartment()
@@ -299,6 +304,7 @@ namespace API.Controllers
         // GET api/Trip
         [Route("{ID}")]
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public object Get(int ID)
         {
             var trip = service.Get(ID);
@@ -389,6 +395,7 @@ namespace API.Controllers
         // GET api/Trip/employees/{id}
         [Route("employees/{id}")]
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<EmployeeWithStatus> GetEmployees(int id)
         {
             return service.GetEmployees(id);
@@ -397,6 +404,7 @@ namespace API.Controllers
         // GET api/Trip/timeAndTransport/{id}
         [Route("timeAndTransport/{id}")]
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public TimeAndTransport GetTimeAndTransport(int id)
         {
 
@@ -406,6 +414,7 @@ namespace API.Controllers
         // GET api/Trip/reservedApartments
         [Route("reservedApartments")]
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<Apartment> GetReservedApartments(int id)
         {
             return service.GetReservedApartments(id);
@@ -414,6 +423,7 @@ namespace API.Controllers
         // GET api/Trip/planeTickets
         [Route("planeTickets")]
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<PlaneTicket> GetPlaneTickets(int id)
         {
             return service.GetPlaneTickets(id);
@@ -422,6 +432,7 @@ namespace API.Controllers
         // GET api/Trip/carRentals
         [Route("carRentals")]
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<CarRental> GetCarRentals(int id)
         {
             return service.GetCarRentals(id);
@@ -430,6 +441,7 @@ namespace API.Controllers
         // DELETE api/Trip/{id}
         [Route("{id}")]
         [HttpDelete]
+        [Authorize(Roles = "Admin,Organiser")]
         public bool Delete(int id)
         {
             return service.Delete(id);
@@ -438,6 +450,7 @@ namespace API.Controllers
         // GET api/Trip/gasCompensations
         [Route("gasCompensations")]
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<GasCompensation> GetGasCompensations(int id)
         {
             return service.GetGasCompensations(id);

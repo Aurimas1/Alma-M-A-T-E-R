@@ -1,18 +1,16 @@
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
-using API.Constants;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize(Roles = "Admin, Organiser")]
+    [Authorize(Roles = "Admin, Organiser")]
     public class ApartmentController : ControllerBase
     {
         private readonly IOfficeApartmentService service;
@@ -47,7 +45,7 @@ namespace API.Controllers
             {
                 service.UpdateApartment(apartment);
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return Conflict("Optimisting locking: version values are not the same.");
             }
