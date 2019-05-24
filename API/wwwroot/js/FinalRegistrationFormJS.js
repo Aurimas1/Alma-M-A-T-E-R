@@ -1,5 +1,8 @@
 var idToNameMap = {};
+let approvedIds = [];
 var tripID = finalRegistrationTripId;
+var map = {};
+
 $(document).ready(function () {
 
     //load EventsCalendar
@@ -91,122 +94,43 @@ function clickAccomodation() {
     });
 
     loadAccommodation(tripID).then(function (a) {
-        let map = {};
+        let withoutRoom = [...approvedIds];
 
-        var i = 0;
-        var emp2 = [];
-        $.each(a, function (j, t) {
-            var obj = employee.find(x => x.id == t.employeeID);
-            if (t.isRoomIsOccupied && obj != null) {
-                employee = $.grep(employee, function (e) {
-                    return e.id != t.employeeID;
-                });
-                emp2.push(obj);
-            }
-        });
+        // populate table
+        for (let roomNr in a) {
+            let tr = $('<tr>'); // line
+            let td1 = $('<td>').text(roomNr).addClass('SmallColumn'); //first col
+            let td2 = $('<td>'); //second col
+            let accommodation = a[roomNr];
 
-        $.each(a, function (j, t) {
-            var tr = $('<tr>');
-            var td = $('<td>').text(j).addClass('SmallColumn');
-            tr.append(td);
-            var dropDown = $('<select>').on('focus', function () {
-                previous = $(this).find("option:selected").text();
-            }).on("change", function () {
-                if (previous !== '') {
-                    $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
-                    map[previous] = undefined;
-                }
-                var text = $(this).find("option:selected").text();
-                if (text !== "") {
-                    $(`#employeeList li:contains(${text})`).text(text + '    - ' + j + ' room').css({ 'color': 'black' });
-                    const oldPosision = map[text];
-                    if (oldPosision)
-                        $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
-                    map[text] = j;
-                }
+            if (accommodation.isRoomIsOccupied && accommodation.employeeID) {
+                withoutRoom.splice(indexOf(accommodation.employeeID), 1);
+                $(`#employeeList li:contains(${idToNameMap[accommodation.employeeID]})`).text(idToNameMap[accommodation.employeeID] + '    - ' + roomNr + ' room');
+                td2.append(createAccommodationDropdown(roomNr).val(accommodation.employeeID));
+            } else if (accommodation.isRoomIsOccupied && !accommodation.employeeID) {
+                td2.text('The room is taken');
+            } else {
+                td2.append(createAccommodationDropdown(roomNr).val(''));
+            }
 
-                $("#bookingSpan").text($(`#employeeList li:contains(no room)`).length);
-            });
-            var obj = emp2.find(x => x.id == t.employeeID);
-            if (t.isRoomIsOccupied) {
-                if (obj == undefined) {
-                    if (idToNameMap[t.employeeID] != null) {
-                        obj = { id: t.employeeID, name: idToNameMap[t.employeeID] };
-                        $.each(emp2, function (i, e) {
-                            dropDown.append($('<option>').val(e.id).html(e.name));
-                        });
-                        $.each(employee, function (i, e) {
-                            dropDown.append($('<option>').val(e.id).html(e.name));
-                        });
-                        dropDown.append("<option selected></option>")
-                        td = $("<td>").append(dropDown);
-                        tr.append(td);
-                        $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
-                    }
-                    else {
-                        tr.append('<td>The room is taken</td>');
-                        tr.append(td);
-                    }
-                }
-                else {
-                    $.each(emp2, function (i, e) {
-                        if (obj.id === e.id) {
-                            dropDown.append($('<option selected>').val(e.id).html(e.name));
-                        }
-                        else {
-                            dropDown.append($('<option>').val(e.id).html(e.name));
-                        }
-                    });
-                    $.each(employee, function (i, e) {
-                        dropDown.append($('<option>').val(e.id).html(e.name));
-                    });
-                    dropDown.append("<option></option>")
-                    td = $("<td>").append(dropDown);
-                    tr.append(td);
-                    $(`#employeeList li:contains(${obj.name})`).text(obj.name + '    - ' + j + ' room');
-                }
-            }
-            else {
-                if (employee[i] != null) {
-                    var name = employee[i].name;
-                    $.each(employee, function (i, e) {
-                        dropDown.append($('<option>').val(e.id).html(e.name));
-                    });
-                    $.each(emp2, function (i, e) {
-                        dropDown.append($('<option>').val(e.id).html(e.name));
-                    });
-                    dropDown.prop('selectedIndex', i).css("width:100%");
-                    dropDown.append("<option></option>")
-                    td = $("<td>").append(dropDown);
-                    tr.append(td);
-                    $(`#employeeList li:contains(${name})`).text(name + '    - ' + j + ' room');
-                    i++;
-                }
-                else {
-                    $.each(employee, function (i, e) {
-                        dropDown.append($('<option></option>').val(e.id).html(e.name));
-                    });
-                    $.each(emp2, function (i, e) {
-                        dropDown.append($('<option></option>').val(e.id).html(e.name));
-                    });
-                    dropDown.append("<option selected></option>")
-                    td = $("<td>").append(dropDown);
-                    tr.append(td);
-                    i++;
-                }
-            }
+            tr.append(td1).append(td2);
             $('#tableBody').append(tr);
-        });
-
-
-        for (var i; i < employee.length; i++) {
-            var name = employee[i].name;
-            $(`li:contains(${name})`).text(name + '    - no room').css({ 'color': 'red' });
-            booking++;
         }
-        $("#bookingSpan").text(booking);
 
-        map = createMap();
+        //prefill
+        for (let empId of withoutRoom) {
+            let unset = true;
+            $.each($('#tableBody select'), (_, select) => {
+                if (unset && !$(select).val()) {
+                    $(select).val(empId);
+                    let nr = $(select).parent().parent().find('td:eq(0)').text();
+                    $(`#employeeList li:contains(${idToNameMap[empId]})`).text(idToNameMap[empId] + '    - ' + nr + ' room');
+                    unset = false;
+                }
+            });
+        }
+
+        createMap();
     });
 }
 
@@ -243,7 +167,10 @@ function loadTripEmployees(id) {
             withCredentials: true
         },
         success: function (data) {
+            approvedIds = [];
             $.each(data, function (key, entry) {
+                if (entry.status === 'APPROVED')
+                    approvedIds.push(entry.employeeID);
                 var email = entry.email;
                 var line = $("<tr>");
                 line.append($('<td id="NrColumn">').text(entry.employeeID))
@@ -253,6 +180,11 @@ function loadTripEmployees(id) {
                 $("#employeeTBody").append(line);
                 $(`#sort tr:contains(${email})`).prop('disabled', true).css("cssText", "background-color:#D33F49");
             });
+            // for (let mapx in idToNameMap) {
+            //     if (approvedIds.indexOf(mapx) === -1) {
+            //         delete idToNameMap[mapx];
+            //     }
+            // }
         },
         error: function () { alert('Internet error'); },
     })
@@ -337,18 +269,50 @@ function saveTrip() {
 }
 
 function createMap() {
-    const map = {};
+    map = {};
     $.each($('#rooms_table tr'), function (position, entry) { // position starts from 0
-        const select = $(entry).find('td:eq(1) select');
+        let select = $(entry).find('td:eq(1) select');
         if (select) {
-            const id = select.val();
+            let id = select.val();
             if (id)
                 map[idToNameMap[id]] = position;
         }
     });
-    return map;
+}
+
+function createAccommodationDropdown(roomNr) {
+    let select = $('<select>');
+    for (let id of approvedIds) {
+        let option = $('<option>').val(id).text(idToNameMap[id]);
+        select.append(option);
+    }
+    select.append($('<option>'));
+    addEventHandlerForSelect(select, roomNr);
+    return select;
 }
 
 function cancelTrip(){
     location.href = "/index.html";
+}
+
+function addEventHandlerForSelect(s, roomNr) {
+    let previous;
+    s.on('focus', function () {
+        previous = $(this).find("option:selected").text();
+    }).on("change", function () {
+        if (previous !== '') {
+            $(`#employeeList li:contains(${previous})`).text(previous + '    - no room').css({ 'color': 'red' });
+            map[previous] = undefined;
+        }
+        var text = $(this).find("option:selected").text();
+        if (text !== "") {
+            $(`#employeeList li:contains(${text})`).text(text + '    - ' + roomNr + ' room').css({ 'color': 'black' });
+            let oldPosision = map[text];
+            if (oldPosision)
+                $(`#rooms_table tr:eq(${oldPosision}) select`).val('');
+            map[text] = roomNr;
+        }
+
+        $("#bookingSpan").text($(`#employeeList li:contains(no room)`).length);
+    });
 }
