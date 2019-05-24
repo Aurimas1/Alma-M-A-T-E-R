@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,5 +27,18 @@ namespace API.Controllers
         {
             return service.TripCanBeMerged(id);
         }
+        
+        // GET
+        [HttpGet]
+        [Route("{id}")]
+        public List<TripMergeDTO> GetTripsForMerging(int id)
+        {
+            return service.GetTripsForMerging(id);
+        }
+
+
+
+        
+        
     }
 }

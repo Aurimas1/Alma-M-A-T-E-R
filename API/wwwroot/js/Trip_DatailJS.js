@@ -397,3 +397,7 @@ function deleteTrip() {
         })
     }
 }
+
+$('#TripMergeModal').on('show.bs.modal', function (event) {
+    getTripsForMerging(ID);
+})
