@@ -1,5 +1,5 @@
 var idToNameMap = {};
-let approvedIds = [];
+var approvedIds = [];
 var tripID = finalRegistrationTripId;
 var map = {};
 
@@ -104,7 +104,7 @@ function clickAccomodation() {
             let accommodation = a[roomNr];
 
             if (accommodation.isRoomIsOccupied && accommodation.employeeID) {
-                withoutRoom.splice(indexOf(accommodation.employeeID), 1);
+                withoutRoom.splice(indexOf(accommodation.employeeID), 1); //indexof is not defined
                 $(`#employeeList li:contains(${idToNameMap[accommodation.employeeID]})`).text(idToNameMap[accommodation.employeeID] + '    - ' + roomNr + ' room');
                 td2.append(createAccommodationDropdown(roomNr).val(accommodation.employeeID));
             } else if (accommodation.isRoomIsOccupied && !accommodation.employeeID) {
