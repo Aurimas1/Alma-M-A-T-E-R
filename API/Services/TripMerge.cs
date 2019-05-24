@@ -7,16 +7,18 @@ namespace API.Services
 {
     public class TripMerge : ITripMerge
     {
-        private readonly IRepository<Trip> repository;
+        private readonly IRepository<Trip> tripRepository;
+        private readonly IRepository<Employee> employeeRepository;
 
-        public TripMerge(IRepository<Trip> tripRepo)
+        public TripMerge(IRepository<Trip> tripRepo, IRepository<Employee> empRepo)
         {
-            repository = tripRepo;
+            tripRepository = tripRepo;
+            employeeRepository = empRepo;
         }
         
         public bool TripCanBeMerged(int tripId)
         {
-            Trip currentTrip = repository.Get(tripId);
+            Trip currentTrip = tripRepository.Get(tripId);
             
             //if the trip starts earlier than tomorrow
             if (currentTrip.DepartureDate.Date <= DateTime.Today)
@@ -29,10 +31,24 @@ namespace API.Services
             return false;
         }
 
-        public List<Trip> GetMergeTrips(Trip currentTrip)
+        public List<TripMergeDTO> GetTripsForMerging(int tripId)
+        {
+            Trip currentTrip = tripRepository.Get(tripId);
+            List<Trip> tripsForMerging = GetMergeTrips(currentTrip);
+            List<TripMergeDTO> tripsForMergingDTO = new List<TripMergeDTO>();
+            tripsForMerging.ForEach(x =>
+            {
+                string organiser = employeeRepository.Get(x.OrganizerID.GetValueOrDefault()).Name;
+                tripsForMergingDTO.Add(new TripMergeDTO (currentTrip, organiser));
+            });
+            return tripsForMergingDTO;
+        }
+        
+
+        private List<Trip> GetMergeTrips(Trip currentTrip)
         {
             //get all trips where departure ar arrival dates -1 <= x <= 1
-            List<Trip> mergableTrips = repository.GetAll(
+            List<Trip> mergableTrips = tripRepository.GetAll(
                 x => x.DepartureDate.Date <= currentTrip.DepartureDate.Date.AddDays(1) &&
                      x.DepartureDate.Date >= currentTrip.DepartureDate.Date.AddDays(-1) &&
                      x.ReturnDate.Date <= currentTrip.ReturnDate.Date.AddDays(1) &&
@@ -57,4 +73,39 @@ namespace API.Services
             return mergableTrips;
         }
     }
+    
+    public class TripMergeDTO
+    {
+        public DateTime DepartureDate;
+        public DateTime ReturnDate;
+        public string organiser;
+        public int BoughtPlaneTicketsCount;
+        public int AccomodationCount;
+        public int CarRentalCount;
+        public int EmployeesCount;
+        public int ConfirmedEmployeesCount;
+        public int GasCompensationCount;
+        public string DepartureOffice;
+        public string ArrivalOffice;
+        public Boolean PlaneTicketsNeeded;
+
+            
+        public TripMergeDTO(Trip trip, string organiser)
+        {
+            DepartureDate = trip.DepartureDate;
+            ReturnDate = trip.ReturnDate;
+            this.organiser = organiser;
+            EmployeesCount = trip.EmployeesToTrip.Count;
+            ConfirmedEmployeesCount = trip.EmployeesToTrip.Count(x => x.Status == "APPROVED");
+            BoughtPlaneTicketsCount = trip.PlaneTickets.Count;
+            PlaneTicketsNeeded = trip.IsPlaneNeeded;
+            AccomodationCount = trip.Reservations.Count;
+            GasCompensationCount = trip.GasCompensations.Count;
+            CarRentalCount = trip.CarRentals.Count;
+            DepartureOffice = trip.DepartureOffice.City + ", " + trip.DepartureOffice.Country;
+            ArrivalOffice = trip.ArrivalOffice.City + ", " + trip.ArrivalOffice.Country;
+
+        }
+    }
+    
 }
