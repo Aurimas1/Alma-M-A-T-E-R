@@ -42,7 +42,7 @@ namespace API.Controllers
         // POST api/employee/update
         [HttpPost]
         [Route("update")]
-        [Authorize(Roles = "Admin,Organiser")]
+        [Authorize(Roles = "Admin")]
         public void UpdateEmployees([FromBody]EmployeeRolesDTO[] employees)
         {
             service.UpdateEmployees(employees.ToList());

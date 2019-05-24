@@ -32,12 +32,14 @@ namespace API.Controllers
         // GET api/apartment/officeApartments
         [HttpGet]
         [Route("officeApartments")]
-        public IEnumerable<OfficeAndApartmentsDTO> GetCurrentUser()
+        [Authorize(Roles = "Admin")]
+        public IEnumerable<OfficeAndApartmentsDTO> GetOfficeApartments()
         {
             return service.GetAllOfficeApartments();
         }
         
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public IActionResult UpdateApartment([FromBody]Apartment apartment)
         {
             //exception handling, optimistic locking
@@ -82,12 +84,14 @@ namespace API.Controllers
         
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public void DeleteApartment(int id)
         {
             service.DeleteApartment(id);
         }
         
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateApartment([FromBody]Apartment apartment)
         {
             await service.CreateApartment(apartment);
