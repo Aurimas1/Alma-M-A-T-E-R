@@ -7,7 +7,6 @@
 
 var ID = window.tripDetailsTripId;
 $(document).ready(function () {
-    allowEdit();
     $.ajax({
         url: 'api/trip/' + ID,
         contentType: "application/json",
@@ -206,11 +205,10 @@ $(document).ready(function () {
                 $(".hideColumns").hide();
                 $(".hideButtons").hide();
             }
+            allowEdit();
         },
         type: 'GET'
     });
-
-
 });
 
 function openFinalRegistration() {
@@ -405,6 +403,7 @@ function allowEdit() {
                 $('#editBtn').hide();
                 $('#deleteBtn').hide();
                 $('.material-icons').hide();
+                $('.hideColumns').hide();
             }
         },
         error: function () { alert('Internet error'); },
