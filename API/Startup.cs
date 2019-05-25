@@ -12,6 +12,7 @@ using API.Services;
 using API.Controllers;
 using API.Repositories;
 using Newtonsoft.Json;
+using API.Configuration;
 
 namespace API
 {
@@ -60,6 +61,9 @@ namespace API
                     })
                 .AddCookie();
 
+            services.Configure<MailOptions>(Configuration.GetSection("Mail"));
+            services.AddSingleton<IMailSender, MailSender>();
+
             services.AddHttpContextAccessor();
 
             services.AddHttpClient<IGoogleCalendarService, GoogleCalendarService>();
@@ -79,6 +83,7 @@ namespace API
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<ITripService, TripService>();
+            services.Decorate<ITripService, TripSenderServiceDecorator>();
             services.AddScoped<IEmployeeToTripService, EmployeeToTripService>();
             services.AddScoped<IOfficeApartmentService, OfficeApartmentService>();
             services.AddScoped<IEventService, EventService>();

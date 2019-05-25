@@ -1,4 +1,5 @@
 ﻿using API.Extensions;
+using API.Models;
 using API.Repositories;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -96,9 +97,9 @@ namespace API.Services
             };
         }
 
-        public IEnumerable<Employee> GetEmployees(int id) // need testing
+        public IEnumerable<EmployeeWithStatus> GetEmployees(int id) // need testing
         {
-            return repository.Get(id).EmployeesToTrip.Select(x => x.Employee);
+            return repository.Get(id).EmployeesToTrip.Select(x => new EmployeeWithStatus(x));
         }
 
         public IEnumerable<Apartment> GetReservedApartments(int id)
