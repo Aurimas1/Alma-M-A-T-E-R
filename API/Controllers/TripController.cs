@@ -66,6 +66,8 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> Update([FromBody]UpdateTrip item, int id)
         {
+            if (!AllowEdit(id))
+                return Forbid();
             Trip trip = service.GetByID(id);
             trip.IsCarCompensationNeeded = item.IsCarCompensationNeeded;
             trip.IsPlaneNeeded = item.IsPlaneNeeded;
@@ -184,6 +186,8 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddGasCompensation([FromBody]GasCompensation item)
         {
+            if (!AllowEdit(item.TripID))
+                return Forbid();
             await service.SaveGasCompensation(new GasCompensation()
             {
                 TripID = item.TripID,
@@ -201,6 +205,8 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddCarRental([FromBody]CarRental item)
         {
+            if (!AllowEdit(item.TripID))
+                return Forbid();
             await service.SaveCarRental(new CarRental()
             {
                 TripID = item.TripID,
@@ -222,6 +228,8 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddPlaneTicket([FromBody]PlaneTicket item)
         {
+            if (!AllowEdit(item.TripID))
+                return Forbid();
             await service.SavePlaneTicket(new PlaneTicket()
             {
                 TripID = item.TripID,
@@ -244,6 +252,8 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddHotel([FromBody]Hotel item)
         {
+            if (!AllowEdit(item.TripID))
+                return Forbid();
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
                 OfficeId = null,
@@ -272,6 +282,8 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddHome([FromBody]Home item)
         {
+            if (!AllowEdit(item.TripID))
+                return Forbid();
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
                 OfficeId = null,
@@ -477,6 +489,20 @@ namespace API.Controllers
                 };
             });
             return trips;
+        }
+
+        // GET api/trip/allowEdit/tripID
+        [HttpGet("allowEdit/{tripID}")]
+        public bool AllowEdit(int tripID)
+        {
+            var currentUserID = User.GetEmpoeeID();
+            var trip = service.Get(tripID);
+            if (User.IsInRole(Role.Admin))
+                return true;
+            else if (trip.OrganizerID == currentUserID)
+                return true;
+            else
+                return false;
         }
 
         // GET api/Trip/filter
