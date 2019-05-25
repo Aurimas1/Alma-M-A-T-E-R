@@ -7,6 +7,7 @@
 
 var ID = window.tripDetailsTripId;
 $(document).ready(function () {
+    allowEdit();
     $.ajax({
         url: 'api/trip/' + ID,
         contentType: "application/json",
@@ -393,4 +394,19 @@ function deleteTrip() {
             error: function () { alert('Internet error'); },
         })
     }
+}
+
+function allowEdit() {
+    $.ajax({
+        type: "GET",
+        url: "/api/trip/allowEdit/" + ID,
+        success: function(data, status){
+            if (!data) {
+                $('#editBtn').hide();
+                $('#deleteBtn').hide();
+                $('.material-icons').hide();
+            }
+        },
+        error: function () { alert('Internet error'); },
+    })
 }
