@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using API.Controllers;
 using API.Repositories;
 
 namespace API.Services
@@ -39,7 +40,7 @@ namespace API.Services
             tripsForMerging.ForEach(x =>
             {
                 string organiser = employeeRepository.Get(x.OrganizerID.GetValueOrDefault()).Name;
-                tripsForMergingDTO.Add(new TripMergeDTO (currentTrip, organiser));
+                tripsForMergingDTO.Add(new TripMergeDTO (x, organiser));
             });
             return tripsForMergingDTO;
         }
@@ -53,7 +54,9 @@ namespace API.Services
                      x.DepartureDate.Date >= currentTrip.DepartureDate.Date.AddDays(-1) &&
                      x.ReturnDate.Date <= currentTrip.ReturnDate.Date.AddDays(1) &&
                      x.ReturnDate.Date >= currentTrip.ReturnDate.Date.AddDays(-1) &&
-                     x.TripID != currentTrip.TripID).ToList();
+                     x.TripID != currentTrip.TripID && 
+                     x.DepartureOfficeID == currentTrip.DepartureOfficeID &&
+                     x.ArrivalOfficeID == currentTrip.ArrivalOfficeID).ToList();
             
             
             //if the current trip start tomorrow, do not let merge with the trips that start today
@@ -65,17 +68,123 @@ namespace API.Services
 
             if (currentTrip.IsPlaneNeeded && currentTrip.PlaneTickets.Count != 0)
                 mergableTrips = mergableTrips.Where(x => x.IsPlaneNeeded && (x.PlaneTickets.Count == 0 ||
-                                                                             (x.DepartureDate.Date.Equals(currentTrip
-                                                                                  .DepartureDate.Date) &&
-                                                                              x.ReturnDate.Date.Equals(
-                                                                                  currentTrip.ReturnDate.Date)))).ToList();
+                                                                             (x.DepartureDate.Date == currentTrip.DepartureDate.Date &&
+                                                                              x.ReturnDate.Date == currentTrip.ReturnDate.Date))).ToList();
+            
 
             return mergableTrips;
+        }
+
+        public List<object> GetTripDates (int id1, int id2)
+        {
+            Trip trip1 = tripRepository.Get(id1);
+            Trip trip2 = tripRepository.Get(id2);
+            object trip1Dates = new {
+                DepartureDate = trip1.DepartureDate,
+                ReturnDate = trip1.ReturnDate
+            };
+            object trip2Dates = new
+            {
+                DepartureDate = trip2.DepartureDate,
+                ReturnDate = trip2.ReturnDate
+            };
+            return new List<object>{trip1Dates, trip2Dates};
+        }
+
+        public List<int> GetTripEmployeesIds(int id1, int id2)
+        {
+            List<int> employeesIds = new List<int>();
+            Trip trip = tripRepository.Get(id1);
+            trip.EmployeesToTrip.ForEach(x => employeesIds.Add(x.EmployeeID));
+            trip = tripRepository.Get(id2);
+            trip.EmployeesToTrip.ForEach(x => employeesIds.Add(x.EmployeeID));
+            return employeesIds;
+        }
+
+        public int MergeTrips(MergeTripsData mergeTripsData)
+        {
+            Trip tripMergeInto = tripRepository.Get(mergeTripsData.Trip1Id);
+            Trip tripMergeFrom = tripRepository.Get(mergeTripsData.Trip2Id);
+
+            //------------------- GAS COMPENSATION ----------------------------------
+            //if there are some gas compensations in the merge-from trip
+            if (tripMergeFrom.IsCarCompensationNeeded && tripMergeFrom.GasCompensations.Count != 0)
+            {
+                //if the merge-to trip does not have any gas compensations
+                if (!tripMergeInto.IsCarCompensationNeeded)
+                {
+                    tripMergeInto.IsCarCompensationNeeded = true;
+                    tripMergeInto.GasCompensations = new List<GasCompensation>();
+                }
+                tripMergeInto.GasCompensations.AddRange(tripMergeFrom.GasCompensations);
+            }
+            else if (tripMergeFrom.IsCarCompensationNeeded) tripMergeInto.IsCarCompensationNeeded = true;
+
+            //------------------- CAR RENTAL ----------------------------------
+            if (tripMergeFrom.IsCarRentalNeeded && tripMergeFrom.CarRentals.Count != 0)
+            {
+                if (!tripMergeFrom.IsCarRentalNeeded)
+                {
+                    tripMergeInto.IsCarRentalNeeded = true;
+                    tripMergeInto.CarRentals = new List<CarRental>();
+                }
+                tripMergeInto.CarRentals.AddRange(tripMergeFrom.CarRentals);
+            }
+            else if (tripMergeFrom.IsCarRentalNeeded) tripMergeInto.IsCarRentalNeeded = true;
+            
+            //------------------- PLANE TICKETS ----------------------------------
+            if (tripMergeFrom.IsPlaneNeeded && tripMergeFrom.PlaneTickets.Count != 0)
+            {
+                if (!tripMergeFrom.IsPlaneNeeded)
+                {
+                    tripMergeInto.IsPlaneNeeded = true;
+                    tripMergeInto.PlaneTickets = new List<PlaneTicket>();
+                }
+                tripMergeInto.PlaneTickets.AddRange(tripMergeFrom.PlaneTickets);
+            }
+            else if (tripMergeFrom.IsPlaneNeeded) tripMergeInto.IsPlaneNeeded = true;
+            
+            //------------------- EMPLOYEES AND RESERVATIONS ----------------------------------
+            if (tripMergeInto.DepartureDate.Date != mergeTripsData.departureDate.Date &&
+                tripMergeInto.ReturnDate.Date != mergeTripsData.returnDate.Date)
+            {
+                tripMergeInto.EmployeesToTrip.ForEach(x => x.Status="PENDING");
+                tripMergeInto.Reservations = null;
+            }
+            
+            if (tripMergeFrom.DepartureDate.Date != mergeTripsData.departureDate.Date &&
+                tripMergeFrom.ReturnDate.Date != mergeTripsData.returnDate.Date)
+            {
+                tripMergeFrom.EmployeesToTrip.ForEach(x => x.Status="PENDING");
+            }
+            else
+            {
+                if (tripMergeFrom.Reservations != null)
+                {
+                    if (tripMergeInto.Reservations == null) tripMergeInto.Reservations = new List<Reservation>();
+                    tripMergeInto.Reservations.AddRange(tripMergeFrom.Reservations);
+                }
+            }
+                tripMergeInto.EmployeesToTrip.AddRange(tripMergeFrom.EmployeesToTrip);
+
+                //------------------- TRIP STATUS ----------------------------------
+                
+                if (tripMergeInto.EmployeesToTrip.Count(x => x.Status == "APPROVED") > 0)
+                    tripMergeInto.Status = "APPROVED";
+                else tripMergeInto.Status = "CREATED";
+                
+                //------------------- UPDATE ----------------------------------
+
+                tripRepository.Update(tripMergeInto);
+                if(tripRepository.Delete(tripMergeFrom.TripID))
+                    return tripMergeInto.TripID;
+                return -1;
         }
     }
     
     public class TripMergeDTO
     {
+        public int TripID;
         public DateTime DepartureDate;
         public DateTime ReturnDate;
         public string organiser;
@@ -92,16 +201,17 @@ namespace API.Services
             
         public TripMergeDTO(Trip trip, string organiser)
         {
+            TripID = trip.TripID;
             DepartureDate = trip.DepartureDate;
             ReturnDate = trip.ReturnDate;
             this.organiser = organiser;
             EmployeesCount = trip.EmployeesToTrip.Count;
             ConfirmedEmployeesCount = trip.EmployeesToTrip.Count(x => x.Status == "APPROVED");
-            BoughtPlaneTicketsCount = trip.PlaneTickets.Count;
+            BoughtPlaneTicketsCount = trip.IsPlaneNeeded?trip.PlaneTickets.Count:0;
             PlaneTicketsNeeded = trip.IsPlaneNeeded;
-            AccomodationCount = trip.Reservations.Count;
-            GasCompensationCount = trip.GasCompensations.Count;
-            CarRentalCount = trip.CarRentals.Count;
+            AccomodationCount = trip.Reservations!=null?trip.Reservations.Count:0;
+            GasCompensationCount = trip.GasCompensations!=null?trip.GasCompensations.Count:0;
+            CarRentalCount = trip.IsCarRentalNeeded?trip.CarRentals.Count:0;
             DepartureOffice = trip.DepartureOffice.City + ", " + trip.DepartureOffice.Country;
             ArrivalOffice = trip.ArrivalOffice.City + ", " + trip.ArrivalOffice.Country;
 
