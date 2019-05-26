@@ -173,6 +173,10 @@ namespace API.Services
                     tripMergeInto.Status = "APPROVED";
                 else tripMergeInto.Status = "CREATED";
                 
+                //------------------- TRIP DATES ----------------------------------
+                tripMergeInto.DepartureDate = mergeTripsData.departureDate;
+                tripMergeInto.ReturnDate = mergeTripsData.returnDate;
+                
                 //------------------- UPDATE ----------------------------------
 
                 tripRepository.Update(tripMergeInto);
