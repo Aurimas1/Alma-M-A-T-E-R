@@ -112,8 +112,8 @@ function mergeTrips(){
             success:
                 function () {
                     alert("the trips were successfully merged! You will now be redirected to the trip details.");
-                    //window.tripDetailsTripId = trip1;
-                    //$("div#pageContent").load("../trip_details.html");
+                    window.tripDetailsTripId = trip1;
+                    $("div#pageContent").load("../trip_details.html");
                 },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
