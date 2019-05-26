@@ -185,4 +185,10 @@ function expandHeader(show){
         $("div.row.heading > .col.hour_util").addClass("d-none");
 }
 
+function setMonthDate(year, month){
+    currentMonth = month - 1;
+    currentYear = year;
+    updateCalendarMonth();
+}
+
 

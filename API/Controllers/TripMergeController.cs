@@ -35,10 +35,37 @@ namespace API.Controllers
         {
             return service.GetTripsForMerging(id);
         }
-
-
-
         
+        // GET
+        [HttpGet]
+        [Route("dates")]
+        public object GetMergingTripsDates(int tripId1, int tripId2)
+        {
+            return service.GetTripDates(tripId1, tripId2);
+        }
         
+        // GET
+        [HttpGet]
+        [Route("employees")]
+        public List<int> GetMergingTripsDEmployeesIds(int tripId1, int tripId2)
+        {
+            return service.GetTripEmployeesIds(tripId1, tripId2);
+        }
+
+        [HttpPut]
+        public IActionResult MergeTrips([FromBody] MergeTripsData mergeTripsData)
+        {
+            if (service.MergeTrips(mergeTripsData) != -1) return Ok();
+            return Conflict("Merging failed.");
+        }
+
+    }
+
+    public class MergeTripsData
+    {
+        public int Trip1Id { get; set; }
+        public int Trip2Id { get; set; }
+        public DateTime departureDate { get; set; }
+        public DateTime returnDate { get; set; }
     }
 }

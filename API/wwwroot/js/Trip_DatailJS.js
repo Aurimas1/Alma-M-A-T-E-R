@@ -1,12 +1,11 @@
-﻿let countryToCurrencyMap = {
-    "USA": "USD",
-    "Canada": "CAD",
-    "Lithuania": "EUR",
-    "United Kingdom": "GBP",
-};
-
 var ID = window.tripDetailsTripId;
 $(document).ready(function () {
+    let countryToCurrencyMap = {
+        "USA": "USD",
+        "Canada": "CAD",
+        "Lithuania": "EUR",
+        "United Kingdom": "GBP",
+    };
     $.ajax({
         url: 'api/trip/' + ID,
         contentType: "application/json",

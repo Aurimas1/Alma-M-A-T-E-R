@@ -1,7 +1,16 @@
+var mergingStarted = false;
+
 function startTripMerging(){
-    //Go to merge page
+    window.tripToMergeWith = $("div.tripListItem.selected").attr('id');
+    window.currentMergeTrip = window.tripDetailsTripId;
+    console.log(window.tripToMergeWith + " " + window.currentMergeTrip);
+    mergingStarted = true;
+    $('#TripMergeModal').modal('toggle');
 }
 
+$('#TripMergeModal').on('hidden.bs.modal', function (e) {
+    if (mergingStarted) $("div#pageContent").load("../tripMergeWizard.html");
+})
 
 function getTripsForMerging(tripId){
     $.ajax({
@@ -12,6 +21,8 @@ function getTripsForMerging(tripId){
             withCredentials: true
         },
         success: function (data) {
+            //remove previously added trips
+            $("div#tripsList").empty();
             $.each(data, function (key, item) {
                 displayMergableTrip(item);
             });
@@ -20,11 +31,14 @@ function getTripsForMerging(tripId){
                 "font-weight": 400
             })
             $("div.tripListItem").on('click', function(){
-                $("div#tripsList").removeClass("selected");
+                $("div.tripListItem").removeClass("selected");
                 $(this).addClass("selected");
                 
+                if ($("div.tripListItem.selected").length > 0) $("button#mergingModalButton").prop('disabled', false);
+                else $("button#mergingModalButton").prop('disabled', true);
+                
             })
-            $("p.offices").css("color", "#007bff");
+            $("p.offices").css("color", "#d30239");
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -58,7 +72,7 @@ function displayMergableTrip(item){
     var departure = moment(item.departureDate).format('YYYY-MM-DD kk:mm');
     var arrival = moment(item.returnDate).format('YYYY-MM-DD HH:mm');
     $("div#tripsList").append(
-        "<div class=\"h5 container shadow-sm p-3 mb-5 bg-white rounded bg-light rounded-lg p-3 tripListItem\"><p class='offices'>" 
+        "<div id=" + item.tripID + " class=\"h5 container shadow-sm p-3 mb-5 bg-white rounded bg-light rounded-lg p-3 tripListItem\"><p class='offices'>" 
         + item.departureOffice + " - " + item.arrivalOffice + "</p> "
         + "<p> Departure: " + departure + "<br/>" + "Arrival: " + arrival + "</p>"
         + "<span>Employees: " + item.confirmedEmployeesCount + "/" + item.employeesCount + "</span><br/>"
