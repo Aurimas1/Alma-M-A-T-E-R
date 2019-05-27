@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize(Roles = "Admin, Organiser")]
+    [Authorize(Roles = "Admin,Organiser")]
     public class EventController : ControllerBase
     {
         private readonly IEventService service;
