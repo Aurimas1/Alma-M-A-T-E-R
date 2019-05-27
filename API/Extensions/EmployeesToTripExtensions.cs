@@ -10,10 +10,12 @@ namespace API.Extensions
         {
             return list.Select(x => new EmployeeToTripInfo
             {
+                ID = x.EmployeeToTripID,
                 EmployeeName = x.Employee.Name,
                 EmployeeEmail = x.Employee.Email,
                 EmployeeID = x.Employee.EmployeeID,
                 EmployeeStatus = x.Status,
+                WasRead = x.WasRead,
             });
         }
     }
