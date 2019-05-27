@@ -1,4 +1,4 @@
-﻿var ID = window.tripDetailsTripId;
+var ID = window.tripDetailsTripId;
 $(document).ready(function () {
     let countryToCurrencyMap = {
         "USA": "USD",
@@ -16,6 +16,9 @@ $(document).ready(function () {
             console.error('Error');
         },
         success: function (data) {
+            //check if the trip can be merged
+            getIfTheTripCanBeMerged(ID);
+            
             window.tripCurrency = countryToCurrencyMap[data.departureCountry];
 
             var departure = moment(data.departureDate).format('YYYY-MM-DD HH:mm');
@@ -392,6 +395,11 @@ function deleteTrip() {
         })
     }
 }
+
+
+$('#TripMergeModal').on('show.bs.modal', function (event) {
+    getTripsForMerging(ID);
+})
 
 function allowEdit() {
     $.ajax({
