@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using API.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -12,8 +10,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
-    //[Authorize(Roles = "Kebab")]
+    [Authorize]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService service;
@@ -25,6 +22,7 @@ namespace API.Controllers
 
         // GET api/employee
         [HttpGet]
+        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<Employee> Get()
         {
             return service.GetAll();
@@ -44,6 +42,7 @@ namespace API.Controllers
         // POST api/employee/update
         [HttpPost]
         [Route("update")]
+        [Authorize(Roles = "Admin")]
         public void UpdateEmployees([FromBody]EmployeeRolesDTO[] employees)
         {
             service.UpdateEmployees(employees.ToList());

@@ -207,11 +207,10 @@ $(document).ready(function () {
                 $(".hideColumns").hide();
                 $(".hideButtons").hide();
             }
+            allowEdit();
         },
         type: 'GET'
     });
-
-
 });
 
 function openFinalRegistration() {
@@ -397,6 +396,23 @@ function deleteTrip() {
     }
 }
 
+
 $('#TripMergeModal').on('show.bs.modal', function (event) {
     getTripsForMerging(ID);
 })
+
+function allowEdit() {
+    $.ajax({
+        type: "GET",
+        url: "/api/trip/allowEdit/" + ID,
+        success: function(data, status){
+            if (!data) {
+                $('#editBtn').hide();
+                $('#deleteBtn').hide();
+                $('.material-icons').hide();
+                $('.hideColumns').hide();
+            }
+        },
+        error: function () { alert('Internet error'); },
+    })
+}

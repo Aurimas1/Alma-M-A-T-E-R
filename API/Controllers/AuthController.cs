@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Net.Http.Formatting;
-using System.Linq;
 using API.Services;
 
 namespace API.Controllers
