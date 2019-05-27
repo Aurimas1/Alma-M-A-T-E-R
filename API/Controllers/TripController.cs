@@ -466,7 +466,8 @@ namespace API.Controllers
         {
             var currentUserID = User.GetEmpoeeID();
             var myTrips = service.GetAllMyTrips();
-            myTrips.OrderBy(x => x.EmployeesToTrip.Where(a => a.EmployeeID == currentUserID).Select(t => t.Status).Equals("APPROVED") ? 1 : 2).ThenByDescending(x => x.Status.Equals("CREATED") ? 1 : x.Status.Equals("CONFIRMED") ? 2 : x.Status.Equals("PLANNED") ? 3 : 4).ThenByDescending(a => a.DepartureDate);
+
+            myTrips = myTrips.OrderByDescending(x => x.EmployeesToTrip.Where(a => a.EmployeeID == currentUserID).Select(t => t.Status).Contains("PENDING") ? 1 : 2).ThenBy(x => x.Status.Equals("FINISHED") ? 3 : x.Status.Equals("PLANNED") ? 4 : 5).ThenByDescending(a => a.DepartureDate);
 
             IEnumerable<object> trips = myTrips.Select(x =>
             {
