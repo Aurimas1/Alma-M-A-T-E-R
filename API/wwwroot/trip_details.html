@@ -29,8 +29,37 @@
                 onclick="openFinalRegistration()">Edit</a>
             <a id="deleteBtn" style="vertical-align:bottom;" class="btn btn-default ml-2" href="javascript:void(0)"
                 onclick="deleteTrip()">Delete</a>
+            <a id="mergeTrip" data-toggle="modal" data-target="#TripMergeModal" style="vertical-align:bottom;display:none;" class="btn btn-default ml-2" href="javascript:void(0)"
+               ><img src="IMG/exclamation_mark.png" />Trip merging is available</a>
         </div>
 
+        <!-- Modal for Trip merging -->
+
+        <div class="modal fade" id="TripMergeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="TripMergeModalLabel">Trip merging</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="font-size:14pt;">Choose the trip for merging:</p>
+                        <!-- Trip list -->
+                        <div id="tripsList"></div>
+                        <!-- Trip list end -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" id="mergingModalButton" onclick="startTripMerging()" class="btn btn-primary" disabled>Start merging</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal end -->
+        
         <div class="container mb-5 mt-3 main_info">
             <ul class="list-group">
                 <li class="list-group-item">
@@ -448,6 +477,7 @@
         </div>
     </article>
 
+    <script src="js/Trip_merge.js"></script>
     <script src="js/Trip_DatailJS.js"></script>
     <style>
         #btn {
@@ -491,6 +521,21 @@
             border-radius: 40px !important;
             vertical-align: baseline;
         }
+        
+        #mergeTrip{
+            background-color: #f4c620 !important;
+            border: none !important;
+            color: white !important;
+            font-size: 18px !important;
+            border-radius: 10px !important;
+            vertical-align: baseline;
+        }
+
+        #mergeTrip img{
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
 
         #deleteBtn{
             background-color: #E34724 !important;
@@ -501,6 +546,13 @@
         }
         div.main_info p{
             font-size: 14pt;
+        }
+        div.tripListItem:hover{
+            background-color:#e7f1ff !important;
+        }
+        
+        div.tripListItem.selected{
+            background-color: rgba(0, 123, 255, 0.67) !important;
         }
     </style>
 </body>

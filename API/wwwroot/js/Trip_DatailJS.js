@@ -1,4 +1,4 @@
-﻿var ID = window.tripDetailsTripId;
+var ID = window.tripDetailsTripId;
 $(document).ready(function () {
     let countryToCurrencyMap = {
         "USA": "USD",
@@ -16,6 +16,9 @@ $(document).ready(function () {
             console.error('Error');
         },
         success: function (data) {
+            //check if the trip can be merged
+            getIfTheTripCanBeMerged(ID);
+            
             window.tripCurrency = countryToCurrencyMap[data.departureCountry];
 
             var departure = moment(data.departureDate).format('YYYY-MM-DD HH:mm');
@@ -204,11 +207,10 @@ $(document).ready(function () {
                 $(".hideColumns").hide();
                 $(".hideButtons").hide();
             }
+            allowEdit();
         },
         type: 'GET'
     });
-
-
 });
 
 function openFinalRegistration() {
@@ -392,4 +394,25 @@ function deleteTrip() {
             error: function () { alert('Internet error'); },
         })
     }
+}
+
+
+$('#TripMergeModal').on('show.bs.modal', function (event) {
+    getTripsForMerging(ID);
+})
+
+function allowEdit() {
+    $.ajax({
+        type: "GET",
+        url: "/api/trip/allowEdit/" + ID,
+        success: function(data, status){
+            if (!data) {
+                $('#editBtn').hide();
+                $('#deleteBtn').hide();
+                $('.material-icons').hide();
+                $('.hideColumns').hide();
+            }
+        },
+        error: function () { alert('Internet error'); },
+    })
 }
