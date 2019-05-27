@@ -11,5 +11,6 @@ namespace API.Models
         public string Name { get; set; }
         public int Price { get; set; }
         public string Currency { get; set; }
+        public int EmployeeID { get; set; }
     }
 }

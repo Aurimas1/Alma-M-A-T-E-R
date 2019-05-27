@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Extensions;
 using API.Models;
@@ -27,8 +28,8 @@ namespace API.Controllers
         }
 
         // POST api/Trip
-        [HttpPost]
         [Authorize(Roles = "Admin,Organiser")]
+        [HttpPost]
         public async Task<ActionResult> Add([FromBody]CreateTrip item)
         {
             var trip = new Trip
@@ -68,6 +69,7 @@ namespace API.Controllers
         {
             if (!AllowEdit(id))
                 return Forbid();
+
             Trip trip = service.GetByID(id);
             trip.IsCarCompensationNeeded = item.IsCarCompensationNeeded;
             trip.IsPlaneNeeded = item.IsPlaneNeeded;
@@ -126,7 +128,7 @@ namespace API.Controllers
             return Ok();
         }
 
-        // POST api/trip/approve/{id}/{needRoom}
+        // POST api/trip/approve/{id}/needRome
         [HttpPost]
         [Route("approve/{id}/{needRoom}")]
         public async Task<ActionResult> ApproveTrip(int id, bool needRoom)
@@ -139,30 +141,36 @@ namespace API.Controllers
             Trip trip = service.Get(employeeToTrip.TripId);
             if (trip.Status == "CREATED")
             {
-                trip.Status = "APPROVED";
+                trip.Status = "CONFIRMED";
                 service.Update(trip);
             }
 
-            if (!needRoom)
+            if (needRoom != true)
             {
-                var apartment = new Apartment
+                var home = new Apartment
                 {
                     Name = "HOME",
                     RoomNumber = 1,
                     Price = 0,
                     Currency = "EUR",
-                    OfficeId = trip.ArrivalOfficeID
+                    Address = " ",
+                    Type = "HOME",
+                    OfficeId = employeeToTrip.Trip.ArrivalOfficeID
                 };
-                apartment = await service.SaveHotelorHome(apartment);
-                var reservation = new Reservation
+
+                await service.SaveHotelorHome(home);
+
+                var newReservation = new Reservation
                 {
-                    TripID = trip.TripID,
-                    EmployeeID = UserID,
-                    ApartmentID = apartment.ApartmentID,
-                    CheckIn = trip.DepartureDate,
-                    CheckOut = trip.ReturnDate
+                    TripID = employeeToTrip.TripId,
+                    EmployeeID = employeeToTrip.EmployeeID,
+                    ApartmentID = home.ApartmentID,
+                    CheckIn = employeeToTrip.Trip.DepartureDate,
+                    CheckOut = employeeToTrip.Trip.ReturnDate
                 };
-                await service.SaveReservation(reservation);
+
+                await service.SaveReservation(newReservation);
+                return Ok();
             }
 
             return Ok();
@@ -188,6 +196,7 @@ namespace API.Controllers
         {
             if (!AllowEdit(item.TripID))
                 return Forbid();
+
             await service.SaveGasCompensation(new GasCompensation()
             {
                 TripID = item.TripID,
@@ -207,6 +216,7 @@ namespace API.Controllers
         {
             if (!AllowEdit(item.TripID))
                 return Forbid();
+
             await service.SaveCarRental(new CarRental()
             {
                 TripID = item.TripID,
@@ -230,6 +240,7 @@ namespace API.Controllers
         {
             if (!AllowEdit(item.TripID))
                 return Forbid();
+
             await service.SavePlaneTicket(new PlaneTicket()
             {
                 TripID = item.TripID,
@@ -254,6 +265,7 @@ namespace API.Controllers
         {
             if (!AllowEdit(item.TripID))
                 return Forbid();
+
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
                 OfficeId = null,
@@ -284,6 +296,7 @@ namespace API.Controllers
         {
             if (!AllowEdit(item.TripID))
                 return Forbid();
+
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
                 OfficeId = null,
@@ -376,30 +389,20 @@ namespace API.Controllers
                 ReturnDate = trip.ReturnDate,
                 DepartureDate = trip.DepartureDate,
                 Status = trip.Status,
-                EmployeeName = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Name),
-                EmployeeEmail = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Email),
-                EmployeeStatus = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Status),
-                EmployeeRead = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.WasRead),
-                EmployeeToTrip = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.EmployeeToTripID),
+
+                Employee = trip.EmployeesToTrip.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
 
                 Tickets = trip.PlaneTickets?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
 
                 trip.IsPlaneNeeded,
-                Accomodation = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Name),
-                Address = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Address),
-                RoomNumber = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.RoomNumber),
-                CheckIn = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.CheckIn),
-                CheckOut = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.CheckOut),
-                AccomodationUrl = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.ReservationUrl),
-                Price = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Price),
-                Currency = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Currency),
+
+                Reservations = trip.Reservations?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
 
                 trip.IsCarRentalNeeded,
                 Rentals = trip.CarRentals?.ToInfo(),
 
                 trip.IsCarCompensationNeeded,
-                GasCompensation = trip.GasCompensations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Name),
-                Amount = trip.GasCompensations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Price)
+                GasCompensations = trip.GasCompensations?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
             };
             return tripToBoard;
         }
@@ -474,7 +477,7 @@ namespace API.Controllers
         {
             var currentUserID = User.GetEmpoeeID();
             var myTrips = service.GetAllMyTrips();
-            myTrips.OrderBy(x => x.Status.Equals("CREATED") ? 4 : x.Status.Equals("CONFIRMED") ? 3 : x.Status.Equals("PLANNED") ? 2 : 1).ThenByDescending(a => a.DepartureDate);
+            myTrips.OrderBy(x => x.EmployeesToTrip.Where(a => a.EmployeeID == currentUserID).Select(t => t.Status).Equals("APPROVED") ? 1 : 2).ThenByDescending(x => x.Status.Equals("CREATED") ? 1 : x.Status.Equals("CONFIRMED") ? 2 : x.Status.Equals("PLANNED") ? 3 : 4).ThenByDescending(a => a.DepartureDate);
 
             IEnumerable<object> trips = myTrips.Select(x =>
             {

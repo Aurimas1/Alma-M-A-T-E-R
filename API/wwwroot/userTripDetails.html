@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head lang="en">
     <title>Trip details</title>
@@ -18,139 +18,139 @@
 
     <script src="https://momentjs.com/downloads/moment.js"></script>
 </head>
+
 <body>
-    <header style="margin-bottom: 75px">
-        <nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark" style="font-size: 18px">
-            <a class="navbar-brand" href="Trips.html">
-                <img src="IMG/logo.png" alt="Logo" style="width: 50px">
-            </a>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="Trips.html">Trips</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Statistics</a>
-                    </li>
-                </ul>
-            </div>
-
-            <span class="navbar-text p-2"> Username /</span>
-            <ul class="nav navbar-nav">
-                <li><a href="#">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <article>
-        <div class="container page-Header">
+        <div class="container page-Header" style="text-align:center;padding-top:15px;padding-bottom:15px;">
             <h1 class="d-inline">Trip details</h1>
-            <label id="statusPill" class="badge-pill">Pending</label>
-            <button id="confirmBtn" class="btn btn-default ml-2" onclick="clickApprove()">Approve</button>
+            <label id="statusPill" style="vertical-align:bottom;" class="badge-pill">Pending</label>
+
         </div>
 
-        <div class="container mb-5 mt-3">
+        <div class="container page-Header" id="Approve" style="text-align:center;padding-top:15px;padding-bottom:15px;">
+            <div class="custom-control form-control-lg custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="needApartment" checked>
+                <label class="custom-control-label" for="needApartment">I Need room to live in</label>
+            </div>
+
+            <button id="confirmBtn" style="vertical-align:bottom;" class="btn btn-default ml-2" onclick="clickApprove()">Approve</button>
+        </div>
+
+        <div class="container mb-5 mt-3 main_info">
             <ul class="list-group">
-                <li class="list-group-item"><h4>Travelling from: </h4><p id="Departure" class="d-inline ">Vilnius, Lithuania</p></li>
-                <li class="list-group-item"><h4>Travelling to: </h4><p id="Arrival" class="d-inline">London, England</p></li>
-                <li class="list-group-item"><h4>Trip starts: </h4><p id="DepartureDate" class="d-inline">2019 06 20</p></li>
-                <li class="list-group-item"><h4>Trip ends: </h4><p id="ArrivalDate" class="d-inline">2019 06 26</p></li>
-                <li class="list-group-item"><h4>Trip status: </h4><p id="Status" class="d-inline badge-pill badge-success">Confirmed</p></li>
+                <li class="list-group-item">
+                    <h4>Travelling from: </h4>
+                    <p id="Departure" class="d-inline ">Vilnius, Lithuania</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Travelling to: </h4>
+                    <p id="Arrival" class="d-inline">London, England</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Trip starts: </h4>
+                    <p id="DepartureDate" class="d-inline">2019 06 20</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Trip ends: </h4>
+                    <p id="ArrivalDate" class="d-inline">2019 06 26</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Trip status: </h4>
+                    <p id="Status" class="d-inline badge-pill badge-success">Confirmed</p>
+                </li>
+
                 <li id="PlaneTicketList" class="list-group-item">
-                    <button id="PlaneTicketBtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapsePT"
-                    aria-expanded="false" aria-controls="collapsePT">Plane tickets</button>
+                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapsePT"
+                            aria-expanded="false" aria-controls="collapsePT">
+                        Plane tickets
+                    </button>
                     <div class="collapse show" id="collapsePT">
                         <div id="Flights" class="row">
-                            <div class="col">
-                                <p class="font-weight-bold">Employee</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Flight company</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Airports</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Forward flight</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Return flight</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Ticket file</p>
-                            </div>
+                            <table class="table responsive">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Flight company</th>
+                                        <th scope="col">Airports</th>
+                                        <th scope="col">Forward flight</th>
+                                        <th scope="col">Return flight</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Ticket file</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="FlightsTable"></tbody>
+                            </table>
                         </div>
                     </div>
                 </li>
-                <li id="AccomodationList" class="list-group-item">
-                    <button id="AccomodationBtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
-                            aria-expanded="false" aria-controls="collapseAC">Accomodation</button>
-                    <button id="refuseApartmentBtn" class="btn btn-default ml-2 float-right" onclick="clickRefuse()">Refuse apartment</button>
+
+                <li class="list-group-item">
+                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseAC"
+                            aria-expanded="false" aria-controls="collapseAC">
+                        Accomodation
+                    </button>
                     <div class="collapse show" id="collapseAC">
-                        <div id="Accomodation" class="row">
-                            <div class="col">
-                                <p class="font-weight-bold">GuestName</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Hotel name</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Address</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Room number</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Check in</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Check out</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Reservation file</p>
-                            </div>
+                        <div id="Accommodation" class="row">
+                            <table class="table responsive">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Hotel name</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Room number</th>
+                                        <th scope="col">Check in</th>
+                                        <th scope="col">Check out</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Reservation file</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="AccommodationTable"></tbody>
+                            </table>
                         </div>
                     </div>
                 </li>
+
                 <li id="CarRentalList" class="list-group-item">
-                    <button id="CarRentalBtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
-                            aria-expanded="false" aria-controls="collapseCR">Car rental</button>
+                    <button id="btn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCR"
+                            aria-expanded="false" aria-controls="collapseCR">
+                        Car rental
+                    </button>
                     <div class="collapse show" id="collapseCR">
                         <div id="CarRentals" class="row">
-                            <div class="col">
-                                <p class="font-weight-bold">Rental company</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Car pickup address</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Car Issue Date</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Car Return Date</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Rental file</p>
-                            </div>
+                            <table class="table responsive">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Rental company</th>
+                                        <th scope="col">Car pickup address</th>
+                                        <th scope="col">Car Issue Date</th>
+                                        <th scope="col">Car Return Date</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Rental file</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="CarRentalTable"></tbody>
+                            </table>
                         </div>
                     </div>
                 </li>
+
                 <li id="GasCompensationList" class="list-group-item">
-                    <button id="GasCompensationBtn" class="btn btn-primary rounded-2" data-toggle="collapse" data-target="#collapseGC"
-                            aria-expanded="false" aria-controls="collapseGC">Gas compensation</button>
+                    <button id="btn" class="btn btn-primary rounded-2" data-toggle="collapse"
+                            data-target="#collapseGC" aria-expanded="false" aria-controls="collapseGC">
+                        Gas
+                        compensation
+                    </button>
+
                     <div class="collapse show" id="collapseGC">
                         <div id="GasCompensations" class="row">
-                            <div class="col">
-                                <p class="font-weight-bold">Employee</p>
-                            </div>
-                            <div class="col">
-                                <p class="font-weight-bold">Amount</p>
-                            </div>
+                            <table class="table responsive">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Employee</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col" class="hideColumns">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="GasCompensationTable"></tbody>
+                            </table>
                         </div>
                     </div>
                 </li>
@@ -159,61 +159,71 @@
     </article>
 
     <script src="js/userTripDetails.js"></script>
-<style>
-    .btn {
-        background-color: white;
-        border-color: black;
-        color: black;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 40px;
-        border-width: medium;
-    }
+    <style>
+        #btn {
+            background-color: #f1f1f1 !important;
+            width: 100%;
+            border: none;
+            color: black !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            text-align: left;
+        }
 
-    #statusPill {
-        background-color: #ff7b00;
-        border: solid;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 40px;
-        vertical-align: baseline;
-    }
+        #adds {
+            height: 40px !important;
+            width: 40px !important;
+            background-color: white !important;
+            border-color: darkseagreen !important;
+            color: darkseagreen !important;
+            font-size: 15px !important;
+            font-weight: 900 !important;
+            border-radius: 100% !important;
+            border-width: medium !important;
+        }
 
-    #confirmBtn {
-        background-color: #23a94c;
-        border: solid black;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 40px;
-        vertical-align: baseline;
-    }
+        #add {
+            background-color: white !important;
+            border-color: darkseagreen !important;
+            color: black !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            border-radius: 40px !important;
+            border-width: medium !important;
+        }
 
-    #refuseApartmentBtn {
-        background-color: #ff7b00;
-        border: solid black;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 40px;
-        vertical-align: baseline;
-    }
+        #statusPill, #confirmBtn, #homeAppartment {
+            background-color: #ff7b00;
+            border: none !important;
+            color: white !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            border-radius: 40px !important;
+            vertical-align: baseline;
+        }
 
-    #Status {
-        background-color: #ff7b00;
-        font-size: 16px;
-    }
+        #confirmBtn {
+            background-color: #23a94c !important;
+            border: solid black !important;
+        }
 
-    .collapsed {
-        background-color: aquamarine;
-    }
+        #homeAppartment {
+            background-color: teal !important;
+        }
 
-    .btn.btn-primary:disabled {
-        border: 1px solid #999999;
-        background-color: #cccccc;
-        color: #666666;
-}
-</style>
+        div.main_info h4 {
+            font-size: 14pt;
+        }
+
+        div.main_info p {
+            font-size: 14pt;
+        }
+
+        .custom-control-label::before,
+        .custom-control-label::after {
+            width: 1.4rem;
+            height: 1.4rem;
+        }
+    </style>
 </body>
 </html>
