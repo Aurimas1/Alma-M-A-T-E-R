@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace API.Services
 {
@@ -27,14 +28,17 @@ namespace API.Services
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(fromAddress.Address, options.Password)
             };
-            using (var message = new MailMessage(fromAddress, toAddress)
+            Task.Run(() => 
             {
-                Subject = subject,
-                Body = body
-            })
-            {
-                smtp.Send(message);
-            }
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+            });
         }
     }
 }
