@@ -31,6 +31,7 @@ namespace API.Controllers
         // GET api/employee/currentUser
         [HttpGet]
         [Route("currentUser")]
+        [AllowAnonymous]
         public string GetCurrentUser()
         {
             if (User.Identity.IsAuthenticated)

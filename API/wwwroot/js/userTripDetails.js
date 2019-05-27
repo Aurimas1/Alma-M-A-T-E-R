@@ -161,7 +161,7 @@ function clickApprove() {
                 withCredentials: true
             },
             success: function () {
-                location.reload();
+                $("div#pageContent").load("../userTripDetails.html");
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);

@@ -19,18 +19,18 @@ $(document).ready(function () {
             $(`#arrivalTime option:contains(${arrivalParts[1]})`).attr('selected', 'selected');
             $('#arrivalTime').attr('disabled', true);
 
-            if(times.isPlaneNeeded){
+            if (times.isPlaneNeeded) {
                 $("#airplaneRadios").prop("checked", true);
             }
-            if(times.isCarCompensationNeeded){
+            if (times.isCarCompensationNeeded) {
                 $("#employeeCarRadios").prop("checked", true);
             }
-            if(times.isCarRentalNeeded){
+            if (times.isCarRentalNeeded) {
                 $("#carRadios").prop("checked", true);
             }
-            
+
             //load events
-            selectedEployeesForEvents = $('table#sort tbody tr td#NrColumn').map(function(){
+            selectedEployeesForEvents = $('table#sort tbody tr td#NrColumn').map(function () {
                 return $.trim($(this).text());
             }).get();
 
@@ -39,7 +39,7 @@ $(document).ready(function () {
             //load
             monthButtonClicked();
             calendar_dates_selection_is_allowed = false;
-            
+
         });
     });
 
@@ -58,9 +58,12 @@ $(document).ready(function () {
                 line.append($('<td id="NrColumn">').text($(this).children('td:eq(0)').text()))
                     .append($('<td class="attrName">').text(name))
                     .append($("<td>").text(email))
+                    .append($('<td id="statusColumn">'))
                     .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove").on("click", function () {
-                        $(this).parents('tr').detach();
-                        $(`#sort tr:contains(${email})`).removeClass("selected");
+                        if (confirm("Do you want to delete an employee?")) {
+                            $(this).parents('tr').detach();
+                            $(`#sort tr:contains(${email})`).removeClass("selected");
+                        }
                     }))));
                 $('#employeeTBody').append(line);
             }
@@ -71,9 +74,11 @@ $(document).ready(function () {
         });
 
         $('.table-remove').click(function () {
-            var email = $(this).parent("td").prev().text();
-            $(this).parents('tr').detach();
-            $(`#sort tr:contains(${email})`).prop('disabled', false).css("cssText", "background-color:");
+            if (confirm("Do you want to delete an employee?")) {
+                var email = $(this).parent("td").prev().text();
+                $(this).parents('tr').detach();
+                $(`#sort tr:contains(${email})`).prop('disabled', false).css("cssText", "background-color:");
+            }
         });
 
     });
@@ -86,11 +91,16 @@ function clickAccomodation() {
     var booking = 0;
     var employee = [];
     $('#employeeTBody tr').each(function (a, b) {
-        var name = $('.attrName', b).text();
-        var id = $('#NrColumn', b).text();
-        var line = $('<li class="list-group-item d-flex justify-content-between align-items-center">').text(name);
-        employee.push({ id, name });
-        $("#employeeList").append(line);
+        var status = $('#statusColumn', b).text();
+        if (status == "APPROVED") {
+            var name = $('.attrName', b).text();
+            var id = $('#NrColumn', b).text();
+            var line = $('<li class="list-group-item d-flex justify-content-between align-items-center">');
+            line.text(name + " has its own place to stay").css({ "color": "blue" });
+            employee.push({ id, name });
+            $("#employeeList").append(line);
+        }
+
     });
 
     loadAccommodation(tripID).then(function (a) {
@@ -105,7 +115,7 @@ function clickAccomodation() {
 
             if (accommodation.isRoomIsOccupied && accommodation.employeeID) {
                 withoutRoom.splice(withoutRoom.indexOf(accommodation.employeeID), 1);
-                $(`#employeeList li:contains(${idToNameMap[accommodation.employeeID]})`).text(idToNameMap[accommodation.employeeID] + '    - ' + roomNr + ' room');
+                $(`#employeeList li:contains(${idToNameMap[accommodation.employeeID]})`).text(idToNameMap[accommodation.employeeID] + '    - ' + roomNr + ' room').css({ "color": "green" });
                 td2.append(createAccommodationDropdown(roomNr).val(accommodation.employeeID));
             } else if (accommodation.isRoomIsOccupied && !accommodation.employeeID) {
                 td2.text('The room is taken');
@@ -124,7 +134,7 @@ function clickAccomodation() {
                 if (unset && !$(select).val()) {
                     $(select).val(empId);
                     let nr = $(select).parent().parent().find('td:eq(0)').text();
-                    $(`#employeeList li:contains(${idToNameMap[empId]})`).text(idToNameMap[empId] + '    - ' + nr + ' room');
+                    $(`#employeeList li:contains(${idToNameMap[empId]})`).text(idToNameMap[empId] + '    - ' + nr + ' room').css({ "color": "green" });
                     unset = false;
                 }
             });
@@ -169,22 +179,30 @@ function loadTripEmployees(id) {
         success: function (data) {
             approvedIds = [];
             $.each(data, function (key, entry) {
-                if (entry.status === 'APPROVED')
+                var tdStatus = $("<td id='statusColumn'>").text(entry.status);
+                if (entry.status === 'APPROVED') {
+                    tdStatus.css({
+                        "color": "green",
+                        "font-weight": 600
+                    });
                     approvedIds.push(entry.employeeID);
+                }
+                else {
+                    tdStatus.css({
+                        "color": "red",
+                        "font-weight": 600
+                    });
+                }
                 var email = entry.email;
                 var line = $("<tr>");
                 line.append($('<td id="NrColumn">').text(entry.employeeID))
                     .append($('<td class="attrName">>').text(entry.name))
                     .append($("<td>").text(email))
+                    .append(tdStatus)
                     .append($("<td>").append($("<span class='table-remove'>").append($("<button class='btn btn-danger'>").text("Remove"))));
                 $("#employeeTBody").append(line);
                 $(`#sort tr:contains(${email})`).prop('disabled', true).css("cssText", "background-color:#D33F49");
             });
-            // for (let mapx in idToNameMap) {
-            //     if (approvedIds.indexOf(mapx) === -1) {
-            //         delete idToNameMap[mapx];
-            //     }
-            // }
         },
         error: function () { alert('Internet error'); },
     })
@@ -231,14 +249,20 @@ function saveTrip() {
             check = true;
         }
     });
+
     if (check) {
-        return Promise.reject();
+        return;
     }
     var employee = [];
     $('#employeeTBody tr').each(function (a, b) {
         var id = $('#NrColumn', b).text();
         employee.push(id);
     });
+
+    if (employee.length === 0) {
+        alert("Zero employees are selected");
+        return;
+    }
 
     $.ajax({
         type: "PUT",
@@ -259,7 +283,7 @@ function saveTrip() {
         success: function () {
             alert("The trip was edited!");
             window.tripDetailsTripId = tripID;
-            $("div#pageContent").load("../trip_details.html"); 
+            $("div#pageContent").load("../trip_details.html");
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -291,7 +315,7 @@ function createAccommodationDropdown(roomNr) {
     return select;
 }
 
-function cancelTrip(){
+function cancelTrip() {
     location.href = "/index.html";
 }
 
