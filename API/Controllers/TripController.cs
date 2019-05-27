@@ -351,17 +351,6 @@ namespace API.Controllers
                 trip.IsPlaneNeeded,
 
                 Reservations = trip.Reservations?.ToInfo(),
-                //ReservationId = trip.Reservations?.Select(x => x.ReservationID),
-                //ApartmentId = trip.Reservations?.Select(x => x.ApartmentID),
-                //ApartmentType = trip.Reservations?.Select(x => x.Apartment.Type),
-                //Accomodation = trip.Reservations?.Select(x => x.Apartment.Name),
-                //Address = trip.Reservations?.Select(x => x.Apartment.Address),
-                //RoomNumber = trip.Reservations?.Select(x => x.Apartment.RoomNumber),
-                //CheckIn = trip.Reservations?.Select(x => x.CheckIn),
-                //CheckOut = trip.Reservations?.Select(x => x.CheckOut),
-                //AccomodationUrl = trip.Reservations?.Select(x => x.ReservationUrl),
-                //Price = trip.Reservations?.Select(x => x.Apartment.Price),
-                //Currency = trip.Reservations?.Select(x => x.Apartment.Currency),
 
                 trip.IsCarRentalNeeded,
                 Rentals = trip.CarRentals?.ToInfo(),
