@@ -89,7 +89,11 @@ namespace API.Services
     public class OfficeAndApartmentsDTO
     {
         public int ApartmentId { get; set; }
-        public string Office { get; set; }
+
+        public string Office
+        {
+            get; set;
+        }
         public int OfficeId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }

@@ -1,6 +1,9 @@
 var selection_started = false;
 var selection_ended = false;
 var calendar_dates_selection_is_allowed = true;
+tripMergingCalendarOn = false;
+tripMergingDepartureDate = null;
+tripMergingReturnDate = null;
 
 var trip_start_date = "";
 var trip_start_hour = "";
@@ -9,27 +12,35 @@ var trip_end_hour = "";
 
 $(".col.cal, .col.cal-w").click(function(){
     if (calendar_dates_selection_is_allowed) {
-        if (!selection_started) {
-            //Event starts
-            selection_started = true;
-            selection_ended = false;
-            cleanSelection();
-            var selected_date = $(this).attr("id").split("h");
-            trip_start_date = selected_date[0];
-            selected_date.length == 1 ? trip_start_hour = "00:00" : trip_start_hour = _addZero(parseInt(selected_date[1] - 1)) + ":00";
-            $(this).addClass("highlighted");
-        } else {
-            //Event ends
-            var selected_date = $(this).attr("id").split("h");
-            trip_end_date = selected_date[0];
-            selected_date.length == 1 ? trip_end_hour = "24:00" : trip_end_hour = _addZero(parseInt(selected_date[1])) + ":00";
-            selection_started = false;
-            selection_ended = true;
-            if (needToFlipDates()) flipDates();
-            $(this).addClass("highlighted");
-            fillInSelection();
-            setTripDatesFromSelection();
-        }
+        var selected_date = $(this).attr("id").split("h");
+            if (!selection_started) {
+                var selected_date_full = new Date(selected_date[0] + "T" + ((selected_date.length == 1)?"00:00:00":_addZero(parseInt(selected_date[1] - 1)) + ":00:00"));
+                console.log(selected_date_full);
+                console.log(tripMergingDepartureDate);
+                console.log(tripMergingReturnDate);
+                if (!tripMergingCalendarOn || (tripMergingCalendarOn && tripMergingDepartureDate <= selected_date_full && tripMergingReturnDate >= selected_date_full)) {
+                    //Event starts
+                    selection_started = true;
+                    selection_ended = false;
+                    cleanSelection();
+                    trip_start_date = selected_date[0];
+                    selected_date.length == 1 ? trip_start_hour = "00:00" : trip_start_hour = _addZero(parseInt(selected_date[1] - 1)) + ":00";
+                    $(this).addClass("highlighted");
+                }
+            } else {
+                var selected_date_full = new Date(selected_date[0] + "T" + ((selected_date.length == 1) ? "24:00" : _addZero(parseInt(selected_date[1] - 1)) + ":00"));
+                if (!tripMergingCalendarOn || (tripMergingCalendarOn && tripMergingDepartureDate <= selected_date_full && tripMergingReturnDate >= selected_date_full)) {
+                    //Event ends
+                    trip_end_date = selected_date[0];
+                    selected_date.length == 1 ? trip_end_hour = "24:00" : trip_end_hour = _addZero(parseInt(selected_date[1])) + ":00";
+                    selection_started = false;
+                    selection_ended = true;
+                    if (needToFlipDates()) flipDates();
+                    $(this).addClass("highlighted");
+                    fillInSelection();
+                    setTripDatesFromSelection();
+                }
+            }
     }
 });
 
@@ -127,7 +138,7 @@ function flipDates(){
 
 function fillInSelection_afterCalendarNavigation(currentYear, currentMonth){
     if (trip_start_date != null){
-        if ((currentYear >= parseInt(trip_start_date.split("-")[0]) && currentYear <= parseInt(trip_end_date.split("-")[0])) && (currentMonth >= parseInt(trip_start_date.split("-")[1]) && currentMonth <= parseInt(trip_end_date.split("-")[1]))){
+        if ((currentYear >= parseInt(trip_start_date.split("-")[0]) && currentYear <= parseInt(trip_end_date.split("-")[0]))){
             fillInSelection();
         }
     }
