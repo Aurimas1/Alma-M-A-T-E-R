@@ -1,4 +1,12 @@
-﻿using API.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using API.Repositories;
+using API.Services;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,12 +29,13 @@ namespace API.Controllers
         // DELETE api/reservation/{id}
         [HttpDelete]
         [Route("{id}")]
+        
         public ActionResult Delete(int id)
         {
             var apartment = reservationRepository.Get(id).Apartment;
             if (reservationRepository.Delete(id))
             {
-                if(apartment.Type != "OFFICE")apartmentRepository.Delete(apartment.ApartmentID);
+                if (apartment.Type != "OFFICE") apartmentRepository.Delete(apartment.ApartmentID);
                 return Ok();
             }
             else
@@ -34,6 +43,5 @@ namespace API.Controllers
                 return NotFound();
             }
         }
-
     }
 }

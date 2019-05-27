@@ -15,5 +15,6 @@ namespace API
         public int Price { get; set; }
         public string Currency { get; set; }
         public string Type { get; set; }
+        public int EmployeeID { get; set; }
     }
 }

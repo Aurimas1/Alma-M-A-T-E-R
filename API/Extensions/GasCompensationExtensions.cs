@@ -14,6 +14,7 @@ namespace API.Extensions
                 Name = x.Employee.Name,
                 Currency = x.Currency,
                 Price = x.Price,
+                EmployeeID = x.EmployeeID,
             });
         }
     }

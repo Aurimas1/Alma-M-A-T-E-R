@@ -21,6 +21,7 @@ namespace API.Extensions
                 Price = r.Apartment.Price,
                 ReservationUrl = r.ReservationUrl,
                 RoomNumber = r.Apartment.RoomNumber,
+                EmployeeID = r.EmployeeID,
             });
         }
     }
