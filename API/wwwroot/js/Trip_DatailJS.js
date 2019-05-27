@@ -287,7 +287,9 @@ function loadTrips(tickets, employees) {
                     .attr('data-toggle', 'modal')
                     .css("cursor", "pointer")
                     .attr('data-target', '#AirplaneModal')
-                    .append("<i class='material-icons' style='color: #E34724;'>&#xE147;</i>")
+                    .append("<i class='material-icons' style='color: #E34724;'>&#xE147;</i>").click(() => {
+                        $('#airplaneSelect').val(window.tripCurrency);
+                    })
                     .click(function () {
                         window.airplaneEdit = false;
                         $("#airplaneFrom").val("");
