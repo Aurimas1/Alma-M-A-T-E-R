@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Extensions;
 using API.Models;
@@ -12,7 +13,8 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
+    //[Authorize(Roles = "Kebab")]
     public class TripController : ControllerBase
     {
         private readonly ITripService service;
@@ -28,7 +30,6 @@ namespace API.Controllers
 
         // POST api/Trip
         [HttpPost]
-        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> Add([FromBody]CreateTrip item)
         {
             var trip = new Trip
@@ -63,11 +64,8 @@ namespace API.Controllers
         // PUT api/Trip/{id}
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> Update([FromBody]UpdateTrip item, int id)
         {
-            if (!AllowEdit(id))
-                return Forbid();
             Trip trip = service.GetByID(id);
             trip.IsCarCompensationNeeded = item.IsCarCompensationNeeded;
             trip.IsPlaneNeeded = item.IsPlaneNeeded;
@@ -126,10 +124,10 @@ namespace API.Controllers
             return Ok();
         }
 
-        // POST api/trip/approve/{id}
+        // POST api/trip/approve/{id}/needRome
         [HttpPost]
         [Route("approve/{id}/{needRoom}")]
-        public ActionResult ApproveTrip(int id)
+        public async Task<ActionResult> ApproveTrip(int id, bool needRoom)
         {
             EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
             var UserID = User.GetEmpoeeID();
@@ -141,6 +139,34 @@ namespace API.Controllers
             {
                 trip.Status = "CONFIRMED";
                 service.Update(trip);
+            }
+
+            if (needRoom != true)
+            {
+                var home = new Apartment
+                {
+                    Name = "HOME",
+                    RoomNumber = 1,
+                    Price = 0,
+                    Currency = "EUR",
+                    Address = " ",
+                    Type = "HOME",
+                    OfficeId = employeeToTrip.Trip.ArrivalOfficeID
+                };
+
+                await service.SaveHotelorHome(home);
+
+                var newReservation = new Reservation
+                {
+                    TripID = employeeToTrip.TripId,
+                    EmployeeID = employeeToTrip.EmployeeID,
+                    ApartmentID = home.ApartmentID,
+                    CheckIn = employeeToTrip.Trip.DepartureDate,
+                    CheckOut = employeeToTrip.Trip.ReturnDate
+                };
+
+                await service.SaveReservation(newReservation);
+                return Ok();
             }
 
             return Ok();
@@ -161,11 +187,8 @@ namespace API.Controllers
         // Post api/Trip/gasCompensation
         [Route("gasCompensation")]
         [HttpPost]
-        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddGasCompensation([FromBody]GasCompensation item)
         {
-            if (!AllowEdit(item.TripID))
-                return Forbid();
             await service.SaveGasCompensation(new GasCompensation()
             {
                 TripID = item.TripID,
@@ -180,11 +203,8 @@ namespace API.Controllers
         // Post api/Trip/carRental
         [Route("carRental")]
         [HttpPost]
-        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddCarRental([FromBody]CarRental item)
         {
-            if (!AllowEdit(item.TripID))
-                return Forbid();
             await service.SaveCarRental(new CarRental()
             {
                 TripID = item.TripID,
@@ -203,11 +223,8 @@ namespace API.Controllers
         // Post api/Trip/planeTicket
         [Route("planeTicket")]
         [HttpPost]
-        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddPlaneTicket([FromBody]PlaneTicket item)
         {
-            if (!AllowEdit(item.TripID))
-                return Forbid();
             await service.SavePlaneTicket(new PlaneTicket()
             {
                 TripID = item.TripID,
@@ -227,11 +244,8 @@ namespace API.Controllers
         // Post api/Trip/hotel
         [Route("hotel")]
         [HttpPost]
-        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddHotel([FromBody]Hotel item)
         {
-            if (!AllowEdit(item.TripID))
-                return Forbid();
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
                 OfficeId = null,
@@ -257,11 +271,8 @@ namespace API.Controllers
         // Post api/Trip/home
         [Route("home")]
         [HttpPost]
-        [Authorize(Roles = "Admin,Organiser")]
         public async Task<ActionResult> AddHome([FromBody]Home item)
         {
-            if (!AllowEdit(item.TripID))
-                return Forbid();
             var apartament = await service.SaveHotelorHome(new Apartment()
             {
                 OfficeId = null,
@@ -294,7 +305,6 @@ namespace API.Controllers
         // GET api/Trip
         [Route("{ID}")]
         [HttpGet]
-        [Authorize(Roles = "Admin,Organiser")]
         public object Get(int ID)
         {
             var trip = service.Get(ID);
@@ -375,7 +385,6 @@ namespace API.Controllers
         // GET api/Trip/employees/{id}
         [Route("employees/{id}")]
         [HttpGet]
-        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<EmployeeWithStatus> GetEmployees(int id)
         {
             return service.GetEmployees(id);
@@ -384,7 +393,6 @@ namespace API.Controllers
         // GET api/Trip/timeAndTransport/{id}
         [Route("timeAndTransport/{id}")]
         [HttpGet]
-        [Authorize(Roles = "Admin,Organiser")]
         public TimeAndTransport GetTimeAndTransport(int id)
         {
 
@@ -394,7 +402,6 @@ namespace API.Controllers
         // GET api/Trip/reservedApartments
         [Route("reservedApartments")]
         [HttpGet]
-        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<Apartment> GetReservedApartments(int id)
         {
             return service.GetReservedApartments(id);
@@ -403,7 +410,6 @@ namespace API.Controllers
         // GET api/Trip/planeTickets
         [Route("planeTickets")]
         [HttpGet]
-        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<PlaneTicket> GetPlaneTickets(int id)
         {
             return service.GetPlaneTickets(id);
@@ -412,7 +418,6 @@ namespace API.Controllers
         // GET api/Trip/carRentals
         [Route("carRentals")]
         [HttpGet]
-        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<CarRental> GetCarRentals(int id)
         {
             return service.GetCarRentals(id);
@@ -421,7 +426,6 @@ namespace API.Controllers
         // DELETE api/Trip/{id}
         [Route("{id}")]
         [HttpDelete]
-        [Authorize(Roles = "Admin,Organiser")]
         public bool Delete(int id)
         {
             return service.Delete(id);
@@ -430,7 +434,6 @@ namespace API.Controllers
         // GET api/Trip/gasCompensations
         [Route("gasCompensations")]
         [HttpGet]
-        [Authorize(Roles = "Admin,Organiser")]
         public IEnumerable<GasCompensation> GetGasCompensations(int id)
         {
             return service.GetGasCompensations(id);
@@ -442,7 +445,7 @@ namespace API.Controllers
         {
             var currentUserID = User.GetEmpoeeID();
             var myTrips = service.GetAllMyTrips();
-            myTrips.OrderBy(x => x.Status.Equals("CREATED") ? 4 : x.Status.Equals("CONFIRMED") ? 3 : x.Status.Equals("PLANNED") ? 2 : 1).ThenByDescending(a => a.DepartureDate);
+            myTrips.OrderBy(x => x.EmployeesToTrip.Where(a => a.EmployeeID == currentUserID).Select(t => t.Status).Equals("APPROVED") ? 1 : 2).ThenByDescending(x => x.Status.Equals("CREATED") ? 1 : x.Status.Equals("CONFIRMED") ? 2 : x.Status.Equals("PLANNED") ? 3 : 4).ThenByDescending(a => a.DepartureDate);
 
             IEnumerable<object> trips = myTrips.Select(x =>
             {
@@ -457,20 +460,6 @@ namespace API.Controllers
                 };
             });
             return trips;
-        }
-
-        // GET api/trip/allowEdit/tripID
-        [HttpGet("allowEdit/{tripID}")]
-        public bool AllowEdit(int tripID)
-        {
-            var currentUserID = User.GetEmpoeeID();
-            var trip = service.Get(tripID);
-            if (User.IsInRole(Role.Admin))
-                return true;
-            else if (trip.OrganizerID == currentUserID)
-                return true;
-            else
-                return false;
         }
 
         // GET api/Trip/filter

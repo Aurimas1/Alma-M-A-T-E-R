@@ -19,10 +19,13 @@ $(document).ready(function () {
             for (let emp of data.employee) {
                 employeeToTrip = emp.id;
                 $("#statusPill").text(emp.employeeStatus);
-                if (emp.employeeStatus == "APPROVED") {
+                if (emp.employeeStatus === "APPROVED") {
                     $("#statusPill").css("background-color", "#23a94c");
-                    $("#confirmBtn").hide();
-                    $("#refuseApartmentBtn").hide();
+                    $("#Approve").hide();
+                }
+
+                if (emp.wasRead === "False") {
+                    markRead();
                 }
             }
 
@@ -42,7 +45,6 @@ $(document).ready(function () {
             }
             else if (data.status == "COMPLETED") {
                 $("#Status").css("background-color", "#3f3f3f");
-                $("#homeAppartment").hide();
             }
 
 
@@ -69,9 +71,6 @@ $(document).ready(function () {
 
             if (data.employee !== undefined) {
                 for (let res of data.reservations) {
-                    if (res.name === "HOME") {
-                        $("#homeAppartment").hide();
-                    }
 
                     if (res.reservationUrl == null) {
                         res.reservationUrl = "javascript: void(0)";
@@ -151,11 +150,13 @@ function loadGasCompensations(compensations) {
 }
 
 function clickApprove() {
+    var needAppartment = $('#needApartment').is(':checked');
+    console.log(needAppartment);
     var result = confirm("Are you sure you want to approve trip?");
     if (result) {
         $.ajax({
             type: "POST",
-            url: '/api/trip/approve/' + employeeToTrip,
+            url: '/api/trip/approve/' + employeeToTrip + '/' + needAppartment,
             contentType: "application/json",
             xhrFields: {
                 withCredentials: true
@@ -171,26 +172,6 @@ function clickApprove() {
     }
 }
 
-function clickRefuse() {
-    var result = confirm("Are you sure you don't need accomodation?");
-    if (result) {
-        $.ajax({
-            type: "POST",
-            url: '/api/reservation/setHome/' + employeeToTrip,
-            contentType: "application/json",
-            xhrFields: {
-                withCredentials: true
-            },
-            success: function () {
-                location.reload();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            }
-        });
-    }
-}
 
 function markRead() {
     $.ajax({
