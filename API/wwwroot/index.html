@@ -2,16 +2,19 @@
 <html>
 
 <head>
-    <meta charset="utf-8" lang="en"/>
+    <meta charset="utf-8" lang="en" />
     <title>Primary registration form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.datatables.net/select/1.3.0/css/select.bootstrap.min.css" rel="stylesheet"
+        type="text/css" />
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    
+    <link
+        href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+        rel="stylesheet" />
 </head>
 
 <body>
@@ -32,16 +35,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a id="MyTrips" class="nav-link" href="javascript:void(0)" onclick="tabChanged(this)">Your Trips</a>
+                        <a id="MyTrips" class="nav-link" href="javascript:void(0)" onclick="tabChanged(this)">Your
+                            Trips</a>
                     </li>
                     <li class="nav-item" style="display:none;">
                         <a id="Trips" class="nav-link" href="javascript:void(0)" onclick="tabChanged(this)">Organise</a>
                     </li>
                     <li class="nav-item dropdown bg-dark" style="display:none;">
-                        <a class="nav-link dropdown-toggle bg-dark" id="administration" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                        <a class="nav-link dropdown-toggle bg-dark" id="administration" data-toggle="dropdown"
+                            href="javascript:void(0)" role="button" aria-haspopup="true"
+                            aria-expanded="false">Administration</a>
                         <div class="dropdown-menu bg-dark text-white">
-                            <a id="OfficesAndApartments" class="dropdown-item bg-dark text-white" href="javascript:void(0)" onclick="tabChanged(this)">Apartments</a>
-                            <a id="UsersList" class="dropdown-item bg-dark text-white" href="javascript:void(0)" onclick="tabChanged(this)">Users</a>
+                            <a id="OfficesAndApartments" class="dropdown-item bg-dark text-white"
+                                href="javascript:void(0)" onclick="tabChanged(this)">Apartments</a>
+                            <a id="UsersList" class="dropdown-item bg-dark text-white" href="javascript:void(0)"
+                                onclick="tabChanged(this)">Users</a>
                         </div>
                     </li>
                 </ul>
@@ -53,18 +61,20 @@
             </ul>
         </nav>
     </header>
-    
+
     <div id="pageContent">
-        
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
-            crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-            crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+        integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+        crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
