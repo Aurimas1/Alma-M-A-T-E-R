@@ -151,7 +151,6 @@ function loadGasCompensations(compensations) {
 
 function clickApprove() {
     var needAppartment = $('#needApartment').is(':checked');
-    console.log(needAppartment);
     var result = confirm("Are you sure you want to approve trip?");
     if (result) {
         $.ajax({
