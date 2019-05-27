@@ -204,11 +204,10 @@ $(document).ready(function () {
                 $(".hideColumns").hide();
                 $(".hideButtons").hide();
             }
+            allowEdit();
         },
         type: 'GET'
     });
-
-
 });
 
 function openFinalRegistration() {
@@ -392,4 +391,20 @@ function deleteTrip() {
             error: function () { alert('Internet error'); },
         })
     }
+}
+
+function allowEdit() {
+    $.ajax({
+        type: "GET",
+        url: "/api/trip/allowEdit/" + ID,
+        success: function(data, status){
+            if (!data) {
+                $('#editBtn').hide();
+                $('#deleteBtn').hide();
+                $('.material-icons').hide();
+                $('.hideColumns').hide();
+            }
+        },
+        error: function () { alert('Internet error'); },
+    })
 }
