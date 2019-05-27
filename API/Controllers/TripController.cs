@@ -124,10 +124,10 @@ namespace API.Controllers
             return Ok();
         }
 
-        // POST api/trip/approve/{id}/{needRoom}
+        // POST api/trip/approve/{id}
         [HttpPost]
         [Route("approve/{id}/{needRoom}")]
-        public async Task<ActionResult> ApproveTrip(int id, bool needRoom)
+        public ActionResult ApproveTrip(int id)
         {
             EmployeeToTrip employeeToTrip = employeeToTripService.GetByID(id);
             var UserID = User.GetEmpoeeID();
@@ -137,30 +137,8 @@ namespace API.Controllers
             Trip trip = service.Get(employeeToTrip.TripId);
             if (trip.Status == "CREATED")
             {
-                trip.Status = "APPROVED";
+                trip.Status = "CONFIRMED";
                 service.Update(trip);
-            }
-
-            if (!needRoom)
-            {
-                var apartment = new Apartment
-                {
-                    Name = "HOME",
-                    RoomNumber = 1,
-                    Price = 0,
-                    Currency = "EUR",
-                    OfficeId = trip.ArrivalOfficeID
-                };
-                apartment = await service.SaveHotelorHome(apartment);
-                var reservation = new Reservation
-                {
-                    TripID = trip.TripID,
-                    EmployeeID = UserID,
-                    ApartmentID = apartment.ApartmentID,
-                    CheckIn = trip.DepartureDate,
-                    CheckOut = trip.ReturnDate
-                };
-                await service.SaveReservation(reservation);
             }
 
             return Ok();
@@ -358,30 +336,20 @@ namespace API.Controllers
                 ReturnDate = trip.ReturnDate,
                 DepartureDate = trip.DepartureDate,
                 Status = trip.Status,
-                EmployeeName = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Name),
-                EmployeeEmail = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Email),
-                EmployeeStatus = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Status),
-                EmployeeRead = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.WasRead),
-                EmployeeToTrip = trip.EmployeesToTrip.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.EmployeeToTripID),
+
+                Employee = trip.EmployeesToTrip.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
 
                 Tickets = trip.PlaneTickets?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
 
                 trip.IsPlaneNeeded,
-                Accomodation = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Name),
-                Address = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Address),
-                RoomNumber = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.RoomNumber),
-                CheckIn = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.CheckIn),
-                CheckOut = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.CheckOut),
-                AccomodationUrl = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.ReservationUrl),
-                Price = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Price),
-                Currency = trip.Reservations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Apartment.Currency),
+
+                Reservations = trip.Reservations?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
 
                 trip.IsCarRentalNeeded,
                 Rentals = trip.CarRentals?.ToInfo(),
 
                 trip.IsCarCompensationNeeded,
-                GasCompensation = trip.GasCompensations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Employee.Name),
-                Amount = trip.GasCompensations?.Where(x => x.EmployeeID == CurrentUserID).Select(x => x.Price)
+                GasCompensations = trip.GasCompensations?.ToInfo().Where(x => x.EmployeeID == CurrentUserID),
             };
             return tripToBoard;
         }
