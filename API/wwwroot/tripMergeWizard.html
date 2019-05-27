@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="text/javascript" src="js/tripMergeWizard.js"/>
+    
+</head>
+<body style="max-width:1000px;">
+<h4 style="text-align:center;padding-top: 20px;">Trip merging</h4>
+<p style="text-align:center;margin-top:15px;">*Default dates set for the new merged trip are the earliest for the departure date and latest in the future for the return date.</p>
+<p style="text-align:center;margin-top:15px;">You can only choose the dates that are in between the default ones.</p>
+<div style="margin-top: 50px;" id="tripMergeCalendar">
+    
+</div>
+
+
+<div style="margin-top: 25px;margin-bottom:30px;text-align:center;" id="mergeTripFooter">
+<p>During merging, the participating employees will be merged as well as the plane tickets, car rentals and gas compensations.</p>
+<p>However, the apartment reservations will be deleted and You will need to edit those in the trip details view.</p>
+    <button style="margin-right:60px;margin-top:15px;" type="button" onclick="cancelMerging()"
+            class="btn btn-secondary">Cancel Merging</button>
+    <button style="margin-left: 60px;margin-top:15px;" type="button" onclick="mergeTrips()"
+            class="btn btn-primary">Merge</button>
+</div>
+</body>
+</html>

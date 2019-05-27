@@ -122,7 +122,7 @@ function displayTrips(item) {
     var arrival = moment(item.returnDate).format('YYYY-MM-DD HH:mm');
     var queryString = "?tripID=" + item.id;
     console.log(queryString);
-    var myvar = '<div class="container bg-light rounded-lg p-3">' +
+    var myvar = '<div class="container shadow-sm p-3 mb-5 bg-white rounded bg-light rounded-lg p-3">' +
         `        <a class="h3" onclick="loadTripDetails(${item.id})" href="javascript:void(0)"` + '">' + item.departureOffice.city + ', ' + item.departureOffice.country + ' - ' + item.arrivalOffice.city + ', ' + item.arrivalOffice.country + '</a>' +
         '        <div class="row">' +
         '            <div class="col-sm-1 ml-auto">' +
