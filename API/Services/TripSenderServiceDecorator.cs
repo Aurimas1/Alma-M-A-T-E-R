@@ -1,5 +1,6 @@
 ﻿using API.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -50,9 +51,25 @@ namespace API.Services
         public async Task<Trip> Add(Trip item)
         {
             var result = await service.Add(item);
+            result = service.Get(result.TripID);
             if (result.OrganizerID.HasValue) {
                 var org = employee.Get(result.OrganizerID ?? 0);
-                sender.Send(org.Email, org.Name, "Trip was created", "yey");
+                foreach (var emp in item.EmployeesToTrip)
+                {
+                    sender.Send(emp.Employee.Email, emp.Employee.Name, "Trip was created",
+                        "A new trip was created where you were listed as a traveler. \r\n" +
+                        "\r\n" +
+                        "Trip details:\r\n" +
+                        "\r\n" +
+                        $"{result.DepartureOffice.City} - {result.ArrivalOffice.City}\r\n" +
+                        $"{result.DepartureDate} - {result.ReturnDate}\r\n" +
+                        $"Organizer: {org.Name} ({org.Email})\r\n" +
+                        "\r\n" +
+                        "The trip is now visible in your trips list.\r\n" +
+                        "Please approve the trip and choose whether you will need an apartment to stay during your trip."
+                    );
+                }
+
             }
             return result;
         }

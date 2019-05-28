@@ -16,9 +16,10 @@ namespace API.Services
         private readonly IRepository<PlaneTicket> planeTicketRepository;
         private readonly IRepository<Apartment> apartmentRepository;
         private readonly IRepository<Reservation> reservationRepository;
+        private readonly IRepository<EmployeeToTrip> empToTripRepository;
         private readonly IHttpContextAccessor accessor;
 
-        public TripService(IRepository<Trip> repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository, IRepository<Apartment> apartmentRepository, IRepository<Reservation> reservationRepository, IHttpContextAccessor accessor)
+        public TripService(IRepository<Trip> repository, IRepository<GasCompensation> gasCompensationRepository, IRepository<CarRental> carRentalRepository, IRepository<PlaneTicket> planeTicketRepository, IRepository<Apartment> apartmentRepository, IRepository<Reservation> reservationRepository, IRepository<EmployeeToTrip> empToTripRepository, IHttpContextAccessor accessor)
         {
             this.repository = repository;
             this.gasCompensationRepository = gasCompensationRepository;
@@ -26,6 +27,7 @@ namespace API.Services
             this.planeTicketRepository = planeTicketRepository;
             this.apartmentRepository = apartmentRepository;
             this.reservationRepository = reservationRepository;
+            this.empToTripRepository = empToTripRepository;
             this.accessor = accessor;
         }
 
@@ -61,7 +63,23 @@ namespace API.Services
 
         public async Task<Trip> Add(Trip item)
         {
-            return await repository.Add(item);
+            var empToTrip = item.EmployeesToTrip;
+            item.EmployeesToTrip = new List<EmployeeToTrip>();
+            var result = await repository.Add(item);
+
+            foreach (var employee in empToTrip)
+            {
+                var employeeToTrip = new EmployeeToTrip
+                {
+                    EmployeeID = employee.EmployeeID,
+                    TripId = result.TripID,
+                    Status = "PENDING",
+                    WasRead = false,
+                };
+                await empToTripRepository.Add(employeeToTrip);
+            }
+
+            return result;
         }
 
         public Trip Update(Trip item)
