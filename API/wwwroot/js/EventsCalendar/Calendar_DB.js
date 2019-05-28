@@ -51,7 +51,6 @@ function updateCalendarMonth(){
     $(".nav_month_header").text(months[currentMonth]);
     $(".nav_year_header").text(currentYear+" m.");
     
-
     getEvents(startingMonthDate,newDate,selectedEployeesForEvents);
     fillInSelection_afterCalendarNavigation(currentYear, currentMonth+1);
 }
