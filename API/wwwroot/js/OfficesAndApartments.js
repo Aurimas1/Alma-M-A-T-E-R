@@ -69,6 +69,7 @@ function showEditForm(elem){
     $("input#apartment_id_edit").val($(elem).children("td[data-table-header='Nr']").text());
     $("input#apartment_RowVersion").val($(elem).children("td[data-table-header='RowVersion']").text());
     var selectedOffice = $(elem).children("td[data-table-header='OfficeId']").text();
+    $("select#offices_edit").empty();
     $("select#offices_edit").append($("<option value='"+selectedOffice+"' >"+($(elem).children("td[data-table-header='Office']").text())+"</option>"));
     $("select#offices_edit option[value='"+selectedOffice+"']").attr('selected', "true");
     $("input#apartment_name_edit").val($(elem).children("td[data-table-header='Name']").text());
@@ -190,6 +191,7 @@ function loadOffices(){
             withCredentials: true
         },
         success: function (data) {
+            $("select#offices_create").empty();
             $.each(data, function (key, entry) {
                 var o = new Option(entry.city + ", " + entry.country, entry.officeID);
                 $("select#offices_create").append($(o));
