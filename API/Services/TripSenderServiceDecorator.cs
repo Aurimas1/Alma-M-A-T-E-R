@@ -61,11 +61,11 @@ namespace API.Services
                         "\r\n" +
                         "Trip details:\r\n" +
                         "\r\n" +
-                        $"{result.DepartureOffice.City} - {result.ArrivalOffice.City}" +
-                        $"{result.DepartureDate} - {result.ReturnDate}" +
-                        $"Organizer: {org.Name} ({org.Email})" +
+                        $"{result.DepartureOffice.City} - {result.ArrivalOffice.City}\r\n" +
+                        $"{result.DepartureDate} - {result.ReturnDate}\r\n" +
+                        $"Organizer: {org.Name} ({org.Email})\r\n" +
                         "\r\n" +
-                        "The trip is now visible in your trips list." +
+                        "The trip is now visible in your trips list.\r\n" +
                         "Please approve the trip and choose whether you will need an apartment to stay during your trip."
                     );
                 }
