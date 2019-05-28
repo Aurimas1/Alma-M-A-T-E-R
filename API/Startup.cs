@@ -13,6 +13,8 @@ using API.Controllers;
 using API.Repositories;
 using Newtonsoft.Json;
 using API.Configuration;
+using Serilog;
+using API.ActionFilter;
 
 namespace API
 {
@@ -20,6 +22,11 @@ namespace API
     {
         public Startup(IConfiguration configuration)
         {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.File("C:/Logs/Api.txt", outputTemplate: "{Message:lj}{NewLine}")
+                .CreateLogger();
+
             Configuration = configuration;
         }
 
@@ -31,6 +38,8 @@ namespace API
             var connection = @"Server=(localdb)\mssqllocaldb;Database=BigDb;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ApiDbContext>
                 (options => options.UseSqlServer(connection));
+
+            services.AddLogging();
 
             services.AddSingleton<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
@@ -66,6 +75,9 @@ namespace API
 
             services.AddHttpContextAccessor();
 
+            //services.EnableSimpleProxy(p => p
+            //    .AddInterceptor<LogAttribute, LogInterceptor>());
+
             services.AddHttpClient<IGoogleCalendarService, GoogleCalendarService>();
             //services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
 
@@ -89,9 +101,12 @@ namespace API
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IApartmentService, ApartmentService>();
             services.AddScoped<ITripMerge, TripMerge>();
-            
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options => {
+
+            services.AddTransient<LogActionFilter>();
+
+            services.AddMvc(options => options.Filters.AddService<LogActionFilter>()).SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                
             });
         }
 
