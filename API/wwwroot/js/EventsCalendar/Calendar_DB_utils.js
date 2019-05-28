@@ -16,7 +16,7 @@ function _addZero(digit){
 
 function _remove_highlights(){
     $("*").removeClass("highlighted");
-    $("*").removeClass("highlighted_event");  
+    $("*").removeClass("highlighted_event");
     $("*").removeClass("highlighted_event_week"); 
 }
 

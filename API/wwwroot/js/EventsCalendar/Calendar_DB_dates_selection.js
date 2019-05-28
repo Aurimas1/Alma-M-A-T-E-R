@@ -15,9 +15,6 @@ $(".col.cal, .col.cal-w").click(function(){
         var selected_date = $(this).attr("id").split("h");
             if (!selection_started) {
                 var selected_date_full = new Date(selected_date[0] + "T" + ((selected_date.length == 1)?"00:00:00":_addZero(parseInt(selected_date[1] - 1)) + ":00:00"));
-                console.log(selected_date_full);
-                console.log(tripMergingDepartureDate);
-                console.log(tripMergingReturnDate);
                 if (!tripMergingCalendarOn || (tripMergingCalendarOn && tripMergingDepartureDate <= selected_date_full && tripMergingReturnDate >= selected_date_full)) {
                     //Event starts
                     selection_started = true;
@@ -38,6 +35,8 @@ $(".col.cal, .col.cal-w").click(function(){
                     if (needToFlipDates()) flipDates();
                     $(this).addClass("highlighted");
                     fillInSelection();
+                    $(".col.cal-w.highlighted.event").addClass("highlighted_event_week");
+                    $(".col.cal.highlighted.event p").addClass("highlighted_event");
                     setTripDatesFromSelection();
                 }
             }
@@ -64,7 +63,7 @@ function fillInSelection(){
             $("#" + startingDate.getFullYear() + "-" + _addZero((startingDate.getMonth()+1)) + "-" + _addZero(startingDate.getDate()) + ".col.cal").addClass("highlighted");
             startingDate.setDate(startingDate.getDate()+1);
         }
-        $(".col.cal.highlighted.event p").addClass("highlighted_event");
+       // $(".col.cal.highlighted.event p").addClass("highlighted_event");
     }
     
     else {     
@@ -90,7 +89,7 @@ function fillInSelection(){
              $("#" + tempDate.getFullYear() + "-" + _addZero((tempDate.getMonth()+1)) + "-" + _addZero(tempDate.getDate()) + "h" + _addZero(i) + ".col.cal-w").addClass("highlighted");
         }
         
-        $(".col.cal-w.highlighted.event").addClass("highlighted_event_week");
+       // $(".col.cal-w.highlighted.event").addClass("highlighted_event_week");
     }
 }
 

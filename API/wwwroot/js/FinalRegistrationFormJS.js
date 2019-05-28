@@ -29,17 +29,7 @@ $(document).ready(function () {
                 $("#carRadios").prop("checked", true);
             }
 
-            //load events
-            selectedEployeesForEvents = $('table#sort tbody tr td#NrColumn').map(function () {
-                return $.trim($(this).text());
-            }).get();
-
-            //fill in selected dates
-            fillInSelectedDates_FinalRegForm();
-            //load
-            monthButtonClicked();
             calendar_dates_selection_is_allowed = false;
-
         });
     });
 
@@ -339,4 +329,19 @@ function addEventHandlerForSelect(s, roomNr) {
 
         $("#bookingSpan").text($(`#employeeList li:contains(no room)`).length);
     });
+}
+
+function clickCalendar(){
+        selectedEployeesForEvents = $('table#employeeSelected tbody tr td#NrColumn').map(function () {
+            return $.trim($(this).text());
+        }).get();
+    
+        console.log(selectedEployeesForEvents = $('table#EmployeeSelected tbody tr td#NrColumn').map(function () {
+            return $.trim($(this).text());
+        }).get());
+    //fill in selected dates
+    fillInSelectedDates_FinalRegForm();
+    //load
+    monthButtonClicked();
+    
 }
