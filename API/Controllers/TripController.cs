@@ -43,20 +43,26 @@ namespace API.Controllers
                 ReturnDate = item.ReturnDate,
                 Status = "CREATED",
                 OrganizerID = User.GetEmpoeeID(),
+                EmployeesToTrip = item.Employees.Select(employee => new EmployeeToTrip
+                {
+                    EmployeeID = employee,
+                    Status = "PENDING",
+                    WasRead = false,
+                }).ToList(),
             };
             var result = await service.Add(trip);
 
-            foreach (var employee in item.Employees)
-            {
-                var employeeToTrip = new EmployeeToTrip
-                {
-                    EmployeeID = employee,
-                    TripId = result.TripID,
-                    Status = "PENDING",
-                    WasRead = false,
-                };
-                await employeeToTripService.Add(employeeToTrip);
-            }
+            //foreach (var employee in item.Employees)
+            //{
+            //    var employeeToTrip = new EmployeeToTrip
+            //    {
+            //        EmployeeID = employee,
+            //        TripId = result.TripID,
+            //        Status = "PENDING",
+            //        WasRead = false,
+            //    };
+            //    await employeeToTripService.Add(employeeToTrip);
+            //}
 
             return Ok();
         }
