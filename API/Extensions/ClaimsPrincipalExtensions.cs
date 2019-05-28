@@ -9,5 +9,10 @@ namespace API.Extensions
         {
             return int.Parse(user.Claims.FirstOrDefault(x => x.Type == CustomClaimTypes.EmployeeID).Value);
         }
+
+        public static string GetRole(this ClaimsPrincipal user)
+        {
+            return user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+        }
     }
 }
