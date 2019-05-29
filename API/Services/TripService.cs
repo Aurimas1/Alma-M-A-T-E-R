@@ -84,6 +84,11 @@ namespace API.Services
 
         public Trip Update(Trip item)
         {
+            foreach (var i in item.EmployeesToTrip)
+            {
+                if (i.Status == "NEW")
+                    i.Status = "PENDING";
+            }
             return repository.Update(item);
         }
 
