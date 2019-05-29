@@ -65,7 +65,7 @@ $(document).ready(function () {
 
         $('.table-remove').click(function () {
             if (confirm("Do you want to delete an employee?")) {
-                var email = $(this).parent("td").prev().text();
+                var email = $(this).parent("td").prev().prev().text();
                 $(this).parents('tr').detach();
                 $(`#sort tr:contains(${email})`).prop('disabled', false).css("cssText", "background-color:");
             }
