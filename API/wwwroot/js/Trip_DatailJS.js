@@ -202,7 +202,7 @@ $(document).ready(function () {
                     );
                 }
             }
-            if ("COMPLETED" == data.status) {
+            if ("FINISHED" == data.status) {
                 $("#editBtn").hide();
                 $(".hideColumns").hide();
                 $(".hideButtons").hide();
