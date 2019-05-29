@@ -16,6 +16,7 @@ namespace API.Services
     public class CalendarTimes
     {
         public string Date { get; set; }
+        public string DateTime { get; set; }
     }
 
     public class CalendarResponse
@@ -29,8 +30,8 @@ namespace API.Services
         {
             return events.Select(@event => new Event
             {
-                DateFrom = DateTime.Parse(@event.Start.Date),
-                DateTo = DateTime.Parse(@event.End.Date),
+                DateFrom = DateTime.Parse(@event.Start.Date ?? @event.Start.DateTime),
+                DateTo = DateTime.Parse(@event.End.Date ?? @event.Start.DateTime),
                 name = @event.Summary,
                 EmployeeID = employeeId,
             });
