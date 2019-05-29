@@ -43,7 +43,7 @@ $(document).ready(function () {
             else if (data.status == "CONFIRMED") {
                 $("#Status").css("background-color", "#23a94c");
             }
-            else if (data.status == "COMPLETED") {
+            else if (data.status == "FINISHED") {
                 $("#Status").css("background-color", "#3f3f3f");
             }
 
