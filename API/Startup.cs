@@ -68,7 +68,10 @@ namespace API
                         o.Scope.Add("https://www.googleapis.com/auth/calendar.readonly");
                         o.Events.OnCreatingTicket += AuthController.Callback;
                     })
-                .AddCookie();
+                .AddCookie(o =>
+                {
+                    o.ExpireTimeSpan = System.TimeSpan.FromHours(1);
+                });
 
             services.Configure<MailOptions>(Configuration.GetSection("Mail"));
             services.AddSingleton<IMailSender, MailSender>();
