@@ -112,6 +112,7 @@ function setFilters() {
     $('input[name="AwaitingConfirmation"]').prop("checked", storage.getItem('tripsAwaitingConfirmation') ? storage.getItem('tripsAwaitingConfirmation') === 'true' : true);
     $('input[name="Confirmed"]').prop("checked", storage.getItem('tripsConfirmed') ? storage.getItem('tripsConfirmed') === 'true' : true);
     $('input[name="PlannedTrips"]').prop("checked", storage.getItem('fullyPlannedTrips') ? storage.getItem('fullyPlannedTrips') === 'true' : true);
+    $('input[name="Finished"]').prop("checked", storage.getItem('finishedTrips') ? storage.getItem('finishedTrips') === 'true' : true);
     $('input[name="MyOrganized"]').prop("checked", storage.getItem('myOrganizedTrips') ? storage.getItem('myOrganizedTrips') === 'true' : true);
     $('input[name="OtherOrganizer"]').prop("checked", storage.getItem('otherOrganizedTrips') ? storage.getItem('otherOrganizedTrips') === 'true' : false);
 }
