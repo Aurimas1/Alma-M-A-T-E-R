@@ -88,7 +88,7 @@ namespace API.Controllers
                     {
                         EmployeeID = employee,
                         TripId = id,
-                        Status = "PENDING",
+                        Status = "NEW",
                         WasRead = false,
                     };
                     await employeeToTripService.Add(employeeToTrip);
