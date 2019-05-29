@@ -23,7 +23,7 @@ namespace API.Extensions
                 var planeTicketCount = "0/0";
 
                 double carRentalProcentage = 0;
-                var carRentalCount = "0/0";
+                var carRentalCount = "0";
 
                 employees = 0;
                 foreach (var i in t.EmployeesToTrip)
@@ -54,9 +54,11 @@ namespace API.Extensions
 
                 if (t.IsCarRentalNeeded)
                 {
-                    carRentalProcentage = (double)(t.CarRentals?.Count ?? 0) / (double)t.EmployeesToTrip.Count;
-                    carRentalProcentage = Math.Round(carRentalProcentage, 1, MidpointRounding.AwayFromZero) * 100;
-                    carRentalCount = (t.CarRentals?.Count ?? 0) + "/" + t.EmployeesToTrip.Count;
+                    if((t.CarRentals?.Count ?? 0) > 0)
+                    {
+                        carRentalProcentage = 100;
+                    }
+                    carRentalCount = (t.CarRentals?.Count ?? 0).ToString();
                 }
                 else carRentalProcentage = 100;
 
